@@ -106,7 +106,7 @@ class UserController extends AdminController
 
         //超级管理员不可被删除
         if ($id == 1) {
-            echo DyTools::apiJson(1, 403, '无权操作！');
+            echo DyTools::apiJson(1, 403, '非法操作！');
             exit;
         }
 

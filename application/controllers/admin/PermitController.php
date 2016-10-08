@@ -74,6 +74,14 @@ class PermitController extends AdminController
             echo DyTools::apiJson(1, 403, '请求数据有误！');
             exit;
         }
+
+        //系统权限不可删除
+        $navInfo = Nav::model()->getById($id);
+        if ($navInfo && $navInfo->sys == 1) {
+            echo DyTools::apiJson(1, 403, '非法操作！');
+            exit;
+        }
+
         $result = Nav::model()->delete("id={$id} or pid={$id}");
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }

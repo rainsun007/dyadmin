@@ -133,6 +133,10 @@
           delete items.delMenu;
        }
 
+       if (nodeData.sys == 1) {
+          delete items.delMenu;
+       }
+
        return items;
     }
 
