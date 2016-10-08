@@ -59,19 +59,19 @@ INSERT INTO `nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `type
 	(30, 28, '角色管理', '/admin/role/list', 'fa  fa-opencart', 1, 2, 0, 1),
 	(31, 28, '导航管理', '/admin/nav/list', 'fa fa-navicon', 1, 0, 0, 1),
 	(32, 28, '权限管理', '/admin/permit/list', 'fa fa-balance-scale', 1, 1, 0, 1),
-	(43, 32, '添加子权限', '/admin/permit/add', '', 1, 0, 1, 0),
-	(46, 32, '编辑权限', '/admin/permit/edit', '', 1, 0, 1, 0),
-	(47, 32, '删除权限', '/admin/permit/del', '', 1, 0, 1, 0),
-	(48, 31, '创建导航', '/admin/nav/add', '', 1, 0, 1, 0),
-	(49, 31, '编辑导航', '/admin/nav/edit', '', 1, 0, 1, 0),
-	(50, 31, '删除导航', '/admin/nav/del', '', 1, 0, 1, 0),
-	(51, 31, '编辑导航排序', '/admin/nav/upsort', '', 1, 0, 1, 0),
-	(52, 30, '创建角色', '/admin/role/add', '', 1, 0, 1, 0),
-	(53, 30, '编辑角色', '/admin/role/edit', '', 1, 0, 1, 0),
-	(54, 30, '删除角色', '/admin/role/del', '', 1, 0, 1, 0),
-	(55, 29, '创建用户', '/admin/user/add', '', 1, 0, 1, 0),
-	(56, 29, '编辑用户', '/admin/user/edit', '', 1, 0, 1, 0),
-	(57, 29, '删除用户', '/admin/user/del', '', 1, 0, 1, 0);
+	(43, 32, '添加子权限', '/admin/permit/add', '', 1, 0, 1, 1),
+	(46, 32, '编辑权限', '/admin/permit/edit', '', 1, 0, 1, 1),
+	(47, 32, '删除权限', '/admin/permit/del', '', 1, 0, 1, 1),
+	(48, 31, '创建导航', '/admin/nav/add', '', 1, 0, 1, 1),
+	(49, 31, '编辑导航', '/admin/nav/edit', '', 1, 0, 1, 1),
+	(50, 31, '删除导航', '/admin/nav/del', '', 1, 0, 1, 1),
+	(51, 31, '编辑导航排序', '/admin/nav/upsort', '', 1, 0, 1, 1),
+	(52, 30, '创建角色', '/admin/role/add', '', 1, 0, 1, 1),
+	(53, 30, '编辑角色', '/admin/role/edit', '', 1, 0, 1, 1),
+	(54, 30, '删除角色', '/admin/role/del', '', 1, 0, 1, 1),
+	(55, 29, '创建用户', '/admin/user/add', '', 1, 0, 1, 1),
+	(56, 29, '编辑用户', '/admin/user/edit', '', 1, 0, 1, 1),
+	(57, 29, '删除用户', '/admin/user/del', '', 1, 0, 1, 1);
 /*!40000 ALTER TABLE `nav` ENABLE KEYS */;
 
 -- 导出  表 dyadmin.role 结构
