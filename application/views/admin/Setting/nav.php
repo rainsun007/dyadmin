@@ -66,7 +66,7 @@
             <input type="checkbox" name="display" class="flat-red" checked>
           </label>
           <label>
-            角色是否可用（不勾选为禁用）
+            导航是否可用（不勾选为禁用）
           </label>
         </div>
       </form>
