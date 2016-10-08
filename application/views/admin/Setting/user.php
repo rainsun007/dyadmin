@@ -91,7 +91,7 @@
             <input type="checkbox" name="status" class="flat-red" <?php if ($uInfo && $uInfo->status == 1):?>checked<?php endif; ?>>
           </label>
           <label>
-            角色是否可用（不勾选为禁用）
+            用户是否可用（不勾选为禁用）
           </label>
         </div>
       </form>
