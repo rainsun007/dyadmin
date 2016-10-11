@@ -11,11 +11,12 @@
 class SiteController extends Controller
 {
     protected $allNeedLogin = false;
-    protected $handlerPass = true;
 
     protected function init()
     {
         parent::init();
+        $this->view->defaultTheme = 'site';
+        $this->view->defaultLayout = 'main';
     }
 
     protected function beforeAction()

@@ -26,16 +26,15 @@ class AppController extends SiteController
      **/
     public function actionLogin()
     {
-        $this->view->defaultTheme = 'site';
-        $this->view->defaultLayout = 'main';
         $username = DyRequest::postStr('username');
         $password = DyRequest::postStr('password');
         if (empty($username) || empty($password) || DyFilter::isAccount($username)) {
             $this->view->render('login', compact('username'));
         }
 
-        $authenticate = Dy::app()->auth->login($username, $password);
-        $authenticate ? DyRequest::redirect('/') : $this->view->render('login', compact('username'));
+        //$authenticate = Dy::app()->auth->userLogin($username, $password);
+        //$authenticate ? DyRequest::redirect('/') : $this->view->render('login', compact('username'));
+        DyRequest::redirect('/');
     }
 
     /**
@@ -44,7 +43,7 @@ class AppController extends SiteController
     public function actionLogout()
     {
         Dy::app()->auth->logout();
-        DyRequest::redirect('/admin/login');
+        Dy::app()->preModule == 'admin' ? DyRequest::redirect('/admin/login') : DyRequest::redirect('/');
     }
 
     /**
@@ -55,13 +54,8 @@ class AppController extends SiteController
     {
         $error = $this->actionParam;
         if (Dy::app()->preModule == 'admin') {
-            //$this->view->defaultTheme = 'admin';
-            //$this->view->defaultLayout = 'main';
-            //$this->view->render('error', compact('error'));
             $this->forward('admin/home', 'error', $error);
         } else {
-            $this->view->defaultTheme = 'site';
-            $this->view->defaultLayout = 'main';
             var_dump($error);
         }
     }
@@ -74,13 +68,8 @@ class AppController extends SiteController
     {
         $message = $this->actionParam;
         if (Dy::app()->preModule == 'admin') {
-            //$this->view->defaultTheme = 'admin';
-            //$this->view->defaultLayout = 'main';
-            //$this->view->render('Layout/message', compact('message'));
             $this->forward('admin/home', 'message', $message);
         } else {
-            $this->view->defaultTheme = 'site';
-            $this->view->defaultLayout = 'main';
             var_dump($message);
         }
     }
