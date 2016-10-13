@@ -31,14 +31,16 @@ class NavController extends AdminController
         }
 
         $pid = DyRequest::postInt('pid');
-        $navInfo = Nav::model()->getById($pid);
-        if (!$navInfo) {
-            echo DyTools::apiJson(1, 403, '访问有误！');
-            exit;
-        }
-        if ($navInfo->pid > 0) {
-            echo DyTools::apiJson(1, 403, '二级导航不可创建子导航');
-            exit;
+        if ($pid > 0) {
+            $navInfo = Nav::model()->getById($pid);
+            if (!$navInfo) {
+                echo DyTools::apiJson(1, 403, '访问有误！');
+                exit;
+            }
+            if ($navInfo->pid > 0) {
+                echo DyTools::apiJson(1, 403, '二级导航不可创建子导航');
+                exit;
+            }
         }
 
         $data = array(
