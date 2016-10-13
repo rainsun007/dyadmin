@@ -1,3 +1,4 @@
+<?php $this->pageTitle = '导航管理'?>
 <?php vHelper::regCss('jstree/themes/default/style.css'); ?>
 <?php vHelper::regJs('jstree/jstree.js', 'head'); ?>
 

@@ -17,7 +17,7 @@ class AppController extends SiteController
      **/
     public function actionIndex()
     {
-        //站点首页逻辑
+        echo 'hello world';
     }
 
     /**

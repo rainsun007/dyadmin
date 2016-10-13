@@ -1,3 +1,4 @@
+<?php $this->pageTitle = '登录系统'?>
 <div class="login-box">
   <div class="login-logo">
     <a href="#"><?php echo DyCfg::item('appName'); ?></a>

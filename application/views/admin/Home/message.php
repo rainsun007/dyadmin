@@ -1,3 +1,4 @@
+<?php $this->pageTitle = '信息提示'?>
 <div class="error-page">
   <h2 class="headline text-yellow"> <?php echo $message['code']; ?></h2>
   <div class="error-content">

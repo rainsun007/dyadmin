@@ -1,3 +1,4 @@
+<?php $this->pageTitle = '服务异常'?>
 <div class="error-page">
   <h2 class="headline text-red">500</h2>
   <div class="error-content">
