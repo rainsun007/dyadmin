@@ -2,7 +2,7 @@
 
 class Nav extends AppModel
 {
-    protected $tableName = 'nav';
+    protected $tableName = 'dya_nav';
 
     public static function model($className = __CLASS__)
     {

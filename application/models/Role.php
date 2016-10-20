@@ -2,7 +2,7 @@
 
 class Role extends AppModel
 {
-    protected $tableName = 'role';
+    protected $tableName = 'dya_role';
 
     public static function model($className = __CLASS__)
     {

@@ -2,7 +2,7 @@
 
 class User extends AppModel
 {
-    protected $tableName = 'member';
+    protected $tableName = 'dya_member';
 
     public static function model($className = __CLASS__)
     {
