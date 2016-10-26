@@ -11,43 +11,44 @@
  */
 class UserIdentity extends DyPhpUserIdentity
 {
-    //用户信息
-    private $userInfo = null;
     //使用cookie保存登陆状态及setInfo
     protected $isCookieUserAuth = true;
+
+    private $username = null;
 
     /**
      * 框架规则-必须实现此认证方法 框架用调用此方法处理自动登陆.
      *
-     * @param string 加密后的密码（如md5('password')等,保持加密一至即可）,基于安全考虑此处不要使用密码明文
      * @param int    自动登陆有效期 0为浏览器session 单位：秒
+     * @param string 用户验证加密串，如加密后的密码（如md5('password')等,保持加密一至即可）
+     *               虽不强制但基于安全考虑此处最好不要使用明文（相关校验逻辑在实现方法中完成），
+     *               需要注意的是框架调用此方法时此参数为空字
      *
      * @return bool|object
      **/
     public function authenticate($expire = 0, $encryptPassword = '')
     {
-        if (!$this->userInfo) {
-            $userId = $this->getUserIndexValue();
-            if (!empty($userId)) {
-                $this->userInfo = User::model()->getOne("id={$userId}");
-            }
-            if (!$this->userInfo) {
+        $username = $this->username ? $this->username : $this->getUserIndexValue();
+        if ($username) {
+            $userInfo = User::model()->getOne("username='{$username}'");
+            if (!$userInfo) {
                 return false;
             }
         }
 
-        if ($encryptPassword == '' || $this->userInfo->password != $encryptPassword) {
+        //此处完成用户合法性校验（密码是否正确），兼容了框架自动调用，一般来说此逻辑不用修改
+        if (!$this->getUserIndexValue() && ($encryptPassword == '' || $userInfo->password != $encryptPassword)) {
             return false;
         }
 
         //设置全局用户信息
-        Dy::app()->auth->setInfo('uid', $this->userInfo->id);
-        Dy::app()->auth->setInfo('username', $this->userInfo->username);
+        Dy::app()->auth->setInfo('uid', $userInfo->id);
+        Dy::app()->auth->setInfo('username', $userInfo->username);
 
         //该方法必须调用 否则没有登陆状态
-        $this->setStatus($this->userInfo->id, $expire);
+        $this->setStatus($userInfo->username, $expire);
 
-        return $this->userInfo;
+        return $userInfo;
     }
 
     /**
@@ -55,7 +56,6 @@ class UserIdentity extends DyPhpUserIdentity
      *
      * @param string 用户名
      * @param string 密码
-     * @param bool   是否下次自动登陆
      * @param int    自动登陆有效期 单位：秒
      *
      * @return bool|object
@@ -65,7 +65,7 @@ class UserIdentity extends DyPhpUserIdentity
         if (empty($username) || empty($password)) {
             return false;
         }
-        $this->userInfo = User::model()->getOne("username='$username'");
+        $this->username = $username;
 
         return $this->authenticate($expire, md5($password));
     }

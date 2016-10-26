@@ -9,10 +9,10 @@
         </div>
         <div class="pull-left info">
           <p><?php echo Dy::app()->auth->username; ?></p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> <a href="/app/logout">退出</a>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> <a href="/app/logout?m=admin">退出</a>
         </div>
       </div>
-      
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>

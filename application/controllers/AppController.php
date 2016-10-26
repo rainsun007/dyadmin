@@ -43,7 +43,7 @@ class AppController extends SiteController
     public function actionLogout()
     {
         Dy::app()->auth->logout();
-        Dy::app()->preModule == 'admin' ? DyRequest::redirect('/admin/login') : DyRequest::redirect('/');
+        DyRequest::getStr('m') == 'admin' ? DyRequest::redirect('/admin/login') : DyRequest::redirect('/');
     }
 
     /**
