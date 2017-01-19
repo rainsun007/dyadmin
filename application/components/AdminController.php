@@ -18,9 +18,12 @@ class AdminController extends Controller
     //用户权限(id数组)
     public $userPermissions = array();
 
+    public $cache = null;
+
     protected function init()
     {
         parent::init();
+        $this->cache = DyCache::invoke('default');
         $this->view->defaultTheme = 'admin';
         $this->view->defaultLayout = 'main';
     }
@@ -37,7 +40,7 @@ class AdminController extends Controller
         $this->getNavAndPermissionsTree('type=0 and display=1 order by sort asc', 'nav');
         $this->getUserRoles();
 
-        if (!common::checkPermit('/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid)) {
+        if (!common::checkPermit()) {
             Common::msg('你无权访问，没有操作权限！', 1, 403);
         }
     }
@@ -51,9 +54,14 @@ class AdminController extends Controller
     {
         if (!Dy::app()->auth->isGuest() && $this->userInfo->role_ids) {
             $this->userRoles = explode(',', $this->userInfo->role_ids);
-            $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission');
-            foreach ($permission as $key => $value) {
-                $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));
+
+            $userPermissions = $this->cache->get('userPermissions'.$this->userInfo->id);
+            if (!$userPermissions) {
+                $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission');
+                foreach ($permission as $key => $value) {
+                    $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));
+                }
+                $this->cache->set('userPermissions'.$this->userInfo->id, $this->userPermissions, CACHE_EXPIRE);
             }
         }
 
@@ -71,11 +79,14 @@ class AdminController extends Controller
      **/
     protected function getNavAndPermissionsTree($criteria, $type = '')
     {
-        $adminNav = Nav::model()->getAll($criteria);
+        $key = md5($criteria.$type);
+        $navTree = $this->cache->get($key);
+        if (!$navTree) {
+            $adminNav = Nav::model()->getAll($criteria);
 
-        $classArr = array();
-        foreach ($adminNav as $val) {
-            $classArr[$val->id] = array(
+            $classArr = array();
+            foreach ($adminNav as $val) {
+                $classArr[$val->id] = array(
                 'id' => $val->id,
                 'pid' => $val->pid,
                 'name' => $val->name,
@@ -86,8 +97,10 @@ class AdminController extends Controller
                 'display' => $val->display,
                 'sys' => $val->sys,
             );
+            }
+            $navTree = DyTools::treeFormat($classArr);
+            $this->cache->set($key, $navTree, CACHE_EXPIRE);
         }
-        $navTree = DyTools::treeFormat($classArr);
 
         if ($type == 'nav') {
             $this->view->setData('navTree', $navTree);

@@ -2,7 +2,7 @@
 -- 主机:                           172.66.60.191
 -- 服务器版本:                        5.1.73 - Source distribution
 -- 服务器操作系统:                      redhat-linux-gnu
--- HeidiSQL 版本:                  9.3.0.5121
+-- HeidiSQL 版本:                  9.4.0.5144
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -47,13 +47,14 @@ CREATE TABLE IF NOT EXISTS `dya_nav` (
   PRIMARY KEY (`id`),
   KEY `link` (`link`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='导航与权限统一使用此表';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COMMENT='导航与权限统一使用此表';
 
 -- 正在导出表  dyadmin.dya_nav 的数据：~20 rows (大约)
 /*!40000 ALTER TABLE `dya_nav` DISABLE KEYS */;
 INSERT INTO `dya_nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `type`, `sys`) VALUES
 	(19, 0, '看板视图', '', 'fa fa-dashboard', 1, 0, 0, 0),
 	(20, 19, '系统看板', '/admin/home/index', 'fa fa-bar-chart', 1, 0, 0, 0),
+	(21, 32, '清楚缓存', '/admin/permit/flushCache', '', 1, 0, 1, 1),
 	(28, 0, '系统设置', '', 'fa fa-cogs', 1, 1, 0, 1),
 	(29, 28, '用户管理', '/admin/user/list', 'fa  fa-user', 1, 3, 0, 1),
 	(30, 28, '角色管理', '/admin/role/list', 'fa  fa-opencart', 1, 2, 0, 1),
@@ -62,7 +63,7 @@ INSERT INTO `dya_nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `
 	(43, 32, '添加子权限', '/admin/permit/add', '', 1, 0, 1, 1),
 	(46, 32, '编辑权限', '/admin/permit/edit', '', 1, 0, 1, 1),
 	(47, 32, '删除权限', '/admin/permit/del', '', 1, 0, 1, 1),
-	(48, 31, '创建导航', '/admin/nav/add', '', 1, 0, 1, 1),
+	(48, 31, '创建导航2', '/admin/nav/add', '', 1, 0, 1, 1),
 	(49, 31, '编辑导航', '/admin/nav/edit', '', 1, 0, 1, 1),
 	(50, 31, '删除导航', '/admin/nav/del', '', 1, 0, 1, 1),
 	(51, 31, '编辑导航排序', '/admin/nav/upsort', '', 1, 0, 1, 1),
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `dya_role` (
 -- 正在导出表  dyadmin.dya_role 的数据：~4 rows (大约)
 /*!40000 ALTER TABLE `dya_role` DISABLE KEYS */;
 INSERT INTO `dya_role` (`id`, `name`, `permission`, `status`, `create_time`) VALUES
-	(1, '管理员', '20,19,49,50,31,43,46,47,32,52,53,54,30,55,56,57,29,28', 1, '2016-09-30 10:23:12'),
+	(1, '管理员', '20,19,49,50,31,43,46,47,32,52,53,54,30,55,56,57,29,28,21,48,51', 1, '2016-09-30 10:23:12'),
 	(2, '编辑', '20,19', 0, '2016-09-30 10:25:30'),
 	(3, '运营', '20,19', 0, '2016-09-30 10:27:19'),
 	(4, '技术', '20,19', 1, '2016-09-30 10:30:11');

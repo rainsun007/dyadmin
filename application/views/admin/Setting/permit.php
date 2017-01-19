@@ -29,6 +29,23 @@
     </div>
     <!-- /.box -->
 </section>
+<section class="col-md-6">
+  <div class="box box-success">
+    <div class="box-header">
+      <h3 class="box-title">权限缓存清理</h3>
+    </div>
+    <div class="box-body">
+      <div class="callout callout-success">
+        <p>系统产生的所有缓存都是7天</p>
+        <p>现有缓存：导航数据缓存，权限数据缓存</p>
+      </div>
+      <button type="button" id="flushcache" class="btn btn-block btn-success btn-lg">清除全部缓存</button>
+      <button type="button" id="flushcache_disabled" class="btn btn-block btn-success btn-lg disabled" style="display:none">清除全部缓存</button>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</section>
 <!-- /.content -->
 </div>
 
@@ -187,11 +204,27 @@
              var mtype = data.status == 0 ? 'success' : 'warning';
              $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
              if(data.status == 0){
-                window.location.reload();
+                setTimeout("window.location.reload();",1000);
              }
          },
          'json'
       );
     });
+
+    //清除所有缓存
+    $("#flushcache").on("click",function(evt){
+      $("#flushcache_disabled").show();
+      $("#flushcache").hide();
+      $.post('/admin/permit/flushCache',{op:'fulsh'},
+         function(data){
+             var mtype = data.status == 0 ? 'success' : 'warning';
+             $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
+             $("#flushcache_disabled").hide();
+             $("#flushcache").show();
+         },
+         'json'
+      );
+    });
+
  });
 </script>

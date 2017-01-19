@@ -26,15 +26,27 @@ class common
     /**
      * @brief  权限判断
      *
-     * @param  $permitId 导航及权限id（nav表的id值）或连接（nav表的link值）
+     * @param  $permitId 导航及权限id（nav表的id值）
      *
      * @return bool true为有操作权限 false为无操作权限  超级管理员总是返回true
      **/
     public static function checkPermit($permitId = 0)
     {
-        if (!is_numeric($permitId)) {
-            $navInfo = Nav::model()->getOne("link='{$permitId}'");
-            $permitId = isset($navInfo->id) ? $navInfo->id : 0;
+        if ($permitId == 0) {
+            $cache = DyCache::invoke('default');
+            $navInfo = $cache->get('all_nav_info');
+            if (!$navInfo) {
+                $nav = Nav::model()->getAll();
+                $navInfo = array();
+                foreach ($nav as $key => $value) {
+                    if ($value->link) {
+                        $navInfo[$value->link] = $value->id;
+                    }
+                }
+                $cache->set('all_nav_info', $navInfo, CACHE_EXPIRE);
+            }
+            $link = '/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid;
+            $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
 
         return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;

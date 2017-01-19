@@ -26,12 +26,13 @@ return array(
     ),
 
     //数据库配制  数据分库或一主多从或多主多从 必须实现每个model的dbConfig方法
+    /*
     'db' => array(
         'default' => array(
             'master' => array(
                 'dbDriver' => 'pdo_mysql',
                 'host' => '127.0.0.1',
-                'port' => '3306',
+                'port' => '3318',
                 'dbName' => 'dyadmin',
                 'charset' => 'UTF8',
                 'user' => 'root',
@@ -43,7 +44,7 @@ return array(
                 array(
                     'dbDriver' => 'pdo_mysql',
                     'host' => '127.0.0.1',
-                    'port' => '3306',
+                    'port' => '3318',
                     'dbName' => 'dyadmin',
                     'charset' => 'UTF8',
                     'user' => 'root',
@@ -52,6 +53,20 @@ return array(
                     'tablePrefix' => '',
                 ),
             ),
+        ),
+    ),
+    */
+    'db' => array(
+        'default' => array(
+            'dbDriver' => 'pdo_mysql',
+            'host' => '127.0.0.1',
+            'port' => '3318',
+            'dbName' => 'dyadmin',
+            'charset' => 'UTF8',
+            'user' => 'root',
+            'pass' => '',
+            'pconn' => false,
+            'tablePrefix' => '',
         ),
     ),
 
@@ -68,6 +83,22 @@ return array(
     //cookie配制
     'cookie' => array(
         'prefix' => 'dya_',
+    ),
+
+    //缓存配制 'file','apc','memcache'
+    'cache' => array(
+        'default' => array('type' => 'file', 'gcOpen' => false),  //文件缓存多时 不建议打开gc 会导致性能低下  可以使用shell处理
+        /*
+        'c2' => array('type' => 'apc'),
+        'c3' => array(
+            'type' => 'memcache',
+            'isMemd' => false,
+            'servers_one' => array(
+                array('host', 'port', 'weight'),
+                array('host', 'port', 'weight'),
+            ),
+        ),
+        */
     ),
 
     //建议按console web类型做不同处理

@@ -275,7 +275,7 @@
              var mtype = data.status == 0 ? 'success' : 'warning';
              $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
              if(data.status == 0){
-                window.location.reload();
+                setTimeout("window.location.reload();",1000);
              }
          },
          'json'
@@ -310,7 +310,7 @@
              msg = data.code == 403 ? data.message : msg;
              $.bootstrapGrowl(msg,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
              if(data.status == 0){
-                window.location.reload();
+                setTimeout("window.location.reload();",1000);
              }
          },
          'json'

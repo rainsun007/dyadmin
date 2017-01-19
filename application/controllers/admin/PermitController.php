@@ -85,4 +85,11 @@ class PermitController extends AdminController
         $result = Nav::model()->delete("id={$id} or pid={$id}");
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
+
+    public function actionFlushCache($value = '')
+    {
+        $cache = DyCache::invoke('default');
+        $result = $cache->flush();
+        echo $result ? DyTools::apiJson(0, 200, '所有缓存已被清除', $result) : DyTools::apiJson(1, 500, '缓存清理失败', $result);
+    }
 }

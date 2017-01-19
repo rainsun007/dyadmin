@@ -76,6 +76,7 @@
           <input type="text" class="form-control" name="password" placeholder="Password">
         </div>
 
+        <?php if ($uId > 1):?>
         <div class="form-group">
           <label>用户角色</label>
           <?php $userRoleIds = explode(',', se($uInfo, 'role_ids', true)); ?>
@@ -95,6 +96,7 @@
             用户是否可用（不勾选为禁用）
           </label>
         </div>
+        <?php endif; ?>
       </form>
     </div>
     <!-- /.box-body -->
@@ -183,7 +185,7 @@
                var mtype = data.status == 0 ? 'success' : 'warning';
                $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
                if(data.status == 0){
-                  window.location.reload();
+                  setTimeout("window.location.reload();",1000);
                }
            },
            'json'
