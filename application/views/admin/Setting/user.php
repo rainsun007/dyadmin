@@ -76,7 +76,7 @@
           <input type="text" class="form-control" name="password" placeholder="Password">
         </div>
 
-        <?php if ($uId > 1):?>
+        <?php if ($uId != 1):?>
         <div class="form-group">
           <label>用户角色</label>
           <?php $userRoleIds = explode(',', se($uInfo, 'role_ids', true)); ?>
