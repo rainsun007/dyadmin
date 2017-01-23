@@ -8,6 +8,9 @@
     <div class="box box-success">
       <div class="box-header">
         <h3 class="box-title">角色列表</h3>
+        <div class="box-tools pull-right">
+            <a href="/admin/role/list"><button type="button" class="btn btn-success">创建角色</button></a>
+        </div>
       </div>
 
       <div class="box-body">
@@ -48,11 +51,6 @@
   <div class="box <?php echo $roleId ? 'box-warning' : 'box-info'; ?>" id="addRole">
     <div class="box-header">
       <h3 class="box-title"><?php echo $roleId ? '编辑角色' : '创建角色'; ?></h3>
-      <?php if ($roleId > 0):?>
-      <div class="box-tools pull-right">
-          <a href="/admin/role/list"><button type="button" class="btn btn-info">创建角色</button></a>
-      </div>
-      <?php endif; ?>
     </div>
 
     <div class="box-body">

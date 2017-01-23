@@ -8,6 +8,9 @@
     <div class="box box-success">
       <div class="box-header">
         <h3 class="box-title">用户列表</h3>
+        <div class="box-tools pull-right">
+            <a href="/admin/user/list"><button type="button" class="btn btn-success">创建用户</button></a>
+        </div>
       </div>
 
       <div class="box-body">
@@ -55,11 +58,6 @@
   <div class="box <?php echo $uId ? 'box-warning' : 'box-info'; ?>" id="addRole">
     <div class="box-header">
       <h3 class="box-title"><?php echo $uId ? '编辑用户' : '创建用户'; ?></h3>
-      <?php if ($uId > 0):?>
-      <div class="box-tools pull-right">
-          <a href="/admin/user/list"><button type="button" class="btn btn-info">创建用户</button></a>
-      </div>
-      <?php endif; ?>
     </div>
 
     <div class="box-body">
