@@ -80,11 +80,12 @@
     <?php vHelper::regJs('AdminLTE/dist/js/purposes.js', 'foot'); ?>
   </head>
 
-  <body class="hold-transition skin-blue">
-    <div class="wrapper">
-      <?php echo $content; ?>
+  <body class="hold-transition skin-blue" style="height:100%; overflow:hidden; margin:0px; padding:0px;">
+    <div class="wrapper" style="height:100%;position:absolute; width:100%;">
+      <section class="content">
+        <?php echo $content; ?>
+      </section>
     </div>
     <!-- ./wrapper -->
-    <?php DyDebug::show(); ?>
   </body>
 </html>

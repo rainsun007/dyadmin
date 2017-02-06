@@ -39,7 +39,7 @@
                   }
                   $itemActive = '';
                   $link = trim($v['link'], '/');
-                  if (!empty($link) && Dy::app()->cid.'/'.Dy::app()->aid == substr($link, strpos($link, '/') + 1)) {
+                  if (!empty($link) && strcasecmp(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid, trim($link, '/')) == 0) {
                       $itemActive = 'active';
                       $this->setData('breadcrumbMain', $val['name']);
                       $this->setData('breadcrumbActive', $v['name']);
