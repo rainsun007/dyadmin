@@ -9,13 +9,13 @@
         </div>
         <div class="pull-left info">
           <p><?php echo Dy::app()->auth->username; ?></p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> <a href="/app/logout?m=admin">退出</a>
+          <a href="/app/logout?m=admin">退出</a>
         </div>
       </div>
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header" style="color:#FFF">角色：<?php echo implode(',', $userRolesName); ?></li>
 
         <?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
           <?php
@@ -45,7 +45,7 @@
                       $this->setData('breadcrumbActive', $v['name']);
                   }
               ?>
-              <li <?php echo $itemActive ? 'class="'.$itemActive.'"' : ''; ?> pid="<?php echo $v['pid']; ?>"><a href="<?php echo $v['link']; ?>"><i class="<?php echo $v['icon']; ?>"></i> <?php echo $v['name']; ?></a></li>
+              <li <?php echo $itemActive ? 'class="'.$itemActive.'"' : ''; ?> pid="<?php echo $v['pid']; ?>"><a <?php echo $itemActive ? 'style="color:#FFF"' : ''; ?> href="<?php echo $v['link']; ?>"><i class="<?php echo $v['icon']; ?>"></i> <?php echo $v['name']; ?></a></li>
               <?php endforeach; ?>
               </ul>
               <?php endif; ?>

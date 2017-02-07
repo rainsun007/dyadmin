@@ -54,18 +54,15 @@ class AdminController extends Controller
     {
         if (!Dy::app()->auth->isGuest() && $this->userInfo->role_ids) {
             $this->userRoles = explode(',', $this->userInfo->role_ids);
-
-            $userPermissions = $this->cache->get('userPermissions'.$this->userInfo->id);
-            if (!$userPermissions) {
-                $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission');
-                foreach ($permission as $key => $value) {
-                    $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));
-                }
-                $this->cache->set('userPermissions'.$this->userInfo->id, $this->userPermissions, CACHE_EXPIRE);
+            $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission,name,id');
+            $userRolesName = array();
+            foreach ($permission as $key => $value) {
+                $userRolesName[] = $value->name;
+                $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));
             }
         }
-
         $this->view->setData('userRoles', $this->userRoles);
+        $this->view->setData('userRolesName', $userRolesName);
         $this->view->setData('userPermissions', $this->userPermissions);
     }
 
