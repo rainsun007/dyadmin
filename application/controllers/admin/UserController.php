@@ -10,8 +10,14 @@
  */
 class UserController extends AdminController
 {
+    protected function init()
+    {
+        parent::init();
+        $this->cache;
+    }
+
     /**
-     * 添加用户.
+     * 用户列表.
      **/
     public function actionList()
     {
@@ -43,10 +49,17 @@ class UserController extends AdminController
     public function actionAdd()
     {
         $name = DyRequest::postStr('username');
-        if (empty($name)) {
-            echo DyTools::apiJson(1, 403, '用户名不可为空');
+        if (empty($name) || !DyFilter::isAccount($name)) {
+            echo DyTools::apiJson(1, 403, '用户名不可为空,且必须为字母开头的字母与数字的组合，长度为5~16个字符');
             exit;
         }
+
+        $uInfo = User::model()->getOne("username='{$name}'");
+        if ($uInfo) {
+            echo DyTools::apiJson(1, 403, '用户名已经存在');
+            exit;
+        }
+
         $data = array(
           'username' => $name,
           'password' => md5(DyRequest::postStr('password')),
@@ -64,8 +77,8 @@ class UserController extends AdminController
     public function actionEdit()
     {
         $name = DyRequest::postStr('username');
-        if (empty($name)) {
-            echo DyTools::apiJson(1, 403, '用户名不可为空');
+        if (empty($name) || !DyFilter::isAccount($name)) {
+            echo DyTools::apiJson(1, 403, '用户名不可为空,且必须为字母开头的字母与数字的组合，长度为5~16个字符');
             exit;
         }
 
@@ -77,7 +90,14 @@ class UserController extends AdminController
 
         //其它用户无权编辑超级管理员
         if ($id == 1 && $this->userId != 1) {
+            DyTools::logs(Dy::app()->auth->username.'越权访问被拦截-编辑超级管理员','warning');
             echo DyTools::apiJson(1, 403, '无权操作！');
+            exit;
+        }
+
+        $uInfo = User::model()->getOne("username='{$name}'");
+        if (isset($uInfo->id) && $uInfo->id != $id) {
+            echo DyTools::apiJson(1, 403, '用户名已经存在');
             exit;
         }
 

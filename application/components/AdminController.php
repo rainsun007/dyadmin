@@ -41,8 +41,10 @@ class AdminController extends Controller
         $this->getUserRoles();
 
         if (!common::checkPermit()) {
+            DyTools::logs(Dy::app()->auth->username.'越权访问被拦截','warning');
             Common::msg('你无权访问，没有操作权限！', 1, 403);
         }
+        Common::accessLog();
     }
 
     /**

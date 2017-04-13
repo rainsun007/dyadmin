@@ -86,6 +86,9 @@ class PermitController extends AdminController
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
 
+    /**
+     * 清除缓存.
+     **/
     public function actionFlushCache($value = '')
     {
         $cache = DyCache::invoke('default');

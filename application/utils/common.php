@@ -33,6 +33,7 @@ class common
     public static function checkPermit($permitId = 0)
     {
         if ($permitId == 0) {
+            //获取及缓存url与id的对应关系
             $cache = DyCache::invoke('default');
             $navInfo = $cache->get('all_nav_info');
             if (!$navInfo) {
@@ -51,4 +52,15 @@ class common
 
         return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;
     }
+
+    /**
+     * 访问log
+     *
+     * @return void
+     */
+    public static function accessLog(){
+        $op = Dy::app()->module.'.'.Dy::app()->cid.'.'.Dy::app()->aid;
+        DyTools::logs(Dy::app()->auth->username.'访问了'.$op);
+    }
+
 }

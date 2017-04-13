@@ -42,6 +42,7 @@ class AppController extends SiteController
      **/
     public function actionLogout()
     {
+        DyTools::logs(Dy::app()->auth->username.'退出登录');
         Dy::app()->auth->logout();
         DyRequest::getStr('m') == 'admin' ? DyRequest::redirect('/admin/login') : DyRequest::redirect('/');
     }

@@ -21,6 +21,7 @@ class RoleController extends AdminController
             $roleInfo = Role::model()->getById($roleId);
         }
         $listData = Role::model()->getAll();
+        $this->cache;
         $permissionTree = $this->getNavAndPermissionsTree('display=1 order by sort asc');
 
         $this->view->render('Setting/role', compact('listData', 'permissionTree', 'roleInfo', 'roleId'));
