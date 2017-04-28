@@ -20,11 +20,31 @@ class RoleController extends AdminController
         if ($roleId > 0) {
             $roleInfo = Role::model()->getById($roleId);
         }
+
         $listData = Role::model()->getAll();
         $this->cache;
         $permissionTree = $this->getNavAndPermissionsTree('display=1 order by sort asc');
 
-        $this->view->render('Setting/role', compact('listData', 'permissionTree', 'roleInfo', 'roleId'));
+
+        $ulist = DyRequest::getInt('ulist');
+        if ($ulist) {
+                $pageSize = 20;
+                $criteria = Dy::app()->dbc->select()->order('id', 'ASC')->where('role_ids',$roleId,'like','');
+                $data = User::model()->getAllForPage($criteria, $pageSize);
+                $userList = $data['data'];
+                $pageWidgetOptions = array(
+                                        'count' => $data['count'],
+                                        'pageSize' => $pageSize,
+                                        'offset' => 3,
+                                        'paramName' => 'page',
+                                        );
+                $roles = Role::model()->getAll('status=1');
+                $this->view->setData('roles', $roles);
+                $this->view->setData('userList', $userList);
+                $this->view->setData('pageWidgetOptions', $pageWidgetOptions);
+        }
+
+        $this->view->render('Setting/role', compact('listData', 'permissionTree', 'roleInfo', 'roleId','ulist'));
     }
 
     /**

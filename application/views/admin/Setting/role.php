@@ -21,9 +21,9 @@
                 <table class="table table-hover" id="oplist">
                     <tbody>
                         <tr>
-                            <th class="col-md-4">角色</th>
+                            <th class="col-md-3">角色</th>
                             <th class="col-md-1">状态</th>
-                            <th class="col-md-1">操作</th>
+                            <th class="col-md-2">操作</th>
                         </tr>
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
@@ -32,6 +32,7 @@
                             <td>
                                 <a href="/admin/role/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                                 <button type="button" data-toggle="modal" data-target="#permitOpModal" data-op="del" data-data='<?php echo json_encode($val); ?>' class="btn btn-danger" style="width:55px;">删除</button>
+                                <a href="/admin/role/list?ulist=1&id=<?php echo $val->id; ?>"><button type="button" class="btn btn-default" style="width:80px;">成员列表</button></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -47,6 +48,47 @@
     <!-- /.box -->
 </section>
 
+<?php if($ulist):?>
+<section class="col-md-6">
+  <div class="box box-success">
+    <div class="box-header">
+      <h3 class="box-title">成员列表</h3>
+      <div class="box-tools pull-right">
+      </div>
+    </div>
+
+    <div class="box-body">
+            <div class="form-group">
+              <div class="box-body table-responsive no-padding">
+                  <table class="table table-hover">
+                      <tbody>
+                          <tr>
+                              <th class="col-md-2">用户</th>
+                              <th class="col-md-2">角色</th>
+                              <th class="col-md-1">状态</th>
+                              <th class="col-md-1">操作</th>
+                          </tr>
+                          <?php foreach ($userList as $key => $val):?>
+                          <tr>
+                              <td><?php echo $val->username; ?></td>
+                              <td><?php foreach ($roles as $k => $v){ echo  in_array($v->id,explode(',',$val->role_ids)) ? $v->name.' ' : '';} ?></td>
+                              <td><?php echo $val->status == 1 ? '<span class="text-green">正常</span>' : '<span class="text-yellow">禁用</span>'; ?></td>
+                              <td>
+                                <a href="/admin/user/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+          <?php $this->widget('DyPagerWidget', $pageWidgetOptions); ?>
+    </div>
+  </div>
+</section>
+<?php endif;?>
+
+<?php if(!$ulist):?>
 <section class="col-md-6">
   <div class="box <?php echo $roleId ? 'box-warning' : 'box-info'; ?>" id="addRole">
     <div class="box-header">
@@ -89,6 +131,8 @@
   </div>
   <!-- /.box -->
 </section>
+<?php endif;?>
+
 </div>
 <!-- /.content -->
 

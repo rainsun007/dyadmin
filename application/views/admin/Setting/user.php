@@ -21,13 +21,15 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <th class="col-md-4">用户</th>
+                            <th class="col-md-2">用户</th>
+                            <th class="col-md-2">角色</th>
                             <th class="col-md-1">状态</th>
                             <th class="col-md-1">操作</th>
                         </tr>
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
                             <td><?php echo $val->username; ?></td>
+                            <td><?php foreach ($roles as $k => $v){ echo  in_array($v->id,explode(',',$val->role_ids)) ? $v->name.' ' : '';} ?></td>
                             <td><?php echo $val->status == 1 ? '<span class="text-green">正常</span>' : '<span class="text-yellow">禁用</span>'; ?></td>
                             <td>
                               <?php if ($val->id > 1):?>
@@ -139,7 +141,7 @@
     });
 
 
-    //删除角色操作
+    //删除用户操作
     $('#permitOpModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var data = button.data('data');
