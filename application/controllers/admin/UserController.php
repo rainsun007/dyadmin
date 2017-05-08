@@ -103,7 +103,7 @@ class UserController extends AdminController
 
         $data = array(
           'username' => $name,
-          'status' => DyRequest::postStr('status') == 'true' ? 1 : 0,
+          'status' => $this->userId == 1 ? 1 : (DyRequest::postStr('status') == 'true' ? 1 : 0),
           'role_ids' => trim(DyRequest::postStr('roles'), ','),
         );
         if (DyRequest::postStr('password')) {
