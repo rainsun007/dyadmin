@@ -104,7 +104,7 @@ class UserController extends AdminController
         $data = array(
           'username' => $name,
           'status' => $this->userId == 1 ? 1 : (DyRequest::postStr('status') == 'true' ? 1 : 0),
-          'role_ids' => trim(DyRequest::postStr('roles'), ','),
+          'role_ids' => $this->userId == 1 ? 1 : trim(DyRequest::postStr('roles'), ','),
         );
         if (DyRequest::postStr('password')) {
             $data['password'] = md5(DyRequest::postStr('password'));
