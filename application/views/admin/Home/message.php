@@ -2,8 +2,16 @@
 <div class="error-page">
   <h2 class="headline text-yellow"> <?php echo $message['code']; ?></h2>
   <div class="error-content">
-    <h3><i class="fa fa-warning text-yellow"></i> 提示信息</h3>
-    <p><?php echo $message['message']; ?></p>
+    <h3><i class="fa fa-bullhorn"></i> 提示信息</h3>
+    <p>   
+        <?php $staus = $message['status'] == 'error' ? 'danger' : $message['status'];?> 
+        <?php $staus = $message['status'] === 0 ? 'warning' : $message['status'];?> 
+        <?php $staus = $message['status'] === 1 ? 'success' : $message['status'];?> 
+        <div class="callout callout-<?php echo $staus;?>">
+            <h4><?php echo $staus;?></h4>
+            <p><?php echo $message['message']; ?></p>
+        </div>
+    </p>
     <?php if ($message['code'] == 401): ?>
     <p>账号已经被禁用，请联系管理员！</p>
     <?php else:?>

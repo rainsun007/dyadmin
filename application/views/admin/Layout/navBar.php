@@ -19,7 +19,7 @@
 
         <?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
           <?php
-          if (!common::checkPermit($val['id'])) {
+          if (!Common::checkPermit($val['id'])) {
               continue;
           }
           ?>
@@ -34,7 +34,7 @@
               <ul class="treeview-menu">
               <?php foreach ($val['child'] as $k => $v):?>
               <?php
-                  if (!common::checkPermit($v['id'])) {
+                  if (!Common::checkPermit($v['id'])) {
                       continue;
                   }
                   $itemActive = '';

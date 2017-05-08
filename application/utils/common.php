@@ -8,14 +8,14 @@
  *
  * @copyright Copyright 2011 dyphp.com
  **/
-class common
+class Common
 {
     /**
      * @brief    提示信息
      *
      * @param   $module 'app','admin'
      * @param   $msg
-     * @param   $status 'success','error','warning','info',1,0
+     * @param   $status 'success','error','warning','info',1,0等，可自定义
      * @param   $link
      **/
     public static function msg($msg = '', $status = 'success', $code = 200, $data = array())
@@ -49,7 +49,6 @@ class common
             $link = '/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid;
             $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
-
         return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;
     }
 

@@ -40,7 +40,7 @@ class AdminController extends Controller
         $this->getNavAndPermissionsTree('type=0 and display=1 order by sort asc', 'nav');
         $this->getUserRoles();
 
-        if (!common::checkPermit()) {
+        if (!Common::checkPermit()) {
             DyTools::logs(Dy::app()->auth->username.'越权访问被拦截','warning');
             Common::msg('你无权访问，没有操作权限！', 1, 403);
         }
@@ -54,10 +54,10 @@ class AdminController extends Controller
      **/
     protected function getUserRoles()
     {
+        $userRolesName = array();
         if (!Dy::app()->auth->isGuest() && $this->userInfo->role_ids) {
             $this->userRoles = explode(',', $this->userInfo->role_ids);
             $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission,name,id');
-            $userRolesName = array();
             foreach ($permission as $key => $value) {
                 $userRolesName[] = $value->name;
                 $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));

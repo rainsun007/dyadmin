@@ -60,7 +60,7 @@ return array(
         'default' => array(
             'dbDriver' => 'pdo_mysql',
             'host' => '127.0.0.1',
-            'port' => '3318',
+            'port' => '3306',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',
             'user' => 'root',

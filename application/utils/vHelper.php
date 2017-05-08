@@ -173,8 +173,8 @@ class vHelper
      **/
     public static function loadKindEditor($textareaName = 'content', $themeType = 'default')
     {
-        self::regJs('editor/kindeditor-min.js');
-        self::regJs('editor/lang/zh_CN.js');
+        self::regJs('kindeditor/kindeditor-min.js');
+        self::regJs('kindeditor/lang/zh_CN.js');
         if ($themeType == 'default' || $themeType == 'simple') {
             echo '<script type="text/javascript">
                 var editor;
