@@ -28,7 +28,7 @@
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
                             <td><?php echo $val->name; ?></td>
-                            <td><?php echo $val->status == 1 ? '<span class="text-green">正常</span>' : '<span class="text-yellow">禁用</span>'; ?></td>
+                            <td><?php echo $val->status == 1 ? '<span class="label label-success">正常</span>' : '<span class="label label-danger">禁用</span>'; ?></td>
                             <td>
                                 <a href="/admin/role/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                                 <button type="button" data-toggle="modal" data-target="#permitOpModal" data-op="del" data-data='<?php echo json_encode($val); ?>' class="btn btn-danger" style="width:55px;">删除</button>

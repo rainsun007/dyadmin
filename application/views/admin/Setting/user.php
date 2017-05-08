@@ -30,7 +30,7 @@
                         <tr>
                             <td><?php echo $val->username; ?></td>
                             <td><?php foreach ($roles as $k => $v){ echo  in_array($v->id,explode(',',$val->role_ids)) ? $v->name.' ' : '';} ?></td>
-                            <td><?php echo $val->status == 1 ? '<span class="text-green">正常</span>' : '<span class="text-yellow">禁用</span>'; ?></td>
+                            <td><?php echo $val->status == 1 ? '<span class="label label-success">正常</span>' : '<span class="label label-danger">禁用</span>'; ?></td>
                             <td>
                               <?php if ($val->id > 1):?>
                               <a href="/admin/user/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
