@@ -52,6 +52,7 @@ class NavController extends AdminController
           'display' => DyRequest::postStr('display') == 'true' ? 1 : 0,
         );
         $result = Nav::model()->insert($data);
+        DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
 
@@ -79,6 +80,7 @@ class NavController extends AdminController
           'display' => DyRequest::postStr('display') == 'true' ? 1 : 0,
         );
         $result = Nav::model()->update($data, "id={$id}");
+        DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
 
@@ -101,6 +103,7 @@ class NavController extends AdminController
         }
 
         $result = Nav::model()->delete("id={$id} or pid={$id}");
+        DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
 
@@ -112,6 +115,7 @@ class NavController extends AdminController
         $id = DyRequest::postInt('id');
         $sort = DyRequest::postInt('sort');
         $result = Nav::model()->update(array('sort' => $sort), "id={$id}");
+        DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
 }
