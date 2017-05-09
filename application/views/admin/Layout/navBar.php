@@ -15,7 +15,7 @@
 
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header" style="color:#FFF">角色：<?php echo implode(',', $userRolesName); ?></li>
+        <li class="header" style="color:#FFF"><?php echo isset($userRolesName) ? '角色：'.implode(',', $userRolesName) : ''; ?></li>
 
         <?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
           <?php

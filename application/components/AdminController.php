@@ -35,14 +35,14 @@ class AdminController extends Controller
             Common::msg('用户信息有误！', 'error');
         }
         if ($this->userInfo->status == 0) {
-            Common::msg('账号已被禁用！', 0, 401);
+            Common::msg('账号已经被禁用，请联系管理员！', 'warning', 401);
         }
         $this->getNavAndPermissionsTree('type=0 and display=1 order by sort asc', 'nav');
         $this->getUserRoles();
 
         if (!Common::checkPermit()) {
             DyTools::logs(Dy::app()->auth->username.'越权访问被拦截','warning');
-            Common::msg('你无权访问，没有操作权限！', 1, 403);
+            Common::msg('你无权访问，没有操作权限！', 'warning', 403);
         }
         Common::accessLog();
     }

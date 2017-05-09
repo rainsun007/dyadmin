@@ -19,8 +19,10 @@ class Common
      * @param   $link
      **/
     public static function msg($msg = '', $status = 'success', $code = 200, $data = array())
-    {
-        Dy::showMsg(array('message' => $msg, 'status' => $status, 'code' => $code, 'data' => $data), true);
+    {   
+        $callouts = array('success'=>'success','error'=>'danger','warning'=>'warning','info'=>'info',1=>'success',0=>'warning');
+        $callout = isset($callouts[$status]) ? $callouts[$status] : 'info'; 
+        Dy::showMsg(array('message' => $msg, 'status' => $status, 'code' => $code, 'data' => $data, 'callout' => $callout), true);
     }
 
     /**
