@@ -21,14 +21,18 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <th class="col-md-2">用户</th>
-                            <th class="col-md-2">角色</th>
+                            <th class="col-md-1">用户</th>
+                            <th class="col-md-1">姓名</th>
+                            <th class="col-md-1">邮箱</th>
+                            <th class="col-md-1">角色</th>
                             <th class="col-md-1">状态</th>
-                            <th class="col-md-1">操作</th>
+                            <th class="col-md-2">操作</th>
                         </tr>
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
                             <td><?php echo $val->username; ?></td>
+                            <td><?php echo $val->realname; ?></td>
+                            <td><?php echo $val->email; ?></td>
                             <td><?php foreach ($roles as $k => $v){ echo  in_array($v->id,explode(',',$val->role_ids)) ? $v->name.' ' : '';} ?></td>
                             <td><?php echo $val->status == 1 ? '<span class="label label-success">正常</span>' : '<span class="label label-danger">禁用</span>'; ?></td>
                             <td>
@@ -72,8 +76,18 @@
         </div>
 
         <div class="form-group">
+          <label>姓名</label>
+          <input type="text" class="form-control" name="realname" value="<?php se($uInfo, 'realname'); ?>" placeholder="用户的真实姓名">
+        </div>
+
+        <div class="form-group">
           <label>密码</label>
           <input type="text" class="form-control" name="password" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+          <label>邮箱</label>
+          <input type="text" class="form-control" name="email" value="<?php se($uInfo, 'email'); ?>" placeholder="邮箱地址">
         </div>
 
         <?php if ($uId != 1):?>
@@ -171,7 +185,7 @@
     });
 
 
-     //创建和编辑角色表单提交
+     //创建和编辑用户表单提交
      $('#addRole .btn.btn-primary').click( function () {
         var ids="";
         var nodes=$('#roles').val();
@@ -179,7 +193,7 @@
            ids = nodes.join(',');
         }
         var url = $('#userId').val() > 0 ? '/admin/user/edit' : '/admin/user/add';
-        var postData = {id:$('#userId').val(),username:$("#roleForm input[name='username']").val(),password:$("#roleForm input[name='password']").val(),roles:ids,status:$("#roleForm input[name='status']").is(':checked')};
+        var postData = {id:$('#userId').val(),username:$("#roleForm input[name='username']").val(),realname:$("#roleForm input[name='realname']").val(),password:$("#roleForm input[name='password']").val(),email:$("#roleForm input[name='email']").val(),roles:ids,status:$("#roleForm input[name='status']").is(':checked')};
         $.post(url, postData,
            function(data){
                var mtype = data.status == 0 ? 'success' : 'warning';

@@ -51,7 +51,8 @@
     <![endif]-->
 
     <!-- jQuery 2.2.3 -->
-    <?php vHelper::regJs('jquery-2.2.3.min.js', 'head'); ?>
+    <?php //vHelper::regJs('jquery-2.2.3.min.js', 'head'); ?>
+    <?php vHelper::regJs('jquery.min.js', 'head'); ?>
     <!-- Bootstrap 3.3.6 -->
     <?php vHelper::regJs('AdminLTE/bootstrap/js/bootstrap.min.js', 'head'); ?>
     <!-- Select2 -->

@@ -21,6 +21,7 @@ class Controller extends DyPhpController
 
     protected function init()
     {
+        Dy::app()->vendors('PHPMailer/PHPMailerAutoload',true);
     }
 
     protected function beforeAction()
@@ -66,5 +67,33 @@ class Controller extends DyPhpController
         $cap->colors = array(array(27, 78, 181));
         $cap->createImage();
         exit;
+    }
+
+     protected function sendMail($users = array(), $subject = '', $body = ''){
+        $mail = new PHPMailer;
+
+        $mail->CharSet = "UTF-8";
+        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = MAIL_SMTP;  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = MAIL_USERNAME;                 // SMTP username
+        $mail->Password = MAIL_PASSWORD;                           // SMTP password
+        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 465;                                    // TCP port to connect to
+
+        $mail->setFrom(MAIL_USERNAME, MAIL_FROM_NAME);
+
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $usersInfo = User::model()->getUsers($users);
+        foreach ($usersInfo as $key => $value) {
+            $mail->addAddress($value->email,$value->realname); 
+        }
+        $mail->send();
     }
 }

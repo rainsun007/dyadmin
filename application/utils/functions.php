@@ -42,3 +42,20 @@ function se($arg, $key, $isReturn = false)
         echo $value;
     }
 }
+
+function getNodeCurrent($flowArr){
+    if(!isset($flowArr['nodes'])){
+        return array();
+    }
+    $nodes = $flowArr['nodes'];
+    foreach ($nodes as $key => $value) {
+        if (isset($value['current']) && $value['current']) {
+            if($key == 'end_node' || $key == 'start_node'){
+                $value['userIds'] = array();
+            }
+            $value['id'] = $key;
+            return $value;
+        }
+    }
+    return array();
+}

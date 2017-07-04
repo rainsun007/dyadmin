@@ -54,7 +54,7 @@ class AppController extends SiteController
     public function actionError()
     {
         $error = $this->actionParam;
-        if (Dy::app()->preModule == 'admin') {
+        if (in_array(Dy::app()->preModule,array('admin','workflow'))) {
             $this->forward('admin/home', 'error', $error);
         } else {
             var_dump($error);
@@ -68,7 +68,7 @@ class AppController extends SiteController
     public function actionMessage()
     {
         $message = $this->actionParam;
-        if (Dy::app()->preModule == 'admin') {
+        if (in_array(Dy::app()->preModule,array('admin','workflow'))) {
             $this->forward('admin/home', 'message', $message);
         } else {
             var_dump($message);

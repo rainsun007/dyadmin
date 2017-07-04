@@ -23,3 +23,34 @@
 
  <!-- Add the sidebar's background. This div must be placed  immediately after the control sidebar -->
  <div class="control-sidebar-bg"></div>
+
+
+<style>
+.loading_message{
+    display: none; 
+    background:#000 ;
+    width:220px;  
+    height:56px;  
+    position: fixed;  
+    top:20%;  
+    left:50%;  
+    line-height:50px;  
+    color:#fff;  
+    padding:3px 60px 5px 60px;  
+    font-size:16px;  
+    z-index:9999;  
+    -moz-border-radius:20px;  
+    -webkit-border-radius:20px;  
+    border-radius:20px;  
+    opacity: 0.7;  
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);  
+}
+</style>
+<div id="loading_message" class="loading_message"><i class="fa fa-refresh fa-spin"></i> 请稍候......</div>
+<script>
+$(document).bind("ajaxSend", function () {
+    $("#loading_message").show();
+}).bind("ajaxComplete", function () {
+    $("#loading_message").hide();
+})  
+</script>

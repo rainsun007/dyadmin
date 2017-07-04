@@ -10,12 +10,6 @@
  */
 class UserController extends AdminController
 {
-    protected function init()
-    {
-        parent::init();
-        $this->cache;
-    }
-
     /**
      * 用户列表.
      **/
@@ -63,6 +57,8 @@ class UserController extends AdminController
         $data = array(
           'username' => $name,
           'password' => md5(DyRequest::postStr('password')),
+          'email' => DyRequest::postStr('email'),
+          'realname' => DyRequest::postStr('realname'),
           'status' => DyRequest::postStr('status') == 'true' ? 1 : 0,
           'role_ids' => trim(DyRequest::postStr('roles'), ','),
           'create_time' => $this->datetime,
@@ -103,6 +99,8 @@ class UserController extends AdminController
 
         $data = array(
           'username' => $name,
+          'email' => DyRequest::postStr('email'),
+          'realname' => DyRequest::postStr('realname'),
           'status' => $id == 1 ? 1 : (DyRequest::postStr('status') == 'true' ? 1 : 0),
           'role_ids' => $id == 1 ? 1 : trim(DyRequest::postStr('roles'), ','),
         );

@@ -189,6 +189,7 @@ class vHelper
             </script>';
         } elseif ($themeType == 'qq') {
             echo '<script type="text/javascript">
+            var editor;
             KindEditor.ready(function(K) {
                     K.each({
                         \'plug-align\' : {
@@ -237,7 +238,7 @@ class vHelper
                             });
                         });
                     });
-                    K.create(\'textarea[name="'.$textareaName.'"]\', {
+                    editor = K.create(\'textarea[name="'.$textareaName.'"]\', {
                         themeType : \'qq\',
                         items : [
                             \'bold\',\'italic\',\'underline\',\'fontname\',\'fontsize\',\'forecolor\',\'hilitecolor\',\'plug-align\',\'plug-order\',\'plug-indent\',\'link\'
