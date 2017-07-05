@@ -78,14 +78,32 @@ class HomeController extends AdminController
     {
         $this->view->defaultLayout = 'simple';
 
-        $username = DyRequest::postStr('username');
-        $password = DyRequest::postStr('password');
-        if (empty($username) || empty($password) || !DyFilter::isAccount($username)) {
-            $this->view->render('login', compact('username', 'password'));
+        $loginError = 0;
+        if (DyRequest::isPost()) {
+            $username = DyRequest::postStr('username');
+            $password = DyRequest::postStr('password');
+            
+            if(!Dy::app()->captcha->cookieCheck(DyRequest::postStr('captcha'),'rc_adminlogin')){
+                $loginError = 1;
+                $this->view->render('login', compact('username','loginError'));
+            }
+
+            if (empty($username) || empty($password) || !DyFilter::isAccount($username)) {
+                $loginError = 2;
+                $this->view->render('login', compact('username','loginError'));
+            }
+
+            $authenticate = Dy::app()->auth->login($username, $password);
+            if($authenticate){
+                DyTools::logs($username.'登录系统成功');
+                DyRequest::redirect('/dashboard');
+            }else{
+                DyTools::logs($username.'登录系统失败');
+                $loginError = 3;
+                $this->view->render('login', compact('username','loginError'));
+            }
         }
 
-        DyTools::logs($username.'登录系统');
-        $authenticate = Dy::app()->auth->login($username, $password);
-        $authenticate ? DyRequest::redirect('/dashboard') : $this->view->render('login', compact('username', 'password'));
+        $this->view->render('login',compact('loginError'));
     }
 }

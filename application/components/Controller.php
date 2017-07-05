@@ -46,25 +46,28 @@ class Controller extends DyPhpController
     public function actionCaptcha()
     {
         $captchaType = DyRequest::getStr('ct');
-        $captchaArr = array('login');
+        $captchaArr = array('adminlogin');
         if (!in_array($captchaType, $captchaArr)) {
             exit('captcha error');
         }
 
         $cap = Dy::app()->captcha;
-        $cap->saveName = 'rc_'.$captchaType;
-        $cap->background = 'rand'; //'rand'  'bg4.png'  array(100,255,255)
-        $cap->waveWord = false;
         $cap->saveType = 'cookie';
+        $cap->saveName = 'rc_'.$captchaType;
+        $cap->width = 140;
+        $cap->height = 35;
+        $cap->wordLength = array(4,5);
+        $cap->background = 'rand';
+        $cap->waveWord = false;
         $cap->expire = 300;
-        $cap->model = 0;
+        $cap->model = 2;
         $cap->format = 'png';
         $cap->scale = 2;
-        //$cap->maxRotation = 20;
-        $cap->noiseLine = 0;
-        $cap->noise = 0;
-        $cap->fonts = array(array('spacing' => -2, 'minSize' => 24, 'maxSize' => 30, 'font' => 'AHGBold.ttf'));
-        $cap->colors = array(array(27, 78, 181));
+        $cap->maxRotation = 5;
+        $cap->noiseLine = 5;
+        $cap->noise = 15;
+        $cap->fonts = array(array('spacing' => rand(5, -2), 'minSize' => 19, 'maxSize' => 25, 'font' => 'AHGBold.ttf'));
+        //$cap->colors = array(array(27, 78, 181));
         $cap->createImage();
         exit;
     }
