@@ -155,6 +155,10 @@ $(document).ready(function(){
 
       editor.sync();
       var content =  $("#opFormContent").val();
+      if(content == ""){
+          $.bootstrapGrowl('备注信息不可为空',{ele:'body',type:'warning',offset: {from:'top',amount:200},align:'center',width:350,delay:2000,allow_dismiss:true,stackup_spacing:10});
+          return false;
+      }
 
       var tid = $("#opForm").attr('tid');
 

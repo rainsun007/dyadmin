@@ -43,6 +43,13 @@ function se($arg, $key, $isReturn = false)
     }
 }
 
+/**
+ * 获取工作流的当前节点
+ * 写成函数为了方便全局使用
+ *
+ * @param array $flowArr 工作流信息
+ * @return array
+ */
 function getNodeCurrent($flowArr){
     if(!isset($flowArr['nodes'])){
         return array();

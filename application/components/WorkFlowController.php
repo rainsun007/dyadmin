@@ -18,6 +18,12 @@ class WorkFlowController extends AdminController
         $this->view->defaultLayout = '/admin/Layout/main';
     }
 
+    /**
+     * 获取节点中所有用户id
+     *
+     * @param array $nodes 工作流节点信息
+     * @return array
+     */
     protected function getNodeUserIds($nodes)
     {
         $userIds = array();
@@ -29,6 +35,14 @@ class WorkFlowController extends AdminController
         return array_unique($userIds);
     }
 
+    /**
+     * 标记节点操作状态，设置当前结点
+     *
+     * @param array $flowArr  工作流信息
+     * @param string $from    开始节点
+     * @param string $to      指向节点
+     * @return string 
+     */
     protected function setNodeMarked($flowArr, $from, $to)
     {
          $nodes = $flowArr['nodes'];
@@ -59,6 +73,13 @@ class WorkFlowController extends AdminController
          return json_encode($flowArr,JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * 从指定节点获取所有可操作节点信息
+     *
+     * @param array $flowArr  工作流信息
+     * @param string $from    节点id
+     * @return array
+     */
     protected function getNodeNext($flowArr, $from)
     {
         $nodes = array();
@@ -74,16 +95,37 @@ class WorkFlowController extends AdminController
         return $nodes;
     }
 
+    /**
+     * 获取工作流的当前节点
+     *
+     * @param array $flowArr 工作流信息
+     * @return array
+     */
     protected function getNodeCurrent($flowArr){
         return getNodeCurrent($flowArr);
     }
 
-    protected function accessCheck($flowNodes){
-        if(!in_array($this->userId,$this->getNodeUserIds($flowNodes))){
+    /**
+     * 访问拦截
+     *
+     * @param array $flowNodes  工作流节点信息
+     * @param int   $userId     放行的用户id
+     * @return array
+    */
+    protected function accessCheck($flowNodes,$userId=0){
+        $userIds = $this->getNodeUserIds($flowNodes);
+        array_push($userIds,$userId);
+        if(!in_array($this->userId,$userIds)){
             Common::msg('你无权访问该流程', 'warning', 401);
         }
     }
 
+    /**
+     * 邮件内容的共用部分
+     *
+     * @param int $id 任务id
+     * @return string
+     */
     protected function mailBodySuffix($id){
         return '<br /><br /><a href="'.DyRequest::createUrl('/workflow/task/view',array('id'=>$id)).'">查看任务详情</a>'.'<br /><a href="'.DyRequest::createUrl('/workflow/task/list').'">查看任务列表</a>';
     }

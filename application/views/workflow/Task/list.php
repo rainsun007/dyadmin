@@ -31,7 +31,7 @@
                             <th class="col-md-1">当前节点</th>
                             <th class="col-md-3">说明</th>
                             <th class="col-md-1">状态</th>
-                            <th class="col-md-1">操作</th>
+                            <th class="col-md-2">操作</th>
                         </tr>
                         <?php foreach ($listData as $key => $val):?>
                         <?php $flowArr = json_decode($val->flow,true);  $current = getNodeCurrent($flowArr);?>
@@ -50,6 +50,7 @@
                               <a href="/workflow/task/view?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">详细</button></a>
                               <?php if($val->status != 2 && Dy::app()->auth->uid == $val->userid):?>
                               <button type="button" id="task_<?php echo $val->id;?>" data-toggle="modal" data-target="#permitOpModal" data-op="<?php echo $val->status;?>" data-data='<?php echo json_encode(array('id'=>$val->id,'name'=>$val->name),JSON_UNESCAPED_UNICODE); ?>' class="btn btn-<?php echo $val->status == 0 ? 'danger' : 'success';?> " style="width:55px;"><?php echo $val->status == 0 ? '终止' : '重启';?></button>
+                              <a href="/workflow/task/edit?fid=<?php echo $val->fid; ?>&tid=<?php echo $val->id; ?>"><button type="button" class="btn btn-warning" style="width:55px;">编辑</button></a>
                               <?php endif;?>
                            </td>
                         </tr>

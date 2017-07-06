@@ -19,8 +19,8 @@
                     <tbody>
                         <tr>
                             <th class="col-md-2">流程名称</th>
-                            <th class="col-md-2">创建者</th>
-                            <th class="col-md-1">说明</th>
+                            <th class="col-md-1">创建者</th>
+                            <th class="col-md-6">说明</th>
                             <th class="col-md-2">创建时间</th>
                             <th class="col-md-1">操作</th>
                         </tr>

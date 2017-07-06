@@ -16,7 +16,7 @@ class TaskController extends WorkFlowController
     public function actionList()
     {
         $pageSize = 20;
-        $criteria = Dy::app()->dbc->select()->where('node_users',",{$this->userId},",'like')->order('status', 'ASC')->order('priority', 'DESC');
+        $criteria = Dy::app()->dbc->select()->where('node_users',",{$this->userId},",'like')->where('userid',"{$this->userId}",'=','OR')->order('status', 'ASC')->order('priority', 'DESC');
         $data = WFTask::model()->getAllForPage($criteria, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
@@ -35,7 +35,7 @@ class TaskController extends WorkFlowController
     public function actionFlowList()
     {
         $pageSize = 20;
-        $criteria = Dy::app()->dbc->select()->where('status',1)->order('id', 'DESC');
+        $criteria = Dy::app()->dbc->select()->where('status',0)->order('id', 'DESC');
         $data = WFFlow::model()->getAllForPage($criteria, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
@@ -78,21 +78,74 @@ class TaskController extends WorkFlowController
             WFFlow::model()->update(array('used'=>1),"id={$fid}");
 
 
-            WFTaskLog::model()->wirteLog($tid,0,DyRequest::postStr('remark'));
+            WFTaskLog::model()->wirteLog($tid,0,'任务开始: '.$this->userInfo->realname.' 创建了任务');
 
             $body = '【新工作流】<br /><br />《'.DyRequest::postStr('name').'》与你相关的任务已启动 <br /><br /> 注意响应操作'.$this->mailBodySuffix($tid);
             $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
             $body = '【新工作流】<br /><br />《'.DyRequest::postStr('name').'》流程已到达你负责的节点 <br /><br /> 尽快响应处理'.$this->mailBodySuffix($tid);
             $this->sendMail($flowArr['nodes'][$next['nodes'][0]]['userIds'],$this->mailSubject,$body);
 
-
             echo $result ? DyTools::apiJson(0, 200, '创建成功', $result) : DyTools::apiJson(1, 500, '创建失败', $result);
             exit;
         }
 
         $id = DyRequest::getInt('id');
-        $flowInfo = WFFlow::model()->getOne("id={$id} and status=1");
+        $flowInfo = WFFlow::model()->getOne("id={$id} and status=0");
+        if(!$flowInfo){
+            Common::msg('该工作流已不可用', 'warning', 403);
+        }
         $this->view->render('add', compact('flowInfo'), 'workflow');
+    }
+
+    /**
+     * 任务信息编辑.
+     **/
+    public function actionEdit()
+    {
+        if (DyRequest::isPost()) {
+            $tid = DyRequest::postInt('tid');
+            $taskInfo = WFTask::model()->getById($tid);
+
+            $logMsg = '';
+            if($taskInfo->name != DyRequest::postStr('name')){
+                $logMsg .= '<br />流程名称: '.$taskInfo->name.' -> '.DyRequest::postStr('name');
+            }
+
+            if($taskInfo->explain != DyRequest::postStr('explain')){
+                $logMsg .= '<br />说明: '.$taskInfo->explain.' -> '.DyRequest::postStr('explain');
+            }
+
+            if($taskInfo->priority != DyRequest::postStr('priority')){
+                $logMsg .= '<br />优先级: '.$taskInfo->priority.' -> '.DyRequest::postStr('priority');
+            }
+
+            if($logMsg == ''){
+                echo DyTools::apiJson(0, 200, '信息没有变动，无需修改');
+                exit;
+            }
+
+            $data = array(
+                'name' => DyRequest::postStr('name'),
+                'explain' => DyRequest::postStr('explain'),
+                'priority' => DyRequest::postStr('priority'),
+            );
+            $result = WFTask::model()->update($data,"id={$tid} and userid={$this->userId}");
+
+            WFTaskLog::model()->wirteLog($tid,0,'任务修改: '.$this->userInfo->realname.' 修改了任务'.$logMsg);
+
+            $body = '【任务信息修改】<br /><br />《'.DyRequest::postStr('name').'》与你相关的任务信息已修改'.$logMsg.$this->mailBodySuffix($tid);
+            $flowArr = json_decode(DyRequest::postOriginal('flow'),true);
+            $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
+
+            echo $result ? DyTools::apiJson(0, 200, '修改成功', $result) : DyTools::apiJson(1, 500, '修改失败', $result);
+            exit;
+        }
+
+        $fid = DyRequest::getInt('fid');
+        $tid = DyRequest::getInt('tid');
+        $taskInfo = WFTask::model()->getOne("id={$tid}");
+        $flowInfo = WFFlow::model()->getOne("id={$fid}");
+        $this->view->render('add', compact('flowInfo','taskInfo'), 'workflow');
     }
 
     /**
@@ -135,7 +188,7 @@ class TaskController extends WorkFlowController
         $current = $this->getNodeCurrent($flowArr);
         $nextArr = $this->getNodeNext($flowArr,$current['id']);
 
-        $this->accessCheck($flowArr['nodes']);
+        $this->accessCheck($flowArr['nodes'],$taskInfo->userid);
 
         $listData = WFTaskLog::model()->getAll("tid={$id} order by id desc");
 
@@ -153,7 +206,7 @@ class TaskController extends WorkFlowController
         
         $taskInfo = WFTask::model()->getById($tid);
         $flowArr = json_decode($taskInfo->flow,true);
-        $this->accessCheck($flowArr['nodes']);
+        $this->accessCheck($flowArr['nodes'],$taskInfo->userid);
 
         if($taskInfo->status == 1 || $taskInfo->status == 2){
             echo DyTools::apiJson(1, 403, '当前任务状态不可操作！');
