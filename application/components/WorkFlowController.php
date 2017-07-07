@@ -110,9 +110,12 @@ class WorkFlowController extends AdminController
      *
      * @param array $flowNodes  工作流节点信息
      * @param int   $userId     放行的用户id
-     * @return array
+     * @return mix
     */
     protected function accessCheck($flowNodes,$userId=0){
+        if($this->userId == 1){
+            return true;
+        }
         $userIds = $this->getNodeUserIds($flowNodes);
         array_push($userIds,$userId);
         if(!in_array($this->userId,$userIds)){

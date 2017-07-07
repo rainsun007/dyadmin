@@ -16,7 +16,7 @@ class TaskController extends WorkFlowController
     public function actionList()
     {
         $pageSize = 20;
-        $criteria = Dy::app()->dbc->select()->where('node_users',",{$this->userId},",'like')->where('userid',"{$this->userId}",'=','OR')->order('status', 'ASC')->order('priority', 'DESC');
+        $criteria =  $this->userId == 1 ? Dy::app()->dbc->select()->order('status', 'ASC')->order('priority', 'DESC') : Dy::app()->dbc->select()->where('node_users',",{$this->userId},",'like')->where('userid',"{$this->userId}",'=','OR')->order('status', 'ASC')->order('priority', 'DESC');
         $data = WFTask::model()->getAllForPage($criteria, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
