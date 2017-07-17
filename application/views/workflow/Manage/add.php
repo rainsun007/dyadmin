@@ -95,7 +95,7 @@ var jsondata = {
     "nodes": {
         "start_node": {
             "name": "开始",
-            "left": 139,
+            "left": 200,
             "top": 134,
             "type": "start round mix",
             "width": 26,
@@ -104,7 +104,7 @@ var jsondata = {
         },
         "end_node": {
             "name": "结束",
-            "left": 961,
+            "left": 1000,
             "top": 142,
             "type": "end round mix",
             "width": 26,
@@ -129,6 +129,7 @@ $(document).ready(function(){
     workflow=$.createGooFlow($("#workflows"),property);
     workflow.setNodeRemarks(remark);
     workflow.loadData(jsondata);
+    workflow.reinitSize($('.row').width()*0.985,540)
 
     //节点编辑
     $("div").on("dblclick", function(){

@@ -20,6 +20,12 @@ class Common
      **/
     public static function msg($msg = '', $status = 'success', $code = 200, $data = array())
     {   
+        if(DyRequest::isAjax()){
+            $status = $status != 'success' || $status == 0 || $code != 200 ? 0 : 1;
+            echo DyTools::apiJson($status, $code, $msg, $data);
+            exit;
+        }
+
         $callouts = array('success'=>'success','error'=>'danger','warning'=>'warning','info'=>'info',1=>'success',0=>'warning');
         $callout = isset($callouts[$status]) ? $callouts[$status] : 'info'; 
         Dy::showMsg(array('message' => $msg, 'status' => $status, 'code' => $code, 'data' => $data, 'callout' => $callout), true);
@@ -34,8 +40,8 @@ class Common
      **/
     public static function checkPermit($permitId = 0)
     {
-        if ($permitId == 0) {
-            //获取及缓存url与id的对应关系
+        if (is_string($permitId) || $permitId === 0) {
+            //获取缓存url与id的对应关系
             $cache = DyCache::invoke('default');
             $navInfo = $cache->get('all_nav_info');
             if (!$navInfo) {
@@ -48,7 +54,7 @@ class Common
                 }
                 $cache->set('all_nav_info', $navInfo, CACHE_EXPIRE);
             }
-            $link = '/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid;
+            $link = $permitId === 0 ? '/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid : $permitId;
             $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
         return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;
@@ -61,7 +67,9 @@ class Common
      */
     public static function accessLog(){
         $op = Dy::app()->module.'.'.Dy::app()->cid.'.'.Dy::app()->aid;
-        DyTools::logs(Dy::app()->auth->username.'访问了'.$op);
+        $get = json_encode($_GET);
+        $post = json_encode($_POST,JSON_UNESCAPED_UNICODE);
+        DyTools::logs('user:'.Dy::app()->auth->username.' POST:'.$post);
     }
 
 }

@@ -143,6 +143,7 @@ $(document).ready(function(){
 
 	workflow=$.createGooFlow($("#workflows"),property);
 	workflow.loadData(jsondata);
+    workflow.reinitSize($('.row').width()*0.985,540)
     workflow.setTitle("<?php echo '工作流任务: '.$taskInfo->name;?>");
 
     //提交到服务器

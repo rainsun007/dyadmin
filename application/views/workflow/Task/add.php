@@ -52,6 +52,7 @@ var workflow;
 $(document).ready(function(){
 	workflow=$.createGooFlow($("#workflows"),property);
 	workflow.loadData(jsondata);
+    workflow.reinitSize($('.row').width()*0.985,540)
 
   //提交到服务器
   workflow.onBtnSaveClick=function(){

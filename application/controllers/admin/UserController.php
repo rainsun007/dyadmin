@@ -112,6 +112,22 @@ class UserController extends AdminController
     }
 
     /**
+     * 用户个人信息自己修改.
+     **/
+    public function actionUserEdit()
+    {
+        $data = array(
+          'email' => DyRequest::postStr('email'),
+          'realname' => DyRequest::postStr('realname'),
+        );
+        if (DyRequest::postStr('password')) {
+            $data['password'] = md5(DyRequest::postStr('password'));
+        }
+        $result = User::model()->update($data, "id={$this->userId}");
+        echo $result ? DyTools::apiJson(0, 200, '编辑成功', $result) : DyTools::apiJson(1, 500, '编辑失败', $result);
+    }
+
+    /**
      * 删除用户.
      **/
     public function actionDel()

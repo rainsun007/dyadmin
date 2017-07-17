@@ -11,8 +11,18 @@
     <div class="box box-success">
       <div class="box-header">
         <h3 class="box-title">工作流任务列表</h3>
-        <div class="box-tools pull-right">
+        <div class="box-tools" style="width:85%">
+          <div class="pull-left">
+            <a href="/workflow/task/list?type=999"><button type="button" class="btn btn-default">全部</button></a>
+            <a href="/workflow/task/list?type=0"><button type="button" class="btn btn-success">正常</button></a>
+            <a href="/workflow/task/list?type=1"><button type="button" class="btn btn-danger">终止</button></a>
+            <a href="/workflow/task/list?type=2"><button type="button" class="btn btn-info">完成</button></a>
+          </div>
+          <?php if(Common::checkPermit('/workflow/task/flowList')):?>
+          <div class="pull-right">
             <a href="/workflow/task/flowList"><button type="button" class="btn btn-success"><i class="fa  fa-plus"></i> 发起新任务</button></a>
+          </div>
+          <?php endif;?>
         </div>
       </div>
 

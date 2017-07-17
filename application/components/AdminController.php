@@ -32,17 +32,9 @@ class AdminController extends Controller
     {
         $this->setUserInfo();
         if (!$this->userId || !$this->userInfo) {
-            if(DyRequest::isAjax()){
-                echo DyTools::apiJson(0, 500, '用户信息有误！');
-                exit;
-            }
             Common::msg('用户信息有误！', 'error');
         }
         if ($this->userInfo->status == 0) {
-            if(DyRequest::isAjax()){
-                echo DyTools::apiJson(0, 401, '账号已经被禁用，请联系管理员！');
-                exit;
-            }
             Common::msg('账号已经被禁用，请联系管理员！', 'warning', 401);
         }
         $this->getNavAndPermissionsTree('type=0 and display=1 order by sort asc', 'nav');
@@ -50,10 +42,6 @@ class AdminController extends Controller
 
         if (!Common::checkPermit()) {
             DyTools::logs(Dy::app()->auth->username.'越权访问被拦截','warning');
-            if(DyRequest::isAjax()){
-                echo DyTools::apiJson(0, 403, '你无权访问，没有操作权限！');
-                exit;
-            }
             Common::msg('你无权访问，没有操作权限！', 'warning', 403);
         }
         Common::accessLog();

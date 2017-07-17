@@ -66,6 +66,7 @@ class HomeController extends AdminController
         $message = $this->actionParam;
         if (DyRequest::isAjax()) {
             echo json_encode($message);
+            exit;
         } else {
             $this->view->render('message', compact('message'));
         }
