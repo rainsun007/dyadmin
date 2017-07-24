@@ -120,6 +120,10 @@ class UserController extends AdminController
           'email' => DyRequest::postStr('email'),
           'realname' => DyRequest::postStr('realname'),
         );
+        if(empty($data['email']) || empty($data['realname'])){
+            echo DyTools::apiJson(1, 403, '真实姓名与邮箱地址都不可为空！');
+            exit;
+        }
         if (DyRequest::postStr('password')) {
             $data['password'] = md5(DyRequest::postStr('password'));
         }

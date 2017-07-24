@@ -78,7 +78,7 @@
           </div>
 
           <div class="form-group">
-            <label>Email</label>
+            <label>Email<span class="text-red">*</span></label>
             <input type="text" class="form-control" name="user_email" id="user_email" value="<?php echo $userInfo->email;?>" placeholder="邮箱地址">
           </div>
 
@@ -119,13 +119,15 @@ $(document).ready(function(){
     $('#user_edit').on("click", function(){
         $('#userEditOpModal').modal({keyboard: true});
     });
-    $('#userEditOpModalSubmit').on("click", function(){
-        $('#userEditOpModal').modal('hide');
+    $('#userEditOpModalSubmit').on("click", function(){ 
         var url = '/admin/user/userEdit';
         var postData = {realname:$('#user_realname').val(),password:$("#user_password").val(),email:$("#user_email").val()};
         $.post(url, postData,
            function(data){
                var mtype = data.status == 0 ? 'success' : 'warning';
+               if(data.status == 0){
+                  $('#userEditOpModal').modal('hide');
+               }
                $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:2000,allow_dismiss:true,stackup_spacing:10});
            },
            'json'
