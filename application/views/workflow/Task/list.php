@@ -13,10 +13,10 @@
         <h3 class="box-title">工作流任务列表</h3>
         <div class="box-tools" style="width:85%">
           <div class="pull-left">
-            <a href="/workflow/task/list?type=999"><button type="button" class="btn btn-default">全部</button></a>
-            <a href="/workflow/task/list?type=0"><button type="button" class="btn btn-success">正常</button></a>
-            <a href="/workflow/task/list?type=1"><button type="button" class="btn btn-danger">终止</button></a>
-            <a href="/workflow/task/list?type=2"><button type="button" class="btn btn-info">完成</button></a>
+            <a href="/workflow/task/list?type=999"><button type="button" class="btn btn-default btn-sm">全部</button></a>
+            <a href="/workflow/task/list?type=0"><button type="button" class="btn btn-success btn-sm">正常</button></a>
+            <a href="/workflow/task/list?type=1"><button type="button" class="btn btn-danger btn-sm">终止</button></a>
+            <a href="/workflow/task/list?type=2"><button type="button" class="btn btn-info btn-sm">完成</button></a>
           </div>
           <?php if(Common::checkPermit('/workflow/task/flowList')):?>
           <div class="pull-right">

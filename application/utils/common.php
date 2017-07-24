@@ -66,8 +66,6 @@ class Common
      * @return void
      */
     public static function accessLog(){
-        $op = Dy::app()->module.'.'.Dy::app()->cid.'.'.Dy::app()->aid;
-        $get = json_encode($_GET);
         $post = json_encode($_POST,JSON_UNESCAPED_UNICODE);
         DyTools::logs('user:'.Dy::app()->auth->username.' POST:'.$post);
     }
