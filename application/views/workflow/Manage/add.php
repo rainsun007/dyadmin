@@ -23,6 +23,11 @@
     <div class="col-md-6" style="height:50px"><a href="/workflow/manage/list">返回工作流管理列表</a></div>
 </div>
 <div class="row">
+    <?php if(se($flowInfo,'used',true) == 1 && $op == 'edit'):?>
+    <div class="col-md-6 text-red" style="height:10px;margin:15px;">
+        此流程已被使用，流程主体已不可被编辑
+    </div>
+    <?php endif;?>
     <div id="workflows" style="margin:10px"></div>
 </div>
 <!-- /.content -->
@@ -67,10 +72,10 @@ var property={
     haveHead:true,
     headLabel:true,
     //headBtns:["new","open","save","undo","redo","reload"],//如果haveHead=true，则定义HEAD区的按钮
-    headBtns:["save","undo","redo"],//如果haveHead=true，则定义HEAD区的按钮
-    haveTool:true,
-    haveGroup:true,
-    useOperStack:true
+    headBtns:<?php echo se($flowInfo,'used',true) == 1 && $op == 'edit' ? '["save"]' : '["save","undo","redo"]';?>,//如果haveHead=true，则定义HEAD区的按钮
+    haveTool:<?php echo se($flowInfo,'used',true) == 1 && $op == 'edit' ? 'false' : 'true';?>,
+    haveGroup:<?php echo se($flowInfo,'used',true) == 1 && $op == 'edit' ? 'false' : 'true';?>,
+    useOperStack:<?php echo se($flowInfo,'used',true) == 1 && $op == 'edit' ? 'false' : 'true';?>
 };
 
 var remark={

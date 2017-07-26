@@ -74,12 +74,12 @@
         <form id="navOp">
           <div class="form-group">
             <label>真实姓名<span class="text-red">*</span></label>
-            <input type="text" class="form-control" name="user_realname" id="user_realname" value="<?php echo $userInfo->realname;?>" placeholder="个人的真实姓名">
+            <input type="text" class="form-control" name="user_realname" id="user_realname" value="<?php se($userInfo,'realname');?>" placeholder="个人的真实姓名">
           </div>
 
           <div class="form-group">
             <label>Email<span class="text-red">*</span></label>
-            <input type="text" class="form-control" name="user_email" id="user_email" value="<?php echo $userInfo->email;?>" placeholder="邮箱地址">
+            <input type="text" class="form-control" name="user_email" id="user_email" value="<?php se($userInfo,'email');?>" placeholder="邮箱地址">
           </div>
 
           <div class="form-group">

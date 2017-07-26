@@ -82,24 +82,23 @@ class ManageController extends WorkFlowController
     {
         if (DyRequest::isPost()) {
             $id = DyRequest::postInt('id');
+            $flowInfo = WFFlow::model()->getById($id);
             $data = array(
                 'name' => DyRequest::postStr('name'),
                 'userid' => $this->userInfo->id,
                 'username' => $this->userInfo->realname,
                 'explain' => DyRequest::postStr('explain'),
-                'flow' => DyRequest::postStr('flow'),
             );
-            $result = WFFlow::model()->update($data, "id={$id} and used=0");
+            if($flowInfo->used == 0){
+                $data['flow'] = DyRequest::postStr('flow');
+            }
+            $result = WFFlow::model()->update($data, "id={$id}");
             echo $result ? DyTools::apiJson(0, 200, '编辑成功', $result) : DyTools::apiJson(1, 500, '编辑失败', $result);
             exit;
         }
 
         $fid = DyRequest::getInt('id');
         $flowInfo = WFFlow::model()->getById($fid);
-
-        if($flowInfo->used == 1){
-            Common::msg('该流程已被使用，被使用的流程不能编辑！', 'warning', 403);
-        }
 
         $userList = User::model()->getAll("status=1");
 

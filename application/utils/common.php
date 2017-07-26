@@ -40,7 +40,7 @@ class Common
      **/
     public static function checkPermit($permitId = 0)
     {
-        if (is_string($permitId) || $permitId === 0) {
+        if ((is_string($permitId) && !is_numeric($permitId)) || $permitId === 0) {
             //获取缓存url与id的对应关系
             $cache = DyCache::invoke('default');
             $navInfo = $cache->get('all_nav_info');

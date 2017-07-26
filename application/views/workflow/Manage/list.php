@@ -32,8 +32,8 @@
                             <td><?php echo $val->create_time; ?></td>
                             <td><?php echo $val->explain; ?></td>
                             <td>
-                              <?php echo $val->status == 0 ? "<span id='flow_status_".$val->id."' class='label label-success'>正常</span>" : "<span id='flow_status_".$val->id."' class='label label-danger'>禁用</span>"; ?>
-                              <?php echo $val->used == 0 ? " [未用]" : " [已用]"; ?>
+                              <?php echo $val->status == 0 ? "<span id='flow_status_".$val->id."' class='label label-success'>正常" : "<span id='flow_status_".$val->id."' class='label label-danger'>禁用"; ?>
+                              <?php echo $val->used == 0 ? " [未用]</span>" : " [已用]</span>"; ?>
                             </td>
                             <td>
                               <a href="/workflow/manage/edit?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>

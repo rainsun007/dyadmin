@@ -50,14 +50,15 @@ function se($arg, $key, $isReturn = false)
  * @param array $flowArr 工作流信息
  * @return array
  */
-function getNodeCurrent($flowArr){
-    if(!isset($flowArr['nodes'])){
+function getNodeCurrent($flowArr)
+{
+    if (!isset($flowArr['nodes'])) {
         return array();
     }
     $nodes = $flowArr['nodes'];
     foreach ($nodes as $key => $value) {
         if (isset($value['current']) && $value['current']) {
-            if($key == 'end_node' || $key == 'start_node'){
+            if ($key == 'end_node' || $key == 'start_node') {
                 $value['userIds'] = array();
             }
             $value['id'] = $key;

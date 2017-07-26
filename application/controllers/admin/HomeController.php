@@ -22,6 +22,8 @@ class HomeController extends AdminController
     {
         if (Dy::app()->aid == 'index') {
             parent::beforeAction();
+        }else{
+            $this->setUserInfo();
         }
     }
 

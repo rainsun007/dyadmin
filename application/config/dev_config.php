@@ -83,6 +83,7 @@ return array(
     //cookie配制
     'cookie' => array(
         'prefix' => 'dya_',
+        //'domain' => 'mysite.com',
     ),
 
     //缓存配制 'file','apc','memcache'

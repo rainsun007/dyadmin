@@ -15,17 +15,24 @@ class TaskController extends WorkFlowController
      **/
     public function actionList()
     {
-        $dbc = Dy::app()->dbc;
-        $criteria =  $this->userId == 1 ? $dbc->select()->order('status', 'ASC')->order('priority', 'DESC') : $dbc->select()->where('node_users',",{$this->userId},",'like')->where('userid',"{$this->userId}",'=','OR')->order('status', 'ASC')->order('priority', 'DESC');
-        
+        $where = '';
         $type = DyRequest::getInt('type');
         if($type < 999){
-            $criteria->where('status',$type)->clearSqlItem('order');
-            $criteria->order('priority', 'DESC');
+            if($this->userId == 1){
+                $where = "`status` = {$type} ORDER BY priority DESC";
+            }else{
+                $where = "`status` = {$type} and (`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId}) ORDER BY priority DESC";
+            }
+        }else{
+            if($this->userId == 1){
+                $where = "ORDER BY status ASC , priority DESC";
+            }else{
+                $where = "`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId} ORDER BY status ASC , priority DESC";
+            }
         }
-
+        
         $pageSize = 20;
-        $data = WFTask::model()->getAllForPage($criteria, $pageSize);
+        $data = WFTask::model()->getAllForPage($where, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
             'count' => $data['count'],
