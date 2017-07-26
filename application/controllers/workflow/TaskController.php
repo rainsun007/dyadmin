@@ -146,7 +146,7 @@ class TaskController extends WorkFlowController
             );
             $result = WFTask::model()->update($data,"id={$tid} and userid={$this->userId}");
 
-            WFTaskLog::model()->wirteLog($tid,0,'任务修改: '.$this->userInfo->realname.' 修改了任务'.$logMsg);
+            WFTaskLog::model()->wirteLog($tid,6,'任务修改: '.$this->userInfo->realname.' 修改了任务'.$logMsg);
 
             $body = '【任务信息修改】<br /><br />《'.DyRequest::postStr('name').'》与你相关的任务信息已修改'.$logMsg.$this->mailBodySuffix($tid);
             $flowArr = json_decode(DyRequest::postOriginal('flow'),true);

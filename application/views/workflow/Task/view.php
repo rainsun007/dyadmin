@@ -84,7 +84,7 @@
                             <td><?php echo $val->create_time; ?></td>
                             <td>
                                 <?php 
-                                $opArr = array('创建任务','流程操作','追加备注', '任务结束','任务终止','任务重启');
+                                $opArr = array('创建任务','流程操作','追加备注', '任务结束','任务终止','任务重启','任务修改');
                                 echo $opArr[$val->operate]; 
                                 ?>
                              </td>
