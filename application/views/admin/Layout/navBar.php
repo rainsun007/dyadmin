@@ -71,7 +71,7 @@
         <h4 class="modal-title">个人信息编辑</h4>
       </div>
       <div class="modal-body">
-        <form id="navOp">
+        <form>
           <div class="form-group">
             <label>真实姓名<span class="text-red">*</span></label>
             <input type="text" class="form-control" name="user_realname" id="user_realname" value="<?php se($userInfo,'realname');?>" placeholder="个人的真实姓名">

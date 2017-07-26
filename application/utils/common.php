@@ -21,7 +21,7 @@ class Common
     public static function msg($msg = '', $status = 'success', $code = 200, $data = array())
     {   
         if(DyRequest::isAjax()){
-            $status = $status != 'success' || $status == 0 || $code != 200 ? 0 : 1;
+            $status = $status != 'success' || $status === 1 || $code != 200 ? 1 : 0;
             echo DyTools::apiJson($status, $code, $msg, $data);
             exit;
         }
