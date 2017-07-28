@@ -3,7 +3,7 @@
   <h2 class="headline text-red">500</h2>
   <div class="error-content">
     <h3><i class="fa fa-warning text-red"></i> 服务异常.</h3>
-    <p><?php echo $message['message']; ?></p>
+    <p><?php echo $error['msg']; ?></p>
     <p>可以尝试以下操作:<br /><a href="/dashboard">回首页</a> | <a href="javascript:void(0)" onclick="history.go(-1)">返回上一页</a></p>
     <p>将在 <span id="mes">10</span> 秒钟后返回上一页！</p>
   </div>
