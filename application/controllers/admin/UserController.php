@@ -22,7 +22,7 @@ class UserController extends AdminController
         }
 
         $pageSize = 20;
-        $criteria = Dy::app()->dbc->select()->order('id', 'ASC');
+        $criteria = Dy::app()->dbc->select()->order('status', 'DESC')->order('id', 'ASC');
         $data = User::model()->getAllForPage($criteria, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
