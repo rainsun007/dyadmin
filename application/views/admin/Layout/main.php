@@ -97,8 +97,8 @@
 
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-    <?php $this->renderPartial('/Layout/header'); ?>
-    <?php $this->renderPartial('/Layout/navBar'); ?>
+    <?php $this->renderPartial('/Layout/header',array(),'admin'); ?>
+    <?php $this->renderPartial('/Layout/navBar',array(),'admin'); ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -119,7 +119,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <?php $this->renderPartial('/Layout/footer'); ?>
+    <?php $this->renderPartial('/Layout/footer',array(),'admin'); ?>
     </div>
     <!-- ./wrapper -->
     <?php DyDebug::show(); ?>

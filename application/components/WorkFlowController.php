@@ -15,6 +15,7 @@ class WorkFlowController extends AdminController
     protected function init()
     {
         parent::init();
+        $this->view->moduleTheme = 'workflow';
         $this->view->defaultLayout = '/admin/Layout/main';
     }
 

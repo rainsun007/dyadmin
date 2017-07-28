@@ -26,7 +26,7 @@ class ManageController extends WorkFlowController
             'paramName' => 'page',
         );
 
-        $this->view->render('list', compact('listData', 'pageWidgetOptions'), 'workflow');
+        $this->view->render('list', compact('listData', 'pageWidgetOptions'));
     }
 
     /**

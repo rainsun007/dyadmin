@@ -22,28 +22,22 @@
         </div>
         </li>
         <?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
-          <?php
-          if (!Common::checkPermit($val['id'])) {
-              continue;
-          }
-          ?>
+          <?php if (!Common::checkPermit($val['id'])) { continue; } ?>
           <li treeId="<?php echo $val['id']; ?>" class="treeview">
-            <a href="#">
-              <i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?></span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
+              <a href="#">
+                <i class="<?php echo $val['icon']; ?>"></i> <span><?php echo $val['name']; ?></span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+              </a>
               <?php if (isset($val['child']) && is_array($val['child'])): ?>
               <ul class="treeview-menu">
               <?php foreach ($val['child'] as $k => $v):?>
               <?php
-                  if (!Common::checkPermit($v['id'])) {
-                      continue;
-                  }
+                  if (!Common::checkPermit($v['id'])) { continue; }
+                  
                   $itemActive = '';
                   $link = trim($v['link'], '/');
-                  if (!empty($link) && strcasecmp(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid, trim($link, '/')) == 0) {
+                  
+                  if (!empty($link) && strtolower(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid) == strtolower($link)) {
                       $itemActive = 'active';
                       $this->setData('breadcrumbMain', $val['name']);
                       $this->setData('breadcrumbActive', $v['name']);
