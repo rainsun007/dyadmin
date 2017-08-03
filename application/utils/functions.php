@@ -67,3 +67,16 @@ function getNodeCurrent($flowArr)
     }
     return array();
 }
+
+function getConsume($end,$start){
+    $diff = $end - $start;
+    if($diff < 60){
+        return $diff.'秒';
+    }elseif($diff < 3600){
+        return ceil($diff/60).'分';
+    }elseif($diff < 86400){
+        return ceil($diff/3600).'小时';
+    }else{
+        return ceil($diff/86400).'天';
+    }
+}

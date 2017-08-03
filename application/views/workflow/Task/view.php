@@ -60,7 +60,7 @@
     <section class="col-md-6">
     <div class="box box-success">
       <div class="box-header">
-        <h3 class="box-title">操作记录</h3>
+        <h3 class="box-title">操作记录<?php echo $listData ? '<span style="color:#ff8800;padding-left:15px;font-size:12px;">总耗时:'.getConsume(strtotime($listData[0]->create_time),strtotime(end($listData)->create_time)).'</span>' : '';?></h3>
         <div class="box-tools pull-right">
         </div>
       </div>
@@ -81,7 +81,7 @@
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
                             <td><?php echo in_array($val->operate,array(0,3)) ? '系统' : $val->username; ?></td>
-                            <td><?php echo $val->create_time; ?></td>
+                            <td><?php echo $val->create_time; ?><br /><?php echo $key<count($listData)-1 ? '<span style="color:#ff8800;">耗时:'.getConsume(strtotime($val->create_time),strtotime($listData[$key+1]->create_time)).'</span>' : ''; ?></td>
                             <td>
                                 <?php 
                                 $opArr = array('创建任务','流程操作','追加备注', '任务结束','任务终止','任务重启','任务修改');

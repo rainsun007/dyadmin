@@ -2,6 +2,7 @@
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+      <?php if(!Dy::app()->auth->isGuest()):?>
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
@@ -33,7 +34,7 @@
               <?php foreach ($val['child'] as $k => $v):?>
               <?php
                   if (!Common::checkPermit($v['id'])) { continue; }
-                  
+
                   $itemActive = '';
                   $link = trim($v['link'], '/');
                   
@@ -51,6 +52,7 @@
         <?php endforeach; endif; ?>
 
       </ul>
+      <?php endif;?>
     </section>
     <!-- /.sidebar -->
   </aside>

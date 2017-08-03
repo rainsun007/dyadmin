@@ -25,7 +25,7 @@ class TaskController extends WorkFlowController
             }
         }else{
             if($this->userId == 1){
-                $where = "ORDER BY status ASC , priority DESC";
+                $where = "1=1 ORDER BY status ASC , priority DESC";
             }else{
                 $where = "`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId} ORDER BY status ASC , priority DESC";
             }

@@ -49,7 +49,7 @@
                             <td><?php echo $val->priority; ?></td>
                             <td><?php echo $val->name; ?></td>
                             <td><?php echo $val->username; ?></td>
-                            <td><?php echo $val->create_time; ?></td>
+                            <td style="text-align:left"><?php echo $val->create_time; ?> <?php echo $val->status == 0 ? '<span style="color:#ff8800;padding-left:15px;font-size:12px;">用时:'.getConsume(time(),strtotime($val->create_time)).'</span>' : '';?> </td>
                             <td><?php echo isset($current['name']) ? $current['name'] : ''; ?></td>
                             <td><?php echo $val->explain; ?></td>
                             <td>

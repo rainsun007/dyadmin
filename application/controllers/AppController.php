@@ -26,14 +26,16 @@ class AppController extends SiteController
      **/
     public function actionLogin()
     {
+        /*
         $username = DyRequest::postStr('username');
         $password = DyRequest::postStr('password');
         if (empty($username) || empty($password) || DyFilter::isAccount($username)) {
             $this->view->render('login', compact('username'));
         }
 
-        //$authenticate = Dy::app()->auth->userLogin($username, $password);
-        //$authenticate ? DyRequest::redirect('/') : $this->view->render('login', compact('username'));
+        $authenticate = Dy::app()->auth->userLogin($username, $password);
+        $authenticate ? DyRequest::redirect('/') : $this->view->render('login', compact('username'));
+        */
         DyRequest::redirect('/');
     }
 
@@ -53,11 +55,10 @@ class AppController extends SiteController
      **/
     public function actionError()
     {
-        $error = $this->actionParam;
-        if (in_array(Dy::app()->preModule,array('admin','workflow'))) {
-            $this->forward('admin/home', 'error', $error);
+        if ($this->moduleCheck()) {
+            $this->forward('admin/home', 'error', $this->actionParam);
         } else {
-            var_dump($error);
+            var_dump($this->actionParam);
         }
     }
 
@@ -67,11 +68,21 @@ class AppController extends SiteController
      **/
     public function actionMessage()
     {
-        $message = $this->actionParam;
-        if (in_array(Dy::app()->preModule,array('admin','workflow'))) {
-            $this->forward('admin/home', 'message', $message);
+        if ($this->moduleCheck()) {
+            $this->forward('admin/home', 'message', $this->actionParam);
         } else {
-            var_dump($message);
+            var_dump($this->actionParam);
         }
+    }
+
+    /**
+     * 验证是否为管理后台的module
+     *
+     * @return array
+     */
+    private function moduleCheck(){
+        $adminModule = array('admin','workflow');
+        $checkArr = array(Dy::app()->preModule,Dy::app()->module);
+        return array_intersect($checkArr,$adminModule);
     }
 }

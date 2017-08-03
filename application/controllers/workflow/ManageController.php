@@ -52,7 +52,7 @@ class ManageController extends WorkFlowController
         $fid = DyRequest::getInt('id');
         $flowInfo = WFFlow::model()->getById($fid);
 
-        $userList = User::model()->getAll("status=1");
+        $userList = User::model()->getAll("status=1 and id>1");
 
         $op = 'add';
         $this->view->render('add', compact('userList','flowInfo','op'), 'workflow');
