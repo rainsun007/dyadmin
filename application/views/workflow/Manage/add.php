@@ -78,6 +78,7 @@ var property={
     useOperStack:<?php echo se($flowInfo,'used',true) == 1 && $op == 'edit' ? 'false' : 'true';?>
 };
 
+/*
 var remark={
     cursor:"选择指针",
     direct:"结点连线",
@@ -92,6 +93,21 @@ var remark={
     fork:"分支结点",
     "complex":"复合结点",
     group:"组织划分框编辑开关"
+};
+*/
+
+var remark={
+    "cursor":"选择指针",
+    "direct":"结点连线",
+    "task":"任务结点",
+    "node":"任务结点",
+    "chat":"任务结点",
+    "state":"任务结点",
+    "plug":"任务结点",
+    "join":"任务结点",
+    "fork":"任务结点",
+    "complex":"任务结点",
+    "group":"组织划分框"
 };
 
 //初始化数据
@@ -131,7 +147,7 @@ var userSplitStyle = " <hr>Users:";
 var workflow;
 $(document).ready(function(){
     $("#users").select2();
-    workflow=$.createGooFlow($("#workflows"),property);
+    workflow = $.createGooFlow($("#workflows"),property);
     workflow.setNodeRemarks(remark);
     workflow.loadData(jsondata);
     workflow.reinitSize($('.row').width()*0.985,540)
