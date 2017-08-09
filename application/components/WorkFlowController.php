@@ -97,6 +97,28 @@ class WorkFlowController extends AdminController
     }
 
     /**
+     * 从指定操作节点信息
+     *
+     * @param array $flowArr  工作流信息
+     * @param string $from    开始节点id
+     * @param string $to      指向节点id
+     * @return array
+     */
+    protected function getLineInfo($flowArr,$from,$to)
+    {
+        $line = array();
+        $lines = $flowArr['lines'];
+        foreach ($lines as $key => $value) {
+            if ($value['from'] == $from && $value['to'] == $to) {
+                $line = $value;
+                break;
+            }
+        }
+
+        return $line;
+    }
+
+    /**
      * 获取工作流的当前节点
      *
      * @param array $flowArr 工作流信息

@@ -85,7 +85,7 @@
                             <td>
                                 <?php 
                                 $opArr = array('创建任务','流程操作','追加备注', '任务结束','任务终止','任务重启','任务修改');
-                                echo $opArr[$val->operate]; 
+                                echo $opArr[$val->operate].'<br />'.$val->line_name; 
                                 ?>
                              </td>
                             <td><?php echo $val->remark; ?></td>

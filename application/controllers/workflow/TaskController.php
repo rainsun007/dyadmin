@@ -210,7 +210,7 @@ class TaskController extends WorkFlowController
         $this->view->render('view', compact('flowArr','taskInfo','current','nextArr','listData'), 'workflow');
     }
 
-     /**
+    /**
      * 流程操作.
      **/
     public function actionFlowOp()
@@ -229,7 +229,9 @@ class TaskController extends WorkFlowController
         }
 
         $op = $to == 'undefined' || empty($to) ? 2 : 1;
-        $result = WFTaskLog::model()->wirteLog($tid,$op,DyRequest::postStr('remark'));
+        $lineInfo = $this->getLineInfo($flowArr,$from,$to);
+        $lineName = $lineInfo ? $lineInfo['name'] : '';
+        $result = WFTaskLog::model()->wirteLog($tid,$op,DyRequest::postStr('remark'),$lineName);
 
         if($to != 'undefined' && !empty($to)){
             $flow = $this->setNodeMarked($flowArr,$from,$to);
