@@ -17,16 +17,16 @@ class TaskController extends WorkFlowController
     {
         $where = '';
         $type = DyRequest::getInt('type');
-        if($type < 999){
-            if($this->userId == 1){
+        if ($type < 999) {
+            if ($this->userId == 1) {
                 $where = "`status` = {$type} ORDER BY priority DESC";
-            }else{
+            } else {
                 $where = "`status` = {$type} and (`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId}) ORDER BY priority DESC";
             }
-        }else{
-            if($this->userId == 1){
+        } else {
+            if ($this->userId == 1) {
                 $where = "1=1 ORDER BY status ASC , priority DESC";
-            }else{
+            } else {
                 $where = "`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId} ORDER BY status ASC , priority DESC";
             }
         }
@@ -50,7 +50,7 @@ class TaskController extends WorkFlowController
     public function actionFlowList()
     {
         $pageSize = 20;
-        $criteria = Dy::app()->dbc->select()->where('status',0)->order('id', 'DESC');
+        $criteria = Dy::app()->dbc->select()->where('status', 0)->order('id', 'DESC');
         $data = WFFlow::model()->getAllForPage($criteria, $pageSize);
         $listData = $data['data'];
         $pageWidgetOptions = array(
@@ -69,9 +69,9 @@ class TaskController extends WorkFlowController
     public function actionAdd()
     {
         if (DyRequest::isPost()) {
-            $flowArr = json_decode(DyRequest::postOriginal('flow'),true);
-            $next = $this->getNodeNext($flowArr,'start_node');
-            $flow = $this->setNodeMarked($flowArr,'start_node',$next['nodes'][0]);
+            $flowArr = json_decode(DyRequest::postOriginal('flow'), true);
+            $next = $this->getNodeNext($flowArr, 'start_node');
+            $flow = $this->setNodeMarked($flowArr, 'start_node', $next['nodes'][0]);
 
             $fid = DyRequest::postInt('fid');
 
@@ -85,20 +85,20 @@ class TaskController extends WorkFlowController
                 'create_time' => $this->datetime,
                 'status' => 0,
                 'flow' => $flow,
-                'node_users'=>','.join(',',$this->getNodeUserIds($flowArr['nodes'])).',',
+                'node_users'=>','.join(',', $this->getNodeUserIds($flowArr['nodes'])).',',
             );
             $result = WFTask::model()->insert($data);
             $tid = WFTask::model()->getInsertId();
 
-            WFFlow::model()->update(array('used'=>1),"id={$fid}");
+            WFFlow::model()->update(array('used'=>1), "id={$fid}");
 
 
-            WFTaskLog::model()->wirteLog($tid,0,'任务开始: '.$this->userInfo->realname.' 创建了任务');
+            WFTaskLog::model()->wirteLog($tid, 0, '任务开始: '.$this->userInfo->realname.' 创建了任务');
 
             $body = '【新工作流】<br /><br />《'.DyRequest::postStr('name').'》与你相关的任务已启动 <br /><br /> 注意响应操作'.$this->mailBodySuffix($tid);
-            $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
+            Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
             $body = '【新工作流】<br /><br />《'.DyRequest::postStr('name').'》流程已到达你负责的节点 <br /><br /> 尽快响应处理'.$this->mailBodySuffix($tid);
-            $this->sendMail($flowArr['nodes'][$next['nodes'][0]]['userIds'],$this->mailSubject,$body);
+            Common::sendMail($flowArr['nodes'][$next['nodes'][0]]['userIds'], $this->mailSubject, $body);
 
             echo $result ? DyTools::apiJson(0, 200, '创建成功', $result) : DyTools::apiJson(1, 500, '创建失败', $result);
             exit;
@@ -106,7 +106,7 @@ class TaskController extends WorkFlowController
 
         $id = DyRequest::getInt('id');
         $flowInfo = WFFlow::model()->getOne("id={$id} and status=0");
-        if(!$flowInfo){
+        if (!$flowInfo) {
             Common::msg('该工作流已不可用', 'warning', 403);
         }
         $this->view->render('add', compact('flowInfo'), 'workflow');
@@ -122,19 +122,19 @@ class TaskController extends WorkFlowController
             $taskInfo = WFTask::model()->getById($tid);
 
             $logMsg = '';
-            if($taskInfo->name != DyRequest::postStr('name')){
+            if ($taskInfo->name != DyRequest::postStr('name')) {
                 $logMsg .= '<br />流程名称: '.$taskInfo->name.' -> '.DyRequest::postStr('name');
             }
 
-            if($taskInfo->explain != DyRequest::postStr('explain')){
+            if ($taskInfo->explain != DyRequest::postStr('explain')) {
                 $logMsg .= '<br />说明: '.$taskInfo->explain.' -> '.DyRequest::postStr('explain');
             }
 
-            if($taskInfo->priority != DyRequest::postStr('priority')){
+            if ($taskInfo->priority != DyRequest::postStr('priority')) {
                 $logMsg .= '<br />优先级: '.$taskInfo->priority.' -> '.DyRequest::postStr('priority');
             }
 
-            if($logMsg == ''){
+            if ($logMsg == '') {
                 echo DyTools::apiJson(0, 200, '信息没有变动，无需修改');
                 exit;
             }
@@ -144,13 +144,13 @@ class TaskController extends WorkFlowController
                 'explain' => DyRequest::postStr('explain'),
                 'priority' => DyRequest::postStr('priority'),
             );
-            $result = WFTask::model()->update($data,"id={$tid} and userid={$this->userId}");
+            $result = WFTask::model()->update($data, "id={$tid} and userid={$this->userId}");
 
-            WFTaskLog::model()->wirteLog($tid,6,'任务修改: '.$this->userInfo->realname.' 修改了任务'.$logMsg);
+            WFTaskLog::model()->wirteLog($tid, 6, '任务修改: '.$this->userInfo->realname.' 修改了任务'.$logMsg);
 
             $body = '【任务信息修改】<br /><br />《'.DyRequest::postStr('name').'》与你相关的任务信息已修改'.$logMsg.$this->mailBodySuffix($tid);
-            $flowArr = json_decode(DyRequest::postOriginal('flow'),true);
-            $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
+            $flowArr = json_decode(DyRequest::postOriginal('flow'), true);
+            Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
 
             echo $result ? DyTools::apiJson(0, 200, '修改成功', $result) : DyTools::apiJson(1, 500, '修改失败', $result);
             exit;
@@ -160,7 +160,7 @@ class TaskController extends WorkFlowController
         $tid = DyRequest::getInt('tid');
         $taskInfo = WFTask::model()->getOne("id={$tid}");
         $flowInfo = WFFlow::model()->getOne("id={$fid}");
-        $this->view->render('add', compact('flowInfo','taskInfo'), 'workflow');
+        $this->view->render('add', compact('flowInfo', 'taskInfo'), 'workflow');
     }
 
     /**
@@ -178,15 +178,15 @@ class TaskController extends WorkFlowController
         $result = WFTask::model()->update($data, "id={$tid} and userid={$this->userId} and status<2");
 
         $taskInfo = WFTask::model()->getById($tid);
-        $flowArr = json_decode($taskInfo->flow,true);
+        $flowArr = json_decode($taskInfo->flow, true);
 
 
         $bodyTitle = $op == 0 ? '工作流重启' : '工作流终止';
         $logOp = $op == 0 ? 5 : 4;
-        WFTaskLog::model()->wirteLog($tid,$logOp,$bodyTitle);
+        WFTaskLog::model()->wirteLog($tid, $logOp, $bodyTitle);
 
         $body = '【'.$bodyTitle.'】<br /><br />《'.$taskInfo->name.'》与你相关的任务状态已改变 <br /><br /> 注意响应操作'.$this->mailBodySuffix($tid);
-        $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
+        Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
 
         echo $result ? DyTools::apiJson(0, 200, '用户编辑成功', $result) : DyTools::apiJson(1, 500, '用户编辑失败', $result);
     }
@@ -199,15 +199,15 @@ class TaskController extends WorkFlowController
         $id = DyRequest::getInt('id');
         $taskInfo = WFTask::model()->getById($id);
 
-        $flowArr = json_decode($taskInfo->flow,true);
+        $flowArr = json_decode($taskInfo->flow, true);
         $current = $this->getNodeCurrent($flowArr);
-        $nextArr = $this->getNodeNext($flowArr,$current['id']);
+        $nextArr = $this->getNodeNext($flowArr, $current['id']);
 
-        $this->accessCheck($flowArr['nodes'],$taskInfo->userid);
+        $this->accessCheck($flowArr['nodes'], $taskInfo->userid);
 
         $listData = WFTaskLog::model()->getAll("tid={$id} order by id desc");
 
-        $this->view->render('view', compact('flowArr','taskInfo','current','nextArr','listData'), 'workflow');
+        $this->view->render('view', compact('flowArr', 'taskInfo', 'current', 'nextArr', 'listData'), 'workflow');
     }
 
     /**
@@ -220,41 +220,40 @@ class TaskController extends WorkFlowController
         $to = DyRequest::postStr('to');
         
         $taskInfo = WFTask::model()->getById($tid);
-        $flowArr = json_decode($taskInfo->flow,true);
-        $this->accessCheck($flowArr['nodes'],$taskInfo->userid);
+        $flowArr = json_decode($taskInfo->flow, true);
+        $this->accessCheck($flowArr['nodes'], $taskInfo->userid);
 
-        if($taskInfo->status == 1 || $taskInfo->status == 2){
+        if ($taskInfo->status == 1 || $taskInfo->status == 2) {
             echo DyTools::apiJson(1, 403, '当前任务状态不可操作！');
             exit;
         }
 
         $op = $to == 'undefined' || empty($to) ? 2 : 1;
-        $lineInfo = $this->getLineInfo($flowArr,$from,$to);
+        $lineInfo = $this->getLineInfo($flowArr, $from, $to);
         $lineName = $lineInfo ? $lineInfo['name'] : '';
-        $result = WFTaskLog::model()->wirteLog($tid,$op,DyRequest::postStr('remark'),$lineName);
+        $result = WFTaskLog::model()->wirteLog($tid, $op, DyRequest::postStr('remark'), $lineName);
 
-        if($to != 'undefined' && !empty($to)){
-            $flow = $this->setNodeMarked($flowArr,$from,$to);
+        if ($to != 'undefined' && !empty($to)) {
+            $flow = $this->setNodeMarked($flowArr, $from, $to);
             $data = array('flow'=>$flow);
 
-            if($to == 'end_node'){
+            if ($to == 'end_node') {
                 $data['status'] = 2;
-                WFTaskLog::model()->wirteLog($tid,3,'任务完成');
+                WFTaskLog::model()->wirteLog($tid, 3, '任务完成');
                 $body = '【工作流结束】<br /><br />《'.$taskInfo->name.'》任务已结束'.$this->mailBodySuffix($tid);
-                $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
-            }else{
+                Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
+            } else {
                 $body = '【任务提醒】<br /><br />《'.$taskInfo->name.'》流程已到达你负责的节点 <br /><br /> 尽快响应处理'.$this->mailBodySuffix($tid);
-                $this->sendMail($flowArr['nodes'][$to]['userIds'],'【任务提醒】'.$this->mailSubject,$body);
+                Common::sendMail($flowArr['nodes'][$to]['userIds'], '【任务提醒】'.$this->mailSubject, $body);
             }
 
-            WFTask::model()->update($data,"id={$tid}");
-        }else{
+            WFTask::model()->update($data, "id={$tid}");
+        } else {
             $body = '【备注添加】<br /><br />《'.$taskInfo->name.'》有新备注增加 <br /><br />备注内容：<br />'.DyRequest::postStr('remark').$this->mailBodySuffix($tid);
-            $this->sendMail($this->getNodeUserIds($flowArr['nodes']),$this->mailSubject,$body);
+            Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
         }
 
         echo $result ? DyTools::apiJson(0, 200, '操作成功', $result) : DyTools::apiJson(1, 500, '操作失败', $result);
         exit;
     }
-
 }

@@ -1,0 +1,46 @@
+{
+    /* 上传图片配置项 */
+    /* 执行上传图片的action名称 */
+    "imageActionName": "uploadimage",
+    /* 提交的图片表单名称 */
+    "imageFieldName": "upfile",
+    /* 上传大小限制，单位B */
+    "imageMaxSize": 2097152,
+    /* 上传图片格式显示 */
+    "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
+    "imageUrlPrefix": "",
+    "imagePathFormat": "/upload/image",
+
+    /* 上传视频配置 */
+    /* 执行上传视频的action名称 */
+    "videoActionName": "uploadvideo",
+    /* 提交的视频表单名称 */
+    "videoFieldName": "upfile",
+    /* 上传大小限制，单位B，默认100MB */
+    "videoMaxSize": 102400000,
+    /* 上传视频格式显示 */
+    "videoAllowFiles": [
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"
+    ],
+    "videoUrlPrefix": "",
+    "videoPathFormat": "/upload/video",
+
+    /* 上传文件配置 */
+    /* 执行上传视频的action名称 */
+    "fileActionName": "uploadfile",
+    /* 提交的文件表单名称 */
+    "fileFieldName": "upfile",
+    /* 上传大小限制，单位B，默认50MB */
+    "fileMaxSize": 51200000,
+    /* 上传文件格式显示 */
+    "fileAllowFiles": [
+        ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
+    ],
+    "fileUrlPrefix": "",
+    "filePathFormat": "/upload/attr"
+}

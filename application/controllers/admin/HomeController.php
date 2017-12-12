@@ -22,7 +22,7 @@ class HomeController extends AdminController
     {
         if (Dy::app()->aid == 'index') {
             parent::beforeAction();
-        }else{
+        } else {
             $this->setUserInfo();
         }
     }
@@ -86,27 +86,39 @@ class HomeController extends AdminController
             $username = DyRequest::postStr('username');
             $password = DyRequest::postStr('password');
             
-            if(!Dy::app()->captcha->cookieCheck(DyRequest::postStr('captcha'),'rc_adminlogin')){
-                $loginError = 1;
-                $this->view->render('login', compact('username','loginError'));
-            }
-
             if (empty($username) || empty($password) || !DyFilter::isAccount($username)) {
                 $loginError = 2;
-                $this->view->render('login', compact('username','loginError'));
+                $this->view->render('login', compact('username', 'loginError'));
             }
 
-            $authenticate = Dy::app()->auth->login($username, $password);
-            if($authenticate){
+            if (!Dy::app()->captcha->cookieCheck(DyRequest::postStr('captcha'), 'rc_adminlogin')) {
+                $loginError = 1;
+                $this->view->render('login', compact('username', 'loginError'));
+            }
+
+            $authenticate = Dy::app()->auth->adminLogin($username, $password);
+            if (Dy::app()->auth->userInfo && Dy::app()->auth->userInfo->pw_err_num >= 3) {
+                DyTools::logs($username.'登录密码错误过多被禁用');
+                $loginError = 4;
+                $this->view->render('login', compact('username', 'loginError'));
+            }
+            
+            if ($authenticate) {
+                if (Dy::app()->auth->userInfo->pw_err_num > 0) {
+                    User::model()->update(array('pw_err_num'=>0), 'id='.Dy::app()->auth->userInfo->id);
+                }
                 DyTools::logs($username.'登录系统成功');
                 DyRequest::redirect('/dashboard');
-            }else{
+            } else {
+                if (Dy::app()->auth->userInfo) {
+                    User::model()->incr(array('pw_err_num'=>1), 'id='.Dy::app()->auth->userInfo->id);
+                }
                 DyTools::logs($username.'登录系统失败');
                 $loginError = 3;
-                $this->view->render('login', compact('username','loginError'));
+                $this->view->render('login', compact('username', 'loginError'));
             }
         }
 
-        $this->view->render('login',compact('loginError'));
+        $this->view->render('login', compact('loginError'));
     }
 }

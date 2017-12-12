@@ -22,9 +22,7 @@ class RoleController extends AdminController
         }
 
         $listData = Role::model()->getAll();
-        $this->cache;
         $permissionTree = $this->getNavAndPermissionsTree('display=1 order by sort asc');
-
 
         $ulist = DyRequest::getInt('ulist');
         if ($ulist) {

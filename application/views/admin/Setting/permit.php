@@ -1,6 +1,6 @@
 <?php $this->pageTitle = '权限管理'?>
-<?php vHelper::regCss('jstree/themes/default/style.css'); ?>
-<?php vHelper::regJs('jstree/jstree.js', 'head'); ?>
+<?php ViewHelper::regCss('jstree/themes/default/style.css'); ?>
+<?php ViewHelper::regJs('jstree/jstree.js', 'head'); ?>
 
 <!-- Main content -->
 <div class="row">
@@ -20,7 +20,7 @@
             <p>在列表中各节点上右键进行相关操作</p>
           </div>
           <div id="roleTree">
-            <?php echo vHelper::jsTree($permissionTree, array(), false, 'text-light-blue'); ?>
+            <?php echo ViewHelper::jsTree($permissionTree, array(), false, 'text-light-blue'); ?>
   				</div>
           </div>
         </form>
@@ -96,12 +96,13 @@
        },
 
       "contextmenu":{
-         "select_node":false,
+         "select_node":true,
          "items":customMenu,
        },
 
 			"plugins" : [ "types","contextmenu"]
-		});
+    }); 
+
 
     function customMenu(node) {
        var items = {

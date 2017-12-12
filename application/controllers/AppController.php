@@ -10,14 +10,14 @@
  *
  * @copyright Copyright 2011 dyphp.com
  */
-class AppController extends SiteController
+class AppController extends BaseController
 {
     /**
      * 站点首页.
      **/
     public function actionIndex()
     {
-        echo 'hello world';
+        DyRequest::redirect('/admin/login');
     }
 
     /**
@@ -26,17 +26,7 @@ class AppController extends SiteController
      **/
     public function actionLogin()
     {
-        /*
-        $username = DyRequest::postStr('username');
-        $password = DyRequest::postStr('password');
-        if (empty($username) || empty($password) || DyFilter::isAccount($username)) {
-            $this->view->render('login', compact('username'));
-        }
-
-        $authenticate = Dy::app()->auth->userLogin($username, $password);
-        $authenticate ? DyRequest::redirect('/') : $this->view->render('login', compact('username'));
-        */
-        DyRequest::redirect('/');
+        DyRequest::redirect('/admin/login');
     }
 
     /**
@@ -55,10 +45,11 @@ class AppController extends SiteController
      **/
     public function actionError()
     {
+        $errorInfo = $this->actionParam;
         if ($this->moduleCheck()) {
-            $this->forward('admin/home', 'error', $this->actionParam);
+            $this->forward('admin/home', 'error', $errorInfo);
         } else {
-            var_dump($this->actionParam);
+            $this->view->render('error',compact('errorInfo'));
         }
     }
 
@@ -68,10 +59,11 @@ class AppController extends SiteController
      **/
     public function actionMessage()
     {
+        $msgInfo = $this->actionParam;
         if ($this->moduleCheck()) {
-            $this->forward('admin/home', 'message', $this->actionParam);
+            $this->forward('admin/home', 'message', $msgInfo);
         } else {
-            var_dump($this->actionParam);
+            $this->view->render('message',compact('msgInfo'));
         }
     }
 

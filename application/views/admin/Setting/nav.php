@@ -1,6 +1,6 @@
 <?php $this->pageTitle = '导航管理'?>
-<?php vHelper::regCss('jstree/themes/default/style.css'); ?>
-<?php vHelper::regJs('jstree/jstree.js', 'head'); ?>
+<?php ViewHelper::regCss('jstree/themes/default/style.css'); ?>
+<?php ViewHelper::regJs('jstree/jstree.js', 'head'); ?>
 
 <!-- Main content -->
 <div class="row">
@@ -22,7 +22,7 @@
           <div class="form-group">
           <label>选择角色权限</label>
           <div id="roleTree">
-            <?php echo vHelper::jsTree($permissionTree, array(), true, 'text-muted', true); ?>
+            <?php echo ViewHelper::jsTree($permissionTree, array(), true, 'text-muted', true); ?>
   				</div>
           </div>
         </form>

@@ -23,43 +23,14 @@ return array(
 
     //类及命名空间别名映射
     'aliasMap' => array(
+        'vHelper' => 'app.utils.ViewHelper',
     ),
 
-    //数据库配制  数据分库或一主多从或多主多从 必须实现每个model的dbConfig方法
-    /*
-    'db' => array(
-        'default' => array(
-            'master' => array(
-                'dbDriver' => 'pdo_mysql',
-                'host' => '127.0.0.1',
-                'port' => '3318',
-                'dbName' => 'dyadmin',
-                'charset' => 'UTF8',
-                'user' => 'root',
-                'pass' => '',
-                'pconn' => false,
-                'tablePrefix' => '',
-            ),
-            'slaves' => array(
-                array(
-                    'dbDriver' => 'pdo_mysql',
-                    'host' => '127.0.0.1',
-                    'port' => '3318',
-                    'dbName' => 'dyadmin',
-                    'charset' => 'UTF8',
-                    'user' => 'root',
-                    'pass' => '',
-                    'pconn' => false,
-                    'tablePrefix' => '',
-                ),
-            ),
-        ),
-    ),
-    */
+    //数据库配制
     'db' => array(
         'default' => array(
             'dbDriver' => 'pdo_mysql',
-            'host' => '127.0.0.1',
+            'host' => '172.66.60.191',
             'port' => '3306',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',

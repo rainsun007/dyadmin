@@ -2,7 +2,7 @@
 -- 主机:                           172.66.60.191
 -- 服务器版本:                        5.1.73 - Source distribution
 -- 服务器操作系统:                      redhat-linux-gnu
--- HeidiSQL 版本:                  9.4.0.5174
+-- HeidiSQL 版本:                  9.4.0.5191
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,23 +19,27 @@ USE `dyadmin`;
 CREATE TABLE IF NOT EXISTS `dya_member` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL DEFAULT '',
-  `realname` varchar(50) DEFAULT NULL COMMENT '真实姓名',
+  `realname` varchar(50) DEFAULT '' COMMENT '真实姓名',
   `password` varchar(50) NOT NULL DEFAULT '',
   `role_ids` tinytext COMMENT '用户对应的角色id集合',
   `create_time` datetime NOT NULL COMMENT '用户加入时间',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1为正常  0为禁用',
-  `email` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT '',
+  `intro` tinytext COMMENT '简介',
+  `sign` varchar(100) DEFAULT '' COMMENT '个人签名',
+  `avatar` varchar(150) DEFAULT '' COMMENT '头像',
+  `pw_err_num` tinyint(1) NOT NULL DEFAULT '0' COMMENT '密码错误次数，错3次为锁定',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
 -- 正在导出表  dyadmin.dya_member 的数据：~4 rows (大约)
 /*!40000 ALTER TABLE `dya_member` DISABLE KEYS */;
-INSERT INTO `dya_member` (`id`, `username`, `realname`, `password`, `role_ids`, `create_time`, `status`, `email`) VALUES
-	(1, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', '1', '0000-00-00 00:00:00', 1, 'rain@test.com'),
-	(4, 'demouser', '测试', 'e10adc3949ba59abbe56e057f20f883e', '1,3', '2016-10-06 10:13:19', 1, 'ssssss@test.com'),
-	(5, 'test1', '测试2', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-05-09 14:07:22', 0, 'qqqqq@test.com'),
-	(6, 'demouser2', '测试号', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-06-23 14:59:58', 0, 'sssssssss@163.com');
+INSERT INTO `dya_member` (`id`, `username`, `realname`, `password`, `role_ids`, `create_time`, `status`, `email`, `intro`, `sign`, `avatar`, `pw_err_num`) VALUES
+	(1, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', '1', '0000-00-00 00:00:00', 1, 'rain@test.com', NULL, '', '/upload/face/1_100.jpg', 0),
+	(4, 'demouser', '测试', 'e10adc3949ba59abbe56e057f20f883e', '1,3', '2016-10-06 10:13:19', 1, 'ssssss@test.com', NULL, '', '', 0),
+	(5, 'test1', '测试2', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-05-09 14:07:22', 0, 'qqqqq@test.com', NULL, '', '', 0),
+	(6, 'demouser2', '测试号', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-06-23 14:59:58', 0, 'sssssssss@163.com', NULL, '', '', 0);
 /*!40000 ALTER TABLE `dya_member` ENABLE KEYS */;
 
 -- 导出  表 dyadmin.dya_nav 结构
@@ -52,9 +56,9 @@ CREATE TABLE IF NOT EXISTS `dya_nav` (
   PRIMARY KEY (`id`),
   KEY `link` (`link`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COMMENT='导航与权限统一使用此表';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COMMENT='导航与权限统一使用此表';
 
--- 正在导出表  dyadmin.dya_nav 的数据：~32 rows (大约)
+-- 正在导出表  dyadmin.dya_nav 的数据：~33 rows (大约)
 /*!40000 ALTER TABLE `dya_nav` DISABLE KEYS */;
 INSERT INTO `dya_nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `type`, `sys`) VALUES
 	(19, 0, '看板视图', '', 'fa fa-dashboard', 1, 0, 0, 0),
@@ -88,7 +92,8 @@ INSERT INTO `dya_nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `
 	(65, 62, '任务操作提交', '/workflow/task/flowOp', '', 1, 0, 1, 0),
 	(66, 59, '工作流编辑', '/workflow/manage/edit', '', 1, 0, 1, 0),
 	(67, 59, '禁用启用工作流', '/workflow/manage/stop', '', 1, 0, 1, 0),
-	(68, 59, '创建工作流', '/workflow/manage/add', '', 1, 0, 1, 0);
+	(68, 59, '创建工作流', '/workflow/manage/add', '', 1, 0, 1, 0),
+	(69, 29, '用户修改个人信息', '/admin/user/userEdit', '', 1, 0, 1, 0);
 /*!40000 ALTER TABLE `dya_nav` ENABLE KEYS */;
 
 -- 导出  表 dyadmin.dya_role 结构
@@ -105,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `dya_role` (
 -- 正在导出表  dyadmin.dya_role 的数据：~3 rows (大约)
 /*!40000 ALTER TABLE `dya_role` DISABLE KEYS */;
 INSERT INTO `dya_role` (`id`, `name`, `permission`, `status`, `create_time`) VALUES
-	(1, '管理员', '20,19,55,56,57,29,48,49,50,51,31,21,43,46,47,32,52,53,54,30,28,58,59,66,67,68,60,61,64,62,65,63', 1, '2016-09-30 10:23:12'),
+	(1, '管理员', '20,19,66,67,68,59,64,61,65,62,63,60,58,55,56,57,29,48,49,50,51,31,21,43,46,47,32,52,53,54,30,28,69', 1, '2016-09-30 10:23:12'),
 	(2, '编辑', '20,19', 0, '2016-09-30 10:25:30'),
 	(3, '运营', '20,19', 1, '2016-09-30 10:27:19');
 /*!40000 ALTER TABLE `dya_role` ENABLE KEYS */;
@@ -153,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `wf_task` (
   KEY `priority` (`priority`)
 ) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='任务表';
 
--- 正在导出表  dyadmin.wf_task 的数据：11 rows
+-- 正在导出表  dyadmin.wf_task 的数据：13 rows
 /*!40000 ALTER TABLE `wf_task` DISABLE KEYS */;
 INSERT INTO `wf_task` (`id`, `fid`, `name`, `userid`, `username`, `create_time`, `explain`, `flow`, `status`, `priority`, `node_users`) VALUES
 	(19, 0, 'swqqe', 1, '管理员', '2017-06-28 15:59:28', '', '{"title":"testflow","nodes":{"start_node":{"name":"u5f00u59cb","left":139,"top":134,"type":"start round mix","width":26,"height":26,"alt":true,"marked":true,"current":false},"end_node":{"name":"u7ed3u675f","left":961,"top":142,"type":"end round mix","width":26,"height":26,"alt":true,"current":false},"1498543220047":{"name":"ss <hr>Users:u7ba1u7406u5458 ","left":297,"top":138,"type":"task","userIds":["1"],"mychsub":true,"width":104,"height":26,"alt":true,"marked":true,"current":true},"1498543228414":{"name":"ee <hr>Users:u6d4bu8bd5 ","left":519,"top":148,"type":"node","userIds":["4"],"mychsub":true,"width":104,"height":26,"alt":true,"current":false},"1498543236122":{"name":"ssee <hr>Users:u7ba1u7406u5458 u6d4bu8bd5 ","left":734,"top":172,"type":"chat","userIds":["1","4"],"mychsub":true,"width":104,"height":26,"alt":true,"current":false}},"lines":{"1498543245810":{"type":"sl","from":"start_node","to":"1498543220047","name":"","alt":true,"marked":true},"1498543246911":{"type":"sl","from":"1498543220047","to":"1498543228414","name":"","alt":true},"1498543247821":{"type":"sl","from":"1498543228414","to":"1498543236122","name":"","alt":true},"1498543249443":{"type":"sl","from":"1498543236122","to":"end_node","name":"","alt":true}},"areas":[],"initNum":10}', 0, 0, ',1,4,'),
@@ -185,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `wf_task_log` (
   KEY `tid` (`tid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='任务操作记录';
 
--- 正在导出表  dyadmin.wf_task_log 的数据：29 rows
+-- 正在导出表  dyadmin.wf_task_log 的数据：32 rows
 /*!40000 ALTER TABLE `wf_task_log` DISABLE KEYS */;
 INSERT INTO `wf_task_log` (`id`, `tid`, `userid`, `username`, `line_name`, `create_time`, `operate`, `remark`) VALUES
 	(1, 20, 1, '管理员', '', '2017-06-29 18:56:14', 0, '坐在林'),

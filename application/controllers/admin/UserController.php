@@ -86,7 +86,7 @@ class UserController extends AdminController
 
         //其它用户无权编辑超级管理员
         if ($id == 1 && $this->userId != 1) {
-            DyTools::logs(Dy::app()->auth->username.'越权访问被拦截-编辑超级管理员','warning');
+            DyTools::logs(Dy::app()->auth->username.'越权访问被拦截-编辑超级管理员', 'warning');
             echo DyTools::apiJson(1, 403, '无权操作！');
             exit;
         }
@@ -106,6 +106,7 @@ class UserController extends AdminController
         );
         if (DyRequest::postStr('password')) {
             $data['password'] = md5(DyRequest::postStr('password'));
+            $data['pw_err_num'] = 0;
         }
         $result = User::model()->update($data, "id={$id}");
         echo $result ? DyTools::apiJson(0, 200, '用户编辑成功', $result) : DyTools::apiJson(1, 500, '用户编辑失败', $result);
@@ -120,7 +121,7 @@ class UserController extends AdminController
           'email' => DyRequest::postStr('email'),
           'realname' => DyRequest::postStr('realname'),
         );
-        if(empty($data['email']) || empty($data['realname'])){
+        if (empty($data['email']) || empty($data['realname'])) {
             echo DyTools::apiJson(1, 403, '真实姓名与邮箱地址都不可为空！');
             exit;
         }
@@ -130,6 +131,20 @@ class UserController extends AdminController
         $result = User::model()->update($data, "id={$this->userId}");
         echo $result ? DyTools::apiJson(0, 200, '编辑成功', $result) : DyTools::apiJson(1, 500, '编辑失败', $result);
     }
+
+    public function actionFaceUp()
+    {
+        $savePath = APP_PARENT_PATH.'/upload/face';
+        $upPic = DyGDImg::upload('file', $savePath, $this->userId);
+        if ($upPic == 0) {
+            $info = DyGDImg::resize($savePath.'/'.DyGDImg::getFileSaveName(), '', '', 100, 100);
+            User::model()->update(array('avatar'=>'/upload/face/'.$info['name']), "id={$this->userId}");
+            echo DyTools::apiJson(0, 200, '头像上传成功', '/upload/face/'.$info['name']);
+        } else {
+            echo DyTools::apiJson(1, 500, '头像上传失败');
+        }
+    }
+    
 
     /**
      * 删除用户.

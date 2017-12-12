@@ -20,13 +20,13 @@ if (false === function_exists('lcfirst')) {
 }
 
 /**
- * @brief    简易过滤输出
+ * @brief    简易输出(simple echo)
  *
- * @param   $arg
- * @param   $key
- * @param   $isReturn
+ * @param   object|array  $arg
+ * @param   string        $key
+ * @param   bool          $isReturn
  *
- * @return
+ * @return  mixed
  **/
 function se($arg, $key, $isReturn = false)
 {

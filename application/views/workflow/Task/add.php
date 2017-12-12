@@ -1,11 +1,11 @@
 <?php $this->pageTitle = '创建任务'?>
-<?php vHelper::regCss('gooflow/codebase/fonts/iconflow.css'); ?>
-<?php vHelper::regCss('gooflow/codebase/GooFlow.css'); ?>
-<?php vHelper::regCss('gooflow/default.css'); ?>
-<?php vHelper::regJs('gooflow/GooFunc.js', 'head'); ?>
-<?php vHelper::regJs('gooflow/json2.js', 'head'); ?>
-<?php vHelper::regJs('gooflow/codebase/GooFlow.js', 'head'); ?>
-<?php vHelper::regJs('gooflow/codebase/GooFlow_color.js', 'head'); ?>
+<?php ViewHelper::regCss('gooflow/codebase/fonts/iconflow.css'); ?>
+<?php ViewHelper::regCss('gooflow/codebase/GooFlow.css'); ?>
+<?php ViewHelper::regCss('gooflow/default.css'); ?>
+<?php ViewHelper::regJs('gooflow/GooFunc.js', 'head'); ?>
+<?php ViewHelper::regJs('gooflow/json2.js', 'head'); ?>
+<?php ViewHelper::regJs('gooflow/codebase/GooFlow.js', 'head'); ?>
+<?php ViewHelper::regJs('gooflow/codebase/GooFlow_color.js', 'head'); ?>
 
 <style>
 hr{margin:0}

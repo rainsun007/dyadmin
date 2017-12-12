@@ -10,7 +10,7 @@
  **/
 class AppModel extends DyPhpModel{ 
     /**
-     * @brief    重写此方法实现数据库的负载均衡
+     * @brief    重写此方法实现数据库的负载均衡(应用于有多个从库的项目)
      * @return   
      **/
     //protected function lbs(){

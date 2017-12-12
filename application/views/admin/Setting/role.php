@@ -1,6 +1,6 @@
 <?php $this->pageTitle = '角色管理'?>
-<?php vHelper::regCss('jstree/themes/default/style.css'); ?>
-<?php vHelper::regJs('jstree/jstree.js', 'head'); ?>
+<?php ViewHelper::regCss('jstree/themes/default/style.css'); ?>
+<?php ViewHelper::regJs('jstree/jstree.js', 'head'); ?>
 
 <!-- Main content -->
 <div class="row">
@@ -23,13 +23,13 @@
                         <tr>
                             <th class="col-md-3">角色</th>
                             <th class="col-md-1">状态</th>
-                            <th class="col-md-2">操作</th>
+                            <th class="col-md-2" style="text-align:right;">操作</th>
                         </tr>
                         <?php foreach ($listData as $key => $val):?>
                         <tr>
                             <td><?php echo $val->name; ?></td>
                             <td><?php echo $val->status == 1 ? '<span class="label label-success">正常</span>' : '<span class="label label-danger">禁用</span>'; ?></td>
-                            <td>
+                            <td align="right">
                                 <a href="/admin/role/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                                 <button type="button" data-toggle="modal" data-target="#permitOpModal" data-op="del" data-data='<?php echo json_encode($val); ?>' class="btn btn-danger" style="width:55px;">删除</button>
                                 <a href="/admin/role/list?ulist=1&id=<?php echo $val->id; ?>"><button type="button" class="btn btn-default" style="width:80px;">成员列表</button></a>
@@ -107,7 +107,7 @@
         <div class="form-group">
           <label>选择权限</label>
           <div id="roleTree">
-            <?php $permission = $roleInfo ? explode(',', $roleInfo->permission) : array(); echo vHelper::jsTree($permissionTree, $permission, false); ?>
+            <?php $permission = $roleInfo ? explode(',', $roleInfo->permission) : array(); echo ViewHelper::jsTree($permissionTree, $permission, false); ?>
   				</div>
         </div>
 

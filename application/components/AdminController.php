@@ -8,7 +8,7 @@
  *
  * @copyright Copyright 2016 dyphp.com
  **/
-class AdminController extends Controller
+class AdminController extends BaseController
 {
     protected $allNeedLogin = true;
     protected $loginHandler = 'admin/login';

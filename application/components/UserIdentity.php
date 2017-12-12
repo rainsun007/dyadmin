@@ -13,8 +13,10 @@ class UserIdentity extends DyPhpUserIdentity
 {
     //使用cookie保存登陆状态及setInfo
     protected $isCookieUserAuth = true;
-
+    //用户名
     private $username = null;
+    //用户信息
+    public $userInfo = null;
 
     /**
      * 框架规则-必须实现此认证方法 框架用调用此方法处理自动登陆.
@@ -34,6 +36,7 @@ class UserIdentity extends DyPhpUserIdentity
             if (!$userInfo) {
                 return false;
             }
+            $this->userInfo = $userInfo;
         }
 
         //此处完成用户合法性校验（密码是否正确），兼容了框架自动调用，一般来说此逻辑不用修改
@@ -47,8 +50,7 @@ class UserIdentity extends DyPhpUserIdentity
 
         //该方法必须调用 否则没有登陆状态
         $this->setStatus($userInfo->username, $expire);
-
-        return $userInfo;
+        return true;
     }
 
     /**
@@ -60,7 +62,7 @@ class UserIdentity extends DyPhpUserIdentity
      *
      * @return bool|object
      **/
-    public function login($username = '', $password = '', $expire = 0)
+    public function adminLogin($username = '', $password = '', $expire = 0)
     {
         if (empty($username) || empty($password)) {
             return false;

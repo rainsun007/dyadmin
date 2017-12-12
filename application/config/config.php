@@ -23,6 +23,7 @@ return array(
 
     //类及命名空间别名映射
     'aliasMap' => array(
+        'vHelper' => 'app.utils.ViewHelper',
     ),
 
     //数据库配制  数据分库或一主多从或多主多从 必须实现每个model的dbConfig方法
@@ -59,7 +60,7 @@ return array(
     'db' => array(
         'default' => array(
             'dbDriver' => 'pdo_mysql',
-            'host' => '127.0.0.1',
+            'host' => '172.66.60.191',
             'port' => '3306',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',
@@ -111,6 +112,6 @@ return array(
 
     //自定义参数配制
     'params' => array(
-        'version' => 'Release 1.0',
+        'powerBy' => 'Powered by <a href="http://www.dyphp.com" target="_blank">DyAdmin</a>',
     ),
 );

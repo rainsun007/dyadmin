@@ -19,15 +19,15 @@ class Common
      * @param   $link
      **/
     public static function msg($msg = '', $status = 'success', $code = 200, $data = array())
-    {   
-        if(DyRequest::isAjax()){
+    {
+        if (DyRequest::isAjax()) {
             $status = $status != 'success' || $status === 1 || $code != 200 ? 1 : 0;
             echo DyTools::apiJson($status, $code, $msg, $data);
             exit;
         }
 
         $callouts = array('success'=>'success','error'=>'danger','warning'=>'warning','info'=>'info',1=>'success',0=>'warning');
-        $callout = isset($callouts[$status]) ? $callouts[$status] : 'info'; 
+        $callout = isset($callouts[$status]) ? $callouts[$status] : 'info';
         Dy::showMsg(array('message' => $msg, 'status' => $status, 'code' => $code, 'data' => $data, 'callout' => $callout), true);
     }
 
@@ -55,7 +55,7 @@ class Common
                 $cache->set('all_nav_info', $navInfo, CACHE_EXPIRE);
             }
             $link = $permitId === 0 ? '/'.Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid : $permitId;
-            $link = strtolower($link );
+            $link = strtolower($link);
             $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
         return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;
@@ -66,9 +66,47 @@ class Common
      *
      * @return void
      */
-    public static function accessLog(){
-        $post = json_encode($_POST,JSON_UNESCAPED_UNICODE);
+    public static function accessLog()
+    {
+        $post = json_encode($_POST, JSON_UNESCAPED_UNICODE);
         DyTools::logs('user:'.Dy::app()->auth->username.' POST:'.$post);
     }
 
+    /**
+     * 邮件发送
+     *
+     * @param array $users
+     * @param string $subject
+     * @param string $body
+     * @return void
+     */
+    public static function sendMail($users = array(), $subject = '', $body = '')
+    {
+        Dy::app()->vendors('PHPMailer/PHPMailerAutoload', true);
+        $mail = new PHPMailer;
+
+        $mail->CharSet = "UTF-8";
+        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = MAIL_SMTP;  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = MAIL_USERNAME;                 // SMTP username
+        $mail->Password = MAIL_PASSWORD;                           // SMTP password
+        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 465;                                    // TCP port to connect to
+
+        $mail->setFrom(MAIL_USERNAME, MAIL_FROM_NAME);
+
+        $mail->isHTML(true);                                  // Set email format to HTML
+
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $usersInfo = User::model()->getUsers($users);
+        foreach ($usersInfo as $key => $value) {
+            $mail->addAddress($value->email, $value->realname);
+        }
+        $mail->send();
+    }
 }
