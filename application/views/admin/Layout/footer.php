@@ -1,7 +1,7 @@
 <footer class="main-footer">
 	<div class="pull-right hidden-xs">
 		<b>Version</b>
-		<?php $params = DyCfg::item('params'); echo $params['version']; ?>
+		<?php echo DYADMIN_VERSION; ?>
 	</div>
 	<strong>
 		<a target="_blank" href="https://github.com/rainsun007/dyphpframework">Powered by DyphpFramework</a>

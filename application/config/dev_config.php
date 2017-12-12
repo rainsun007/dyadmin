@@ -83,6 +83,6 @@ return array(
 
     //自定义参数配制
     'params' => array(
-        'version' => 'Release 1.0',
+        'powerBy' => 'Powered by <a href="http://www.dyphp.com" target="_blank">DyAdmin</a>',
     ),
 );
