@@ -1,4 +1,6 @@
 <?php $this->pageTitle = '创建任务'?>
+<?php VHelper::setBreadcrumb('发起新任务', '创建任务', 'workflow/task/list'); ?>
+
 <?php ViewHelper::regCss('gooflow/codebase/fonts/iconflow.css'); ?>
 <?php ViewHelper::regCss('gooflow/codebase/GooFlow.css'); ?>
 <?php ViewHelper::regCss('gooflow/default.css'); ?>

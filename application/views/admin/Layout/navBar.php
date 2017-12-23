@@ -51,19 +51,21 @@
 				<ul class="treeview-menu">
 					<?php foreach ($val['child'] as $k => $v):?>
 					<?php
-			                        if (!Common::checkPermit($v['id'])) {
-			                            continue;
-			                        }
+						if (!Common::checkPermit($v['id'])) {
+							continue;
+						}
 
-			                        $itemActive = '';
-			                        $link = trim($v['link'], '/');
-                        
-			                        if (!empty($link) && strtolower(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid) == strtolower($link)) {
-			                            $itemActive = 'active';
-			                            $this->setData('breadcrumbMain', $val['name']);
-			                            $this->setData('breadcrumbActive', $v['name']);
-			                        }
-			                 ?>
+						$itemActive = '';
+						$link = trim($v['link'], '/');
+			
+						if (!empty($link) && strtolower(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid) == strtolower($link)) {
+							$itemActive = 'active';
+							$this->setData('breadcrumbMain', $val['name']);
+							$this->setData('breadcrumbActive', $v['name']);
+						}else if (isset($navLinkActive) && !empty($navLinkActive) && strtolower($link) == strtolower($navLinkActive)) {
+							$itemActive = 'active';
+						}
+					?>
 					<li <?php echo $itemActive ? 'class="active"' : ''; ?> pid="<?php echo $v['pid']; ?>">
 						<a href="<?php echo $v['link']; ?>">
 							<i class="<?php echo $v['icon']; ?>"></i>

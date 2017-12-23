@@ -1,4 +1,6 @@
-<?php $this->pageTitle = '工作流管理'?>
+<?php $this->pageTitle = '创建工作流'?>
+<?php VHelper::setBreadcrumb('工作流管理', $this->pageTitle, 'workflow/manage/list'); ?>
+
 <?php ViewHelper::regCss('gooflow/codebase/fonts/iconflow.css'); ?>
 <?php ViewHelper::regCss('gooflow/codebase/GooFlow.css'); ?>
 <?php ViewHelper::regCss('gooflow/default.css'); ?>

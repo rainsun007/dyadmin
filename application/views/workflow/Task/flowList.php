@@ -1,4 +1,6 @@
 <?php $this->pageTitle = '工作流管理'?>
+<?php VHelper::setBreadcrumb('发起新任务', '工作流模板选择', 'workflow/task/list'); ?>
+
 <!-- Main content -->
 <div class="row">
 <section class="col-md-12">

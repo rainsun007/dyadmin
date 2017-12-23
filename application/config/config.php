@@ -12,7 +12,7 @@ return array(
     //app错误框架提示语言 现只支持zh_cn
     'language' => 'zh_cn',
     //app密钥 cookie session string等加密  不同应用此密钥应唯一
-    'secretKey' => 'dyphp1x8K$8yrG8#5CzTw7u^ntci8t@ipro',
+    'secretKey' => 'dyphpAdmin1x8K$8yrG8#5CzTw7u^ntci8t@ipro',
     //运行环境dev,test,pro,pre   用于加载不同环境的constants暂时只有这一个用途  不设置或为空时加载constants.php
     //'env'=>'pro',
 
@@ -23,7 +23,7 @@ return array(
 
     //类及命名空间别名映射
     'aliasMap' => array(
-        'vHelper' => 'app.utils.ViewHelper',
+        'VHelper' => 'app.utils.ViewHelper',
     ),
 
     //数据库配制  数据分库或一主多从或多主多从 必须实现每个model的dbConfig方法

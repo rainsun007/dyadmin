@@ -287,4 +287,18 @@ class ViewHelper
             return $avatar;
         }
     }
+
+    /**
+     * 设置面包屑导航信息
+     *
+     * @param string $breadcrumbMain    面包屑主导航名
+     * @param string $breadcrumbActive  面包屑当前活动导航名
+     * @param string $navLinkActive     活动菜单导航
+     * @return void
+     */
+    public static function setBreadcrumb($breadcrumbMain = '' , $breadcrumbActive = '', $navLinkActive = ''){
+        Dy::app()->runingController->view->setData('breadcrumbMain', $breadcrumbMain);
+        Dy::app()->runingController->view->setData('breadcrumbActive', $breadcrumbActive);
+        Dy::app()->runingController->view->setData('navLinkActive', $navLinkActive);
+    }
 }

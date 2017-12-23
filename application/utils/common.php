@@ -58,7 +58,7 @@ class Common
             $link = strtolower($link);
             $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
-        return DyPhpBase::app()->runingController->userId == 1 || in_array($permitId, DyPhpBase::app()->runingController->userPermissions) ? true : false;
+        return Dy::app()->runingController->userId == 1 || in_array($permitId, Dy::app()->runingController->userPermissions) ? true : false;
     }
 
     /**

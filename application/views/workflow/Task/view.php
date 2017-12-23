@@ -1,4 +1,6 @@
 <?php $this->pageTitle = '任务处理'?>
+<?php VHelper::setBreadcrumb('任务详情', $this->pageTitle, 'workflow/task/list'); ?>
+
 <?php ViewHelper::regCss('gooflow/codebase/fonts/iconflow.css'); ?>
 <?php ViewHelper::regCss('gooflow/codebase/GooFlow.css'); ?>
 <?php ViewHelper::regCss('gooflow/default.css'); ?>

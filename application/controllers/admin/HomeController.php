@@ -97,7 +97,7 @@ class HomeController extends AdminController
             }
 
             $authenticate = Dy::app()->auth->adminLogin($username, $password);
-            if (Dy::app()->auth->userInfo && Dy::app()->auth->userInfo->pw_err_num >= 3) {
+            if (Dy::app()->auth->userInfo && Dy::app()->auth->userInfo->pw_err_num >= PW_ERR_MAX_NUM) {
                 DyTools::logs($username.'登录密码错误过多被禁用');
                 $loginError = 4;
                 $this->view->render('login', compact('username', 'loginError'));

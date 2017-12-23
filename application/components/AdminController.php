@@ -37,6 +37,10 @@ class AdminController extends BaseController
         if ($this->userInfo->status == 0) {
             Common::msg('账号已经被禁用，请联系管理员！', 'warning', 401);
         }
+        if ($this->userInfo->pw_err_num >= PW_ERR_MAX_NUM) {
+            Common::msg('账号不可用，请联系管理员！', 'warning', 401);
+        }
+
         $this->getNavAndPermissionsTree('type=0 and display=1 order by sort asc', 'nav');
         $this->getUserRoles();
 
