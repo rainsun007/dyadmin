@@ -12,27 +12,27 @@
   <section class="col-md-12">
     <div class="box box-success">
       <div class="box-header">
-        <h3 class="box-title">工作流任务列表</h3>
-        <div class="box-tools" style="width:85%">
-          <div class="pull-left">
-            <a href="/workflow/task/list?type=999">
-              <button type="button" class="btn btn-default btn-sm">全部</button>
-            </a>
-            <a href="/workflow/task/list?type=0">
-              <button type="button" class="btn btn-success btn-sm">正常</button>
-            </a>
-            <a href="/workflow/task/list?type=1">
-              <button type="button" class="btn btn-danger btn-sm">终止</button>
-            </a>
-            <a href="/workflow/task/list?type=2">
-              <button type="button" class="btn btn-info btn-sm">完成</button>
-            </a>
-          </div>
+        <h3 class="box-title">工作流任务列表 &nbsp;&nbsp;
+          <a href="/workflow/task/list?type=999">
+            <button type="button" class="btn btn-default btn-sm">全部</button>
+          </a>
+          <a href="/workflow/task/list?type=0">
+            <button type="button" class="btn btn-success btn-sm">正常</button>
+          </a>
+          <a href="/workflow/task/list?type=1">
+            <button type="button" class="btn btn-danger btn-sm">终止</button>
+          </a>
+          <a href="/workflow/task/list?type=2">
+            <button type="button" class="btn btn-info btn-sm">完成</button>
+          </a>
+        </h3>
+        <div class="box-tools">
           <?php if (Common::checkPermit('/workflow/task/flowList')):?>
           <div class="pull-right">
             <a href="/workflow/task/flowList">
               <button type="button" class="btn btn-success">
-                <i class="fa  fa-plus"></i> 发起新任务</button>
+                <i class="fa  fa-plus"></i> 发起新任务
+              </button>
             </a>
           </div>
           <?php endif;?>
@@ -70,7 +70,8 @@
                     </td>
                     <td style="text-align:left">
                       <?php echo $val->create_time; ?>
-                      <?php echo $val->status == 0 ? '<br /><span style="color:#ff8800;font-size:12px;">用时:'.getConsume(time(), strtotime($val->create_time)).'</span>' : '';?> </td>
+                      <?php echo $val->status == 0 ? '<br /><span style="color:#ff8800;font-size:12px;">用时:'.getConsume(time(), strtotime($val->create_time)).'</span>' : '';?>
+                    </td>
                     <td>
                       <?php echo isset($current['name']) ? $current['name'] : ''; ?>
                     </td>
@@ -88,9 +89,11 @@
                         <button type="button" class="btn btn-primary" style="width:55px;">详细</button>
                       </a>
                       <?php if ($val->status != 2 && Dy::app()->auth->uid == $val->userid):?>
-                      <button type="button" id="task_<?php echo $val->id;?>" data-toggle="modal" data-target="#permitOpModal" data-op="<?php echo $val->status;?>"
-                        data-data='<?php echo json_encode(array(' id '=>$val->id,'name
-                        '=>$val->name), JSON_UNESCAPED_UNICODE); ?>' class="btn btn-<?php echo $val->status == 0 ? 'danger' : 'success';?> " style="width:55px;">
+                      <?php $modalData = json_encode(array('id'=>$val->id,'name'=>$val->name), JSON_UNESCAPED_UNICODE); ?>
+                      <button type="button" id="task_<?php echo $val->id;?>" data-toggle="modal"
+                        data-target="#permitOpModal" data-op="<?php echo $val->status;?>"
+                        data-data='<?php echo $modalData ?>' class="btn btn-<?php echo $val->status == 0 ? 'danger' : 'success';?> "
+                        style="width:55px;">
                         <?php echo $val->status == 0 ? '终止' : '重启';?>
                       </button>
                       <a href="/workflow/task/edit?fid=<?php echo $val->fid; ?>&tid=<?php echo $val->id; ?>">
@@ -124,13 +127,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="permitOpModal">工作流操作</h4>
+        <h4 class="modal-title">工作流操作</h4>
       </div>
       <div class="modal-body">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button id="userOpSubmit" type="button" class="btn btn-primary">submit</button>
+        <button id="userOpSubmit" tid="" type="button" class="btn btn-primary">submit</button>
       </div>
     </div>
   </div>
@@ -144,20 +147,21 @@
       var button = $(event.relatedTarget);
       var data = button.data('data');
       var modal = $(this);
-      var message = $("#task_" + data.id).attr("data-op") == 0 ? '终止' : '重启';
-      $("#task_" + data.id).attr("data-op") == 0 ? modal.removeClass().addClass('modal modal-warning') : modal.removeClass()
-        .addClass('modal modal-success');
+      var dataOp = button.attr("data-op");
+
+      var message = dataOp == 0 ? '终止' : '重启';
+      dataOp == 0 ? modal.removeClass().addClass('modal modal-warning') : modal.removeClass().addClass(
+        'modal modal-success');
       modal.find('.modal-body').html("<p>你确定要" + message + " [" + data.name + "] 任务吗? </p>");
-      modal.find('.modal-body').attr('tId', data.id);
+      $("#userOpSubmit").attr('tid', data.id);
     });
 
     //终止/重启工作流操作提交
     $("#userOpSubmit").on("click", function(evt) {
       $('#permitOpModal').modal('hide');
 
-      var tId = $('#permitOpModal .modal-body').attr('tId');
+      var tId = $(this).attr('tId');
       var op = $("#task_" + tId).attr("data-op") == 0 ? 1 : 0;
-
       var url = '/workflow/task/stop';
       var postData = {
         tid: tId,
@@ -166,19 +170,7 @@
       $.post(url, postData,
         function(data) {
           var mtype = data.status == 0 ? 'success' : 'warning';
-          $.bootstrapGrowl(data.message, {
-            ele: 'body',
-            type: mtype,
-            offset: {
-              from: 'top',
-              amount: 100
-            },
-            align: 'center',
-            width: 350,
-            delay: 4000,
-            allow_dismiss: true,
-            stackup_spacing: 10
-          });
+          growlInfo(data.message, mtype);
           if (data.status == 0) {
             var btnstyle = op == 1 ? 'btn btn-success' : 'btn btn-danger';
             var btntext = op == 1 ? '重启' : '终止';

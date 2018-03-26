@@ -17,6 +17,9 @@ define('CACHE_EXPIRE', 86400 * 7);
 //登录时密码最多输入出错次数（达到此值，账号将被锁定）
 define('PW_ERR_MAX_NUM', 3);
 
+//侧边导航是否为展开
+define('NAV_BAR_ACTIVE', false);
+
 //发邮件相关配制
 define('MAIL_SMTP', 'smtp.exmail.qq.com');
 define('MAIL_FROM_NAME', 'Workflow');

@@ -45,11 +45,13 @@
 	<?php ViewHelper::regCss('AdminLTE/dist/css/skins/_all-skins.min.css'); ?>
 	<!-- gototop -->
 	<?php ViewHelper::regCss('gototop/css/ui.totop.css'); ?>
+	<!-- layui -->
+	<?php ViewHelper::regCss('layui/css/layui.css'); ?>
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
-    	<?php $this->loadJs(ViewHelper::getStaticPath('AdminLTE/bootstrap/js/html5shiv.min.js')); ?>
+    <?php $this->loadJs(ViewHelper::getStaticPath('AdminLTE/bootstrap/js/html5shiv.min.js')); ?>
 	<?php $this->loadJs(ViewHelper::getStaticPath('AdminLTE/bootstrap/js/respond.min.js')); ?>
 	<![endif]-->
 
@@ -97,7 +99,6 @@
 	<?php ViewHelper::regJs('gototop/js/top.js', 'foot'); ?>
 	<!-- layui -->
 	<?php ViewHelper::regJs('layui/layui.js', 'head'); ?>
-	<?php ViewHelper::regCss('layui/css/layui.css'); ?>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">

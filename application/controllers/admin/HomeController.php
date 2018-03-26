@@ -79,6 +79,10 @@ class HomeController extends AdminController
      **/
     public function actionLogin()
     {
+        if (!Dy::app()->auth->isGuest()) {
+            DyRequest::redirect('/dashboard');
+        }
+
         $this->view->defaultLayout = 'simple';
 
         $loginError = 0;

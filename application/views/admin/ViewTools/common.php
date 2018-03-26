@@ -73,7 +73,7 @@
 
 <!-- bootstrapGrowl提示 -->
 <script>
-	function growlInfo(message, mtype,align='center',amount=100) {
+	function growlInfo(message, mtype, align = 'center', amount = 100) {
 		var bootstrapGrowlConfig = {
 			ele: 'body',
 			type: mtype,
@@ -89,4 +89,34 @@
 		}
 		$.bootstrapGrowl(message, bootstrapGrowlConfig);
 	}
+</script>
+
+<!-- 清除所有缓存 -->
+<script>
+	$(function() {
+		var tipsi;
+		var layer;
+		$("#flush_all_cache").hover(function() {
+			layui.use('layer', function() {
+				layer = layui.layer;
+				tipsi = layer.tips('清除缓存', '#flush_all_cache', {
+					tips: 3
+				});
+			});
+		}, function() {
+			layer.close(tipsi);
+		});
+
+		$("#flush_all_cache").on("click", function(evt) {
+			$.post('/admin/permit/flushCache', {
+					op: 'fulsh'
+				},
+				function(data) {
+					var mtype = data.status == 0 ? 'success' : 'warning';
+					growlInfo(data.message, mtype);
+				},
+				'json'
+			);
+		});
+	});
 </script>

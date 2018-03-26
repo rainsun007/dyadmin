@@ -15,7 +15,7 @@ class WorkFlowController extends AdminController
     protected function init()
     {
         parent::init();
-        $this->view->moduleTheme = 'workflow';
+        $this->view->defaultTheme = 'workflow';
         $this->view->defaultLayout = '/admin/Layout/main';
     }
 
@@ -42,12 +42,12 @@ class WorkFlowController extends AdminController
      * @param array $flowArr  工作流信息
      * @param string $from    开始节点
      * @param string $to      指向节点
-     * @return string 
+     * @return string
      */
     protected function setNodeMarked($flowArr, $from, $to)
     {
-         $nodes = $flowArr['nodes'];
-         $lines = $flowArr['lines'];
+        $nodes = $flowArr['nodes'];
+        $lines = $flowArr['lines'];
 
         foreach ($nodes as $key => $value) {
             if ($key == $from) {
@@ -68,10 +68,10 @@ class WorkFlowController extends AdminController
             }
         }
 
-         $flowArr['nodes'] = $nodes;
-         $flowArr['lines'] = $lines;
+        $flowArr['nodes'] = $nodes;
+        $flowArr['lines'] = $lines;
 
-         return json_encode($flowArr,JSON_UNESCAPED_UNICODE);
+        return json_encode($flowArr, JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -104,7 +104,7 @@ class WorkFlowController extends AdminController
      * @param string $to      指向节点id
      * @return array
      */
-    protected function getLineInfo($flowArr,$from,$to)
+    protected function getLineInfo($flowArr, $from, $to)
     {
         $line = array();
         $lines = $flowArr['lines'];
@@ -124,7 +124,8 @@ class WorkFlowController extends AdminController
      * @param array $flowArr 工作流信息
      * @return array
      */
-    protected function getNodeCurrent($flowArr){
+    protected function getNodeCurrent($flowArr)
+    {
         return getNodeCurrent($flowArr);
     }
 
@@ -135,13 +136,14 @@ class WorkFlowController extends AdminController
      * @param int   $userId     放行的用户id
      * @return mix
     */
-    protected function accessCheck($flowNodes,$userId=0){
-        if($this->userId == 1){
+    protected function accessCheck($flowNodes, $userId=0)
+    {
+        if ($this->userId == 1) {
             return true;
         }
         $userIds = $this->getNodeUserIds($flowNodes);
-        array_push($userIds,$userId);
-        if(!in_array($this->userId,$userIds)){
+        array_push($userIds, $userId);
+        if (!in_array($this->userId, $userIds)) {
             Common::msg('你无权访问该流程', 'warning', 401);
         }
     }
@@ -152,8 +154,8 @@ class WorkFlowController extends AdminController
      * @param int $id 任务id
      * @return string
      */
-    protected function mailBodySuffix($id){
-        return '<br /><br /><a href="'.DyRequest::createUrl('/workflow/task/view',array('id'=>$id)).'">查看任务详情</a>'.'<br /><a href="'.DyRequest::createUrl('/workflow/task/list').'">查看任务列表</a>';
+    protected function mailBodySuffix($id)
+    {
+        return '<br /><br /><a href="'.DyRequest::createUrl('/workflow/task/view', array('id'=>$id)).'">查看任务详情</a>'.'<br /><a href="'.DyRequest::createUrl('/workflow/task/list').'">查看任务列表</a>';
     }
-
 }

@@ -188,7 +188,7 @@ class TaskController extends WorkFlowController
         $body = '【'.$bodyTitle.'】<br /><br />《'.$taskInfo->name.'》与你相关的任务状态已改变 <br /><br /> 注意响应操作'.$this->mailBodySuffix($tid);
         Common::sendMail($this->getNodeUserIds($flowArr['nodes']), $this->mailSubject, $body);
 
-        echo $result ? DyTools::apiJson(0, 200, '用户编辑成功', $result) : DyTools::apiJson(1, 500, '用户编辑失败', $result);
+        echo $result ? DyTools::apiJson(0, 200, '任务终止成功', $result) : DyTools::apiJson(1, 500, '任务终止失败', $result);
     }
 
     /**

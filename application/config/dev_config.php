@@ -30,12 +30,12 @@ return array(
     'db' => array(
         'default' => array(
             'dbDriver' => 'pdo_mysql',
-            'host' => '172.66.60.191',
-            'port' => '3306',
+            'host' => '127.0.0.1',
+            'port' => '3333',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',
-            'user' => 'root',
-            'pass' => '',
+            'user' => 'proot',
+            'pass' => 'root',
             'pconn' => false,
             'tablePrefix' => '',
         ),

@@ -6,7 +6,8 @@
 		<!-- Sidebar user panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img src="<?php echo ViewHelper::getUserAvatar(Dy::app()->auth->id,$userInfo->avatar); ?>" class="img-circle" style="width:45px;height:45px;" >
+				<img src="<?php echo ViewHelper::getUserAvatar(Dy::app()->auth->id, $userInfo->avatar); ?>"
+				 class="img-circle" style="width:45px;height:45px;">
 			</div>
 			<div class="pull-left info" style="padding-top: 0px;">
 				<p>
@@ -33,40 +34,42 @@
 			</li>
 			<?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
 			<?php 
-		            if (!Common::checkPermit($val['id'])) {
-		                continue;
-		            } 
-			?>
-			<li treeId="<?php echo $val['id']; ?>" class="treeview">
+                if (!Common::checkPermit($val['id'])) {
+                    continue;
+                }
+            ?>
+			<li treeId="<?php echo $val['id']; ?>" class="treeview <?php echo NAV_BAR_ACTIVE ? 'active' : ''; ?>">
 				<a href="#">
 					<i class="<?php echo $val['icon']; ?>"></i>
 					<span>
 						<?php echo $val['name']; ?>
 					</span>
+					<?php if (!NAV_BAR_ACTIVE):?>
 					<span class="pull-right-container">
 						<i class="fa fa-angle-left pull-right"></i>
 					</span>
+					<?php endif;?>
 				</a>
 				<?php if (isset($val['child']) && is_array($val['child'])): ?>
 				<ul class="treeview-menu">
 					<?php foreach ($val['child'] as $k => $v):?>
 					<?php
-						if (!Common::checkPermit($v['id'])) {
-							continue;
-						}
+                        if (!Common::checkPermit($v['id'])) {
+                            continue;
+                        }
 
-						$itemActive = '';
-						$link = trim($v['link'], '/');
-			
-						if (!empty($link) && strtolower(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid) == strtolower($link)) {
-							$itemActive = 'active';
-							$this->setData('breadcrumbMain', $val['name']);
-							$this->setData('breadcrumbActive', $v['name']);
-						}else if (isset($navLinkActive) && !empty($navLinkActive) && strtolower($link) == strtolower($navLinkActive)) {
-							$itemActive = 'active';
-						}
-					?>
-					<li <?php echo $itemActive ? 'class="active"' : ''; ?> pid="<?php echo $v['pid']; ?>">
+                        $link = trim($v['link'], '/');
+
+                        $itemActive = '';
+                        if (!empty($link) && strtolower(Dy::app()->module.'/'.Dy::app()->cid.'/'.Dy::app()->aid) == strtolower($link)) {
+                            $itemActive = 'active';
+                            $this->setData('breadcrumbMain', $val['name']);
+                            $this->setData('breadcrumbActive', $v['name']);
+                        } elseif (isset($navLinkActive) && !empty($navLinkActive) && strtolower($link) == strtolower($navLinkActive)) {
+                            $itemActive = 'active';
+                        }
+                    ?>
+					<li pid="<?php echo $v['pid']; ?>" <?php echo $itemActive ? 'class="active"' : ''; ?>>
 						<a href="<?php echo $v['link']; ?>">
 							<i class="<?php echo $v['icon']; ?>"></i>
 							<?php echo $v['name']; ?>
@@ -120,7 +123,8 @@
 						<label>Email
 							<span class="text-red">*</span>
 						</label>
-						<input type="text" class="form-control" name="user_email" id="user_email" value="<?php se($userInfo, 'email');?>" placeholder="邮箱地址">
+						<input type="text" class="form-control" name="user_email" id="user_email" value="<?php se($userInfo, 'email');?>"
+						 placeholder="邮箱地址">
 					</div>
 
 					<div class="form-group">
