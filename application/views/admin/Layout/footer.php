@@ -1,10 +1,14 @@
 <footer class="main-footer">
 	<div class="pull-right hidden-xs">
-		<b>Version</b>
-		<?php echo DYADMIN_VERSION; ?>
+		<a href="http://www.dyphp.com" target="_blank">
+			<b>
+				<?php echo DyCfg::item('appName'); ?>
+			</b>
+			<?php echo DYADMIN_VERSION; ?>
+		</a>
 	</div>
 	<strong>
-		<a target="_blank" href="https://github.com/rainsun007/dyphpframework">Powered by DyphpFramework</a>
+		<?php echo Dy::powerBy();?>
 	</strong>
 </footer>
 
@@ -23,5 +27,6 @@
 	</div>
 </aside>
 <!-- /.control-sidebar -->
+
 <!-- Add the sidebar's background. This div must be placed  immediately after the control sidebar -->
 <div class="control-sidebar-bg"></div>

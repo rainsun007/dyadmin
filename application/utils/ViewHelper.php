@@ -196,6 +196,8 @@ class ViewHelper
     {
         self::regJs('kindeditor/kindeditor-min.js');
         self::regJs('kindeditor/lang/zh_CN.js');
+        //Dy::app()->runingController->view->setData('KindEditorTextareaName', $textareaName);
+        //Dy::app()->runingController->view->setData('KindEditorThemeType', $themeType);
         if ($themeType == 'default' || $themeType == 'simple') {
             echo '<script type="text/javascript">
                 var editor;
@@ -276,14 +278,14 @@ class ViewHelper
      * @param int      $userId 用户id
      * @param string   $avatar 用户头像
      *
-     * @return  string 
+     * @return  string
      **/
-    public static function getUserAvatar($userId = 0,$avatar = '')
+    public static function getUserAvatar($userId = 0, $avatar = '')
     {
         if (!$avatar) {
             $ex = array('.jpg','.png');
             return '/static/AdminLTE/dist/img/avatar'.rand(1, 5).$ex[array_rand($ex)];
-        }else{
+        } else {
             return $avatar;
         }
     }
@@ -296,7 +298,8 @@ class ViewHelper
      * @param string $navLinkActive     活动菜单导航
      * @return void
      */
-    public static function setBreadcrumb($breadcrumbMain = '' , $breadcrumbActive = '', $navLinkActive = ''){
+    public static function setBreadcrumb($breadcrumbMain = '', $breadcrumbActive = '', $navLinkActive = '')
+    {
         Dy::app()->runingController->view->setData('breadcrumbMain', $breadcrumbMain);
         Dy::app()->runingController->view->setData('breadcrumbActive', $breadcrumbActive);
         Dy::app()->runingController->view->setData('navLinkActive', $navLinkActive);

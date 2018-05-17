@@ -11,14 +11,17 @@ define('DYADMIN_VERSION', '2.0.2-release');
 define('STATIC_SERVER', '/');
 define('BASE_DOMAIN', '/');
 
-//缓存过期时间
+//缓存过期时间(单位：秒)
 define('CACHE_EXPIRE', 86400 * 7);
 
 //登录时密码最多输入出错次数（达到此值，账号将被锁定）
 define('PW_ERR_MAX_NUM', 3);
 
+//操作超时时间(单位：秒)
+define('USER_OP_TIMEOUT', 600);
+
 //侧边导航是否为展开
-define('NAV_BAR_ACTIVE', false);
+define('NAV_BAR_ACTIVE', true);
 
 //发邮件相关配制
 define('MAIL_SMTP', 'smtp.exmail.qq.com');

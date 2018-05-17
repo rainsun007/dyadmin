@@ -22,11 +22,13 @@
 		<!-- Navbar Right Menu -->
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
+				<?php if (Common::checkPermit('/admin/permit/flushCache')): ?>
 				<li>
 					<a href="#" id="flush_all_cache">
 						<i class="fa fa-paint-brush"></i>
 					</a>
 				</li>
+				<?php endif;?>
 				<li>
 					<a href="#" data-toggle="control-sidebar">
 						<i class="fa fa-gears"></i>

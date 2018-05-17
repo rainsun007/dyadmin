@@ -102,6 +102,14 @@ return array(
         */
     ),
 
+    'hooks'=>array(
+        'enable'=>true,
+        'after_action'=>array(
+            'enable'=>true,
+            'UserOpHook'=> array('userOpTime'),
+        ),
+     ),
+
     //建议按console web类型做不同处理
     //自定义错误处理句柄 默认为app/error
     'errorHandler' => 'app/error',

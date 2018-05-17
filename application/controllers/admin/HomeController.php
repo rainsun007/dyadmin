@@ -97,6 +97,7 @@ class HomeController extends AdminController
 
             if (!Dy::app()->captcha->cookieCheck(DyRequest::postStr('captcha'), 'rc_adminlogin')) {
                 $loginError = 1;
+                
                 $this->view->render('login', compact('username', 'loginError'));
             }
 
@@ -106,11 +107,13 @@ class HomeController extends AdminController
                 $loginError = 4;
                 $this->view->render('login', compact('username', 'loginError'));
             }
-            
+           
             if ($authenticate) {
                 if (Dy::app()->auth->userInfo->pw_err_num > 0) {
                     User::model()->update(array('pw_err_num'=>0), 'id='.Dy::app()->auth->userInfo->id);
                 }
+                User::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), 'id='.Dy::app()->auth->userInfo->id);
+
                 DyTools::logs($username.'登录系统成功');
                 DyRequest::redirect('/dashboard');
             } else {

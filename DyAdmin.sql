@@ -1,12 +1,13 @@
 -- --------------------------------------------------------
--- 主机:                           172.66.60.191
--- 服务器版本:                        5.1.73 - Source distribution
--- 服务器操作系统:                      redhat-linux-gnu
--- HeidiSQL 版本:                  9.4.0.5191
+-- 主机:                           127.0.0.1
+-- 服务器版本:                        5.7.11 - Source distribution
+-- 服务器操作系统:                      Linux
+-- HeidiSQL 版本:                  9.5.0.5278
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
@@ -22,24 +23,25 @@ CREATE TABLE IF NOT EXISTS `dya_member` (
   `realname` varchar(50) DEFAULT '' COMMENT '真实姓名',
   `password` varchar(50) NOT NULL DEFAULT '',
   `role_ids` tinytext COMMENT '用户对应的角色id集合',
-  `create_time` datetime NOT NULL COMMENT '用户加入时间',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '1为正常  0为禁用',
   `email` varchar(100) DEFAULT '',
   `intro` tinytext COMMENT '简介',
   `sign` varchar(100) DEFAULT '' COMMENT '个人签名',
   `avatar` varchar(150) DEFAULT '' COMMENT '头像',
   `pw_err_num` tinyint(1) NOT NULL DEFAULT '0' COMMENT '密码错误次数，错3次为锁定',
+  `create_time` datetime NOT NULL COMMENT '用户加入时间',
+  `last_op_time` datetime NOT NULL COMMENT '最后操作时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
 -- 正在导出表  dyadmin.dya_member 的数据：~4 rows (大约)
 /*!40000 ALTER TABLE `dya_member` DISABLE KEYS */;
-INSERT INTO `dya_member` (`id`, `username`, `realname`, `password`, `role_ids`, `create_time`, `status`, `email`, `intro`, `sign`, `avatar`, `pw_err_num`) VALUES
-	(1, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', '1', '0000-00-00 00:00:00', 1, 'rain@test.com', NULL, '', '/upload/face/1_100.jpg', 0),
-	(4, 'demouser', '测试', 'e10adc3949ba59abbe56e057f20f883e', '1,3', '2016-10-06 10:13:19', 1, 'ssssss@test.com', NULL, '', '', 0),
-	(5, 'test1', '测试2', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-05-09 14:07:22', 0, 'qqqqq@test.com', NULL, '', '', 0),
-	(6, 'demouser2', '测试号', 'e10adc3949ba59abbe56e057f20f883e', '3', '2017-06-23 14:59:58', 0, 'sssssssss@163.com', NULL, '', '', 0);
+INSERT INTO `dya_member` (`id`, `username`, `realname`, `password`, `role_ids`, `status`, `email`, `intro`, `sign`, `avatar`, `pw_err_num`, `create_time`, `last_op_time`) VALUES
+	(1, 'admin', '管理员', 'e10adc3949ba59abbe56e057f20f883e', '1', 1, 'rain@test.com', NULL, '', '/upload/face/1_100.jpg', 0, '0000-00-00 00:00:00', '2018-05-17 13:23:44'),
+	(4, 'demouser', '测试', 'e10adc3949ba59abbe56e057f20f883e', '1,3', 1, 'ssssss@test.com', NULL, '', '', 0, '2016-10-06 10:13:19', '0000-00-00 00:00:00'),
+	(5, 'test1', '测试2', 'fcea920f7412b5da7be0cf42b8c93759', '3', 0, 'qqqqq@test.com', NULL, '', '', 0, '2017-05-09 14:07:22', '0000-00-00 00:00:00'),
+	(6, 'demouser2', '测试号', 'e10adc3949ba59abbe56e057f20f883e', '3', 0, 'sssssssss@163.com', NULL, '', '', 3, '2017-06-23 14:59:58', '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `dya_member` ENABLE KEYS */;
 
 -- 导出  表 dyadmin.dya_nav 结构
@@ -83,7 +85,7 @@ INSERT INTO `dya_nav` (`id`, `pid`, `name`, `link`, `icon`, `display`, `sort`, `
 	(56, 29, '编辑用户', '/admin/user/edit', '', 1, 0, 1, 1),
 	(57, 29, '删除用户', '/admin/user/del', '', 1, 0, 1, 1),
 	(58, 0, '工作流', '', 'fa fa-sitemap', 1, 0, 0, 0),
-	(59, 58, '工作流管理', '/workflow/manage/list', 'fa  fa-list-alt', 1, 0, 0, 0),
+	(59, 58, '流程管理', '/workflow/manage/list', 'fa  fa-list-alt', 1, 0, 0, 0),
 	(60, 58, '任务列表', '/workflow/task/list', 'fa fa-tasks', 1, 0, 0, 0),
 	(61, 60, '发起新任务', '/workflow/task/flowList', '', 1, 0, 1, 0),
 	(62, 60, '查看任务详情', '/workflow/task/view', '', 1, 0, 1, 0),
@@ -188,9 +190,9 @@ CREATE TABLE IF NOT EXISTS `wf_task_log` (
   `remark` text NOT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`),
   KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='任务操作记录';
+) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='任务操作记录';
 
--- 正在导出表  dyadmin.wf_task_log 的数据：32 rows
+-- 正在导出表  dyadmin.wf_task_log 的数据：34 rows
 /*!40000 ALTER TABLE `wf_task_log` DISABLE KEYS */;
 INSERT INTO `wf_task_log` (`id`, `tid`, `userid`, `username`, `line_name`, `create_time`, `operate`, `remark`) VALUES
 	(1, 20, 1, '管理员', '', '2017-06-29 18:56:14', 0, '坐在林'),
@@ -224,7 +226,9 @@ INSERT INTO `wf_task_log` (`id`, `tid`, `userid`, `username`, `line_name`, `crea
 	(29, 32, 1, '管理员', '', '2017-08-08 16:24:44', 6, '任务修改: 管理员 修改了任务<br />流程名称: weee -> weee要'),
 	(30, 34, 1, '管理员', '', '2017-08-08 17:07:23', 0, '任务开始: 管理员 创建了任务'),
 	(31, 35, 1, '管理员', '', '2017-08-08 17:12:24', 0, '任务开始: 管理员 创建了任务'),
-	(32, 35, 1, '管理员', '1to2', '2017-08-08 17:13:13', 1, 'asfsafafasfdsafwfwfssaa');
+	(32, 35, 1, '管理员', '1to2', '2017-08-08 17:13:13', 1, 'asfsafafasfdsafwfwfssaa'),
+	(33, 32, 1, '管理员', '', '2018-03-23 13:44:43', 4, '工作流终止'),
+	(34, 32, 1, '管理员', '', '2018-03-23 13:44:51', 5, '工作流重启');
 /*!40000 ALTER TABLE `wf_task_log` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
