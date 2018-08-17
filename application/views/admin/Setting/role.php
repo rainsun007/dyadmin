@@ -9,7 +9,7 @@
       <div class="box-header">
         <h3 class="box-title">角色列表</h3>
         <div class="box-tools pull-right">
-            <a href="/admin/role/list"><button type="button" class="btn btn-success">创建角色</button></a>
+            <a href="<?php echo DyRequest::createUrl('/admin/role/list');?>"><button type="button" class="btn btn-success">创建角色</button></a>
         </div>
       </div>
 
@@ -30,9 +30,9 @@
                             <td><?php echo $val->name; ?></td>
                             <td><?php echo $val->status == 1 ? '<span class="label label-success">正常</span>' : '<span class="label label-danger">禁用</span>'; ?></td>
                             <td align="right">
-                                <a href="/admin/role/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
+                                <a href="<?php echo DyRequest::createUrl('/admin/role/list',array('id'=>$val->id));?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                                 <button type="button" data-toggle="modal" data-target="#permitOpModal" data-op="del" data-data='<?php echo json_encode($val); ?>' class="btn btn-danger" style="width:55px;">删除</button>
-                                <a href="/admin/role/list?ulist=1&id=<?php echo $val->id; ?>"><button type="button" class="btn btn-default" style="width:80px;">成员列表</button></a>
+                                <a href="<?php echo DyRequest::createUrl('/admin/role/list',array('ulist'=>1,'id'=>$val->id));?>"><button type="button" class="btn btn-default" style="width:80px;">成员列表</button></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -74,7 +74,7 @@
                               <td><?php foreach ($roles as $k => $v){ echo  in_array($v->id,explode(',',$val->role_ids)) ? $v->name.' ' : '';} ?></td>
                               <td><?php echo $val->status == 1 ? '<span class="text-green">正常</span>' : '<span class="text-yellow">禁用</span>'; ?></td>
                               <td>
-                                <a href="/admin/user/list?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
+                                <a href="<?php echo DyRequest::createUrl('/admin/user/list',array('id'=>$val->id));?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                             </td>
                           </tr>
                           <?php endforeach; ?>
@@ -208,14 +208,14 @@ $(function () {
   //删除权限弹窗提交
   $("#roleOpSubmit").on("click",function(evt){
     var treeId = $('#permitOpModal .modal-body').attr('treeId');
-    var url = '/admin/role/del';
+    var url = '<?php echo DyRequest::createUrl("/admin/role/del");?>';
     var postData = {id:treeId};
     $.post(url, postData,
        function(data){
            var mtype = data.status == 0 ? 'success' : 'warning';
            $.bootstrapGrowl(data.message,{ele:'body',type:mtype,offset: {from:'top',amount:100},align:'center',width:350,delay:4000,allow_dismiss:true,stackup_spacing:10});
            if(data.status == 0){
-              window.location.href='/admin/role/list';
+              window.location.href='<?php echo DyRequest::createUrl("/admin/role/list");?>';
            }
        },
        'json'
@@ -230,7 +230,7 @@ $(function () {
       $.each(nodes, function(i, n) {
          ids += jQuery.parseJSON($("#"+n).attr('data')).id+",";
       });
-      var url = $('#roleId').val() > 0 ? '/admin/role/edit' : '/admin/role/add';
+      var url = $('#roleId').val() > 0 ? '<?php echo DyRequest::createUrl("/admin/role/edit");?>' : '<?php echo DyRequest::createUrl("/admin/role/add");?>';
       var postData = {id:$('#roleId').val(),name:$("#roleForm input[name='name']").val(),permission:ids,status:$("#roleForm input[name='status']").is(':checked')};
       $.post(url, postData,
          function(data){

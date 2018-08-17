@@ -1,6 +1,6 @@
 <?php
 
-class User extends AppModel
+class DyaMember extends DyAdminModel
 {
     protected $tableName = 'dya_member';
 

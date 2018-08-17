@@ -7,7 +7,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class HomeController extends AdminController
 {
@@ -22,8 +22,6 @@ class HomeController extends AdminController
     {
         if (Dy::app()->aid == 'index') {
             parent::beforeAction();
-        } else {
-            $this->setUserInfo();
         }
     }
 
@@ -33,14 +31,14 @@ class HomeController extends AdminController
     public function actionIndex()
     {
         //获取数据库大小及版本
-        $dbLength = User::model()->getDataSize();
-        $dbVersion = User::model()->getVersion();
+        $dbLength = DyaMember::model()->getDataSize();
+        $dbVersion = DyaMember::model()->getVersion();
 
         //获取上传许可最大值
         $fileUpload = ini_get('file_uploads') ? ini_get('upload_max_filesize') : 'off';
 
         //用户总数
-        $userCount = User::model()->count();
+        $userCount = DyaMember::model()->count();
 
         $this->view->render('index', compact('dbLength', 'dbVersion', 'fileUpload', 'userCount'));
     }
@@ -51,11 +49,12 @@ class HomeController extends AdminController
      **/
     public function actionError()
     {
-        $error = $this->actionParam;
+        $this->view->defaultLayout = 'simple';
+        $error = $this->caParam;
         if (DyRequest::isAjax()) {
             echo json_encode($error);
         } else {
-            $this->view->render('error', compact('error'));
+            $this->view->render('error', compact('error'),true);
         }
     }
 
@@ -65,12 +64,12 @@ class HomeController extends AdminController
      **/
     public function actionMessage()
     {
-        $message = $this->actionParam;
+        $this->view->defaultLayout = 'simple';
+        $message = $this->caParam;
         if (DyRequest::isAjax()) {
             echo json_encode($message);
-            exit;
         } else {
-            $this->view->render('message', compact('message'));
+            $this->view->render('message', compact('message'),true);
         }
     }
 
@@ -80,7 +79,7 @@ class HomeController extends AdminController
     public function actionLogin()
     {
         if (!Dy::app()->auth->isGuest()) {
-            DyRequest::redirect('/dashboard');
+            DyRequest::redirect('/admin/home/index');
         }
 
         $this->view->defaultLayout = 'simple';
@@ -92,40 +91,39 @@ class HomeController extends AdminController
             
             if (empty($username) || empty($password) || !DyFilter::isAccount($username)) {
                 $loginError = 2;
-                $this->view->render('login', compact('username', 'loginError'));
+                $this->view->render('login', compact('username', 'loginError'),true);
             }
 
             if (!Dy::app()->captcha->cookieCheck(DyRequest::postStr('captcha'), 'rc_adminlogin')) {
                 $loginError = 1;
-                
-                $this->view->render('login', compact('username', 'loginError'));
+                $this->view->render('login', compact('username', 'loginError'),true);
             }
 
             $authenticate = Dy::app()->auth->adminLogin($username, $password);
             if (Dy::app()->auth->userInfo && Dy::app()->auth->userInfo->pw_err_num >= PW_ERR_MAX_NUM) {
                 DyTools::logs($username.'登录密码错误过多被禁用');
                 $loginError = 4;
-                $this->view->render('login', compact('username', 'loginError'));
+                $this->view->render('login', compact('username', 'loginError'),true);
             }
            
             if ($authenticate) {
                 if (Dy::app()->auth->userInfo->pw_err_num > 0) {
-                    User::model()->update(array('pw_err_num'=>0), 'id='.Dy::app()->auth->userInfo->id);
+                    DyaMember::model()->update(array('pw_err_num'=>0), 'id='.Dy::app()->auth->userInfo->id);
                 }
-                User::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), 'id='.Dy::app()->auth->userInfo->id);
+                DyaMember::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), 'id='.Dy::app()->auth->userInfo->id);
 
                 DyTools::logs($username.'登录系统成功');
-                DyRequest::redirect('/dashboard');
+                DyRequest::redirect('/admin/home/index');
             } else {
                 if (Dy::app()->auth->userInfo) {
-                    User::model()->incr(array('pw_err_num'=>1), 'id='.Dy::app()->auth->userInfo->id);
+                    DyaMember::model()->incr(array('pw_err_num'=>1), 'id='.Dy::app()->auth->userInfo->id);
                 }
                 DyTools::logs($username.'登录系统失败');
                 $loginError = 3;
-                $this->view->render('login', compact('username', 'loginError'));
+                $this->view->render('login', compact('username', 'loginError'),true);
             }
         }
 
-        $this->view->render('login', compact('loginError'));
+        $this->view->render('login', compact('loginError'),true);
     }
 }

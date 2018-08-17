@@ -2,12 +2,10 @@
 <aside class="main-sidebar">
 	<!-- sidebar: style can be found in sidebar.less -->
 	<section class="sidebar">
-		<?php if (!Dy::app()->auth->isGuest()):?>
 		<!-- Sidebar user panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img src="<?php echo ViewHelper::getUserAvatar(Dy::app()->auth->id, $userInfo->avatar); ?>"
-				 class="img-circle" style="width:45px;height:45px;">
+				<img src="<?php echo ViewHelper::getUserAvatar($userInfo->avatar); ?>" class="img-circle" style="width:45px;height:45px;">
 			</div>
 			<div class="pull-left info" style="padding-top: 0px;">
 				<p>
@@ -19,7 +17,7 @@
 				<a href="#" data-toggle="modal" data-target="#logoutAlertModalInfo" style="padding-right: 1px;">
 					<span class="label label-danger">退出</span>
 				</a>
-				<a href="<?php echo DyRequest::getSiteRootUrl();?>" target="_blank">
+				<a href="/" target="_blank">
 					<span class="label label-default">站点首页</span>
 				</a>
 			</div>
@@ -32,15 +30,24 @@
 					<?php echo isset($userRolesName) ? '角色(组)：'.implode(',', $userRolesName) : ''; ?>
 				</div>
 			</li>
-			<?php if (isset($navTree)): foreach ($navTree as $key => $val):?>
 			<?php 
-                if (!Common::checkPermit($val['id'])) {
-                    continue;
-                }
-            ?>
-			<li treeId="<?php echo $val['id']; ?>" class="treeview <?php echo NAV_BAR_ACTIVE ? 'active' : ''; ?>">
-				<a href="#">
-					<i class="<?php echo $val['icon']; ?>"></i>
+				$liNum = 0;
+				if (!isset($navTree)){
+					$navTree = array();
+				}
+				foreach ($navTree as $key => $val):
+					if (!Common::checkPermit($val['id'])) {
+						continue;
+					}
+					
+					$liTreeActiveLeftColorArr = array('#dd4b39','#337ab7','#dddb39','#5ddc48','#3c8dbc','#00c0ef','#00a65a','#5fb878','#f39c12','#94dd39','#489cdc','#a648dc','#dc4891');
+					$liNumKey = $liNum > count($liTreeActiveLeftColorArr)-1 ? array_rand($liTreeActiveLeftColorArr) : $liNum;
+					$liTreeActiveLeftStyle = 'style="color:#b8c7ce;border-left-color: '.$liTreeActiveLeftColorArr[$liNumKey].';"';
+					$liNum++;
+			?>
+			<li treeId="<?php echo $val['id']; ?>" class="treeview <?php echo NAV_BAR_ACTIVE ? 'active' : ''; ?>" >
+				<a href="#" <?php echo NAV_BAR_ACTIVE ? $liTreeActiveLeftStyle : ''; ?>>
+					<i class="<?php echo $val['icon'] ? $val['icon'] : 'fa fa-folder'; ?>"></i>
 					<span>
 						<?php echo $val['name']; ?>
 					</span>
@@ -70,18 +77,21 @@
                         }
                     ?>
 					<li pid="<?php echo $v['pid']; ?>" <?php echo $itemActive ? 'class="active"' : ''; ?>>
-						<a href="<?php echo $v['link']; ?>">
-							<i class="<?php echo $v['icon']; ?>"></i>
+						<a href="<?php echo DyRequest::createUrl($v['link']);?>">
+							<i class="<?php echo $v['icon'] ? $v['icon'] : 'fa fa-circle-o'; ?>"></i>
 							<?php echo $v['name']; ?>
+						
+							<?php if($itemActive):?>
+								<span class="pull-right-container"><i class="fa fa-chevron-circle-left pull-right"></i></span>
+							<?php endif;?>
 						</a>
 					</li>
 					<?php endforeach; ?>
 				</ul>
 				<?php endif; ?>
 			</li>
-			<?php endforeach; endif; ?>
+			<?php endforeach; ?>
 		</ul>
-		<?php endif;?>
 	</section>
 	<!-- /.sidebar -->
 </aside>
@@ -115,16 +125,21 @@
 						<label>真实姓名
 							<span class="text-red">*</span>
 						</label>
-						<input type="text" class="form-control" name="user_realname" id="user_realname" value="<?php se($userInfo, 'realname');?>"
-						 placeholder="个人的真实姓名">
+						<input type="text" class="form-control" name="user_realname" id="user_realname" value="<?php se($userInfo, 'realname');?>" placeholder="个人的真实姓名">
 					</div>
 
 					<div class="form-group">
 						<label>Email
 							<span class="text-red">*</span>
 						</label>
-						<input type="text" class="form-control" name="user_email" id="user_email" value="<?php se($userInfo, 'email');?>"
-						 placeholder="邮箱地址">
+						<input type="text" class="form-control" name="user_email" id="user_email" value="<?php se($userInfo, 'email');?>" placeholder="邮箱地址">
+					</div>
+
+					<div class="form-group">
+						<label>电话
+							<span class="text-red">*</span>
+						</label>
+						<input type="text" class="form-control" name="user_phone" id="user_phone" value="<?php se($userInfo, 'phone');?>" placeholder="电话号码">
 					</div>
 
 					<div class="form-group">
@@ -167,11 +182,12 @@
 			});
 		});
 		$('#userEditOpModalSubmit').on("click", function() {
-			var url = '/admin/user/userEdit';
+			var url = '<?php echo DyRequest::createUrl("/admin/user/userEdit");?>';
 			var postData = {
 				realname: $('#user_realname').val(),
 				password: $("#user_password").val(),
-				email: $("#user_email").val()
+				email: $("#user_email").val(),
+				phone: $("#user_phone").val()
 			};
 			$.post(url, postData,
 				function(data) {
@@ -196,7 +212,7 @@
 			modal.find('.modal-body').html("<p>你确定要" + title + "吗? </p>");
 		});
 		$("#logoutAlertModalSubmit").on("click", function(evt) {
-			window.location.href = "/app/logout?m=admin";
+			window.location.href = "<?php echo DyRequest::createUrl('/app/logout');?>";
 		});
 
 		/**
@@ -235,7 +251,7 @@
 		var uploadInst = upload.render({
 			elem: '#facefile',
 			exts: 'jpg|png|gif|bmp|jpeg',
-			url: '/admin/user/faceUp',
+			url: '<?php echo DyRequest::createUrl("/admin/user/faceUp");?>',
 			before: function(obj) {
 				//预读本地文件示例，不支持ie8
 				obj.preview(function(index, file, result) {

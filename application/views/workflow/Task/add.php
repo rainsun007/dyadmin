@@ -23,7 +23,7 @@ hr{margin:0}
         <input type="text" class="form-control" id="explain" name="explain" value="<?php echo isset($taskInfo->explain) ? $taskInfo->explain : ''; ?>" placeholder="任务说明"><br />
         <input type="text" class="form-control" id="priority" name="priority" value="<?php echo isset($taskInfo->priority) ? $taskInfo->priority : ''; ?>" placeholder="优先级，请输入正整数，数值越大优先级越高">
     </div>
-    <div class="col-md-6" style="height:50px"><a href="/workflow/task/list">返回任务列表</a></div>
+    <div class="col-md-6" style="height:50px"><a href="<?php echo DyRequest::createUrl('/workflow/task/list');?>">返回任务列表</a></div>
 </div>
 <div class="row">
     <div id="workflows" style="margin:10px"></div>
@@ -63,7 +63,7 @@ $(document).ready(function(){
           $.bootstrapGrowl('任务名称不可为空',{ele:'body',type:'warning',offset: {from:'top',amount:200},align:'center',width:350,delay:2000,allow_dismiss:true,stackup_spacing:10});
           return false;
       }
-      var url = tid > 0 ? '/workflow/task/edit' : '/workflow/task/add';
+      var url = tid > 0 ? '<?php echo DyRequest::createUrl("/workflow/task/edit");?>' : '<?php echo DyRequest::createUrl("/workflow/task/add");?>';
       var postData = {tid:tid,fid:fid,name:taskname,explain:$("#explain").val(),priority:$("#priority").val(),flow:JSON.stringify(jsondata)};
       $.post(url, postData,
           function(data){

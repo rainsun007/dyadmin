@@ -4,9 +4,9 @@
  * 操作超时
  * @author 大宇 Email:dyphp.com@gmail.com
  * @link http://www.dyphp.com/
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  **/
-class UserOpHook extends DyPhpHooks
+class AdminUserOpHook extends DyPhpHooks
 {
     /**
      * 对登录成功的用户记录最后操作时间
@@ -16,15 +16,13 @@ class UserOpHook extends DyPhpHooks
      */
     public function userOpTime()
     {
-        if (!Dy::app()->auth->isGuest()) {
+        if (!Dy::app()->auth->isGuest()){
             $userId = Dy::app()->auth->uid;
-            $userInfo = User::model()->getById($userId);
-
+            $userInfo = DyaMember::model()->getById($userId);
             if (time() - strtotime($userInfo->last_op_time) > USER_OP_TIMEOUT) {
-                Dy::app()->auth->logout();
-                DyRequest::redirect('/admin/login');
+                DyRequest::redirect('/app/logout',array('m'=>'admin'));
             } else {
-                User::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), "id={$userId}");
+                DyaMember::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), "id={$userId}");
             }
         }
     }

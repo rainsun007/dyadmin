@@ -6,7 +6,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2016 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class PermitController extends AdminController
 {
@@ -36,7 +36,7 @@ class PermitController extends AdminController
           'link' => DyRequest::postStr('link'),
           'type' => 1,
         );
-        $result = Nav::model()->insert($data);
+        $result = DyaNav::model()->insert($data);
         DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
@@ -61,7 +61,7 @@ class PermitController extends AdminController
           'name' => $name,
           'link' => DyRequest::postStr('link'),
         );
-        $result = Nav::model()->update($data, "id={$id}");
+        $result = DyaNav::model()->update($data, "id={$id}");
         DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }
@@ -78,13 +78,13 @@ class PermitController extends AdminController
         }
 
         //系统权限不可删除
-        $navInfo = Nav::model()->getById($id);
+        $navInfo = DyaNav::model()->getById($id);
         if ($navInfo && $navInfo->sys == 1) {
             echo DyTools::apiJson(1, 403, '非法操作！');
             exit;
         }
 
-        $result = Nav::model()->delete("id={$id} or pid={$id}");
+        $result = DyaNav::model()->delete("id={$id} or pid={$id}");
         DyCache::invoke('default')->flush();
         echo $result ? DyTools::apiJson(0, 200, 'success', $result) : DyTools::apiJson(1, 500, 'failed', $result);
     }

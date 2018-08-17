@@ -8,7 +8,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class AppController extends BaseController
 {
@@ -17,7 +17,7 @@ class AppController extends BaseController
      **/
     public function actionIndex()
     {
-        DyRequest::redirect('/admin/login');
+        DyRequest::redirect('/admin/home/login');
     }
 
     /**
@@ -26,7 +26,7 @@ class AppController extends BaseController
      **/
     public function actionLogin()
     {
-        DyRequest::redirect('/admin/login');
+        DyRequest::redirect('/admin/home/login');
     }
 
     /**
@@ -36,21 +36,18 @@ class AppController extends BaseController
     {
         DyTools::logs(Dy::app()->auth->username.'退出登录');
         Dy::app()->auth->logout();
-        DyRequest::getStr('m') == 'admin' ? DyRequest::redirect('/admin/login') : DyRequest::redirect('/');
+        DyRequest::redirect('/admin/home/login');
     }
 
     /**
      * 框架规则-错误信息获取action  如config中不配制errorHandler此方法必须存在
      * 当访问出错时会自动调用此方法.
+     * 若console,web类型放在同一项目下，建议在方法内按类型做不同处理，或使用不同的config文件设置不同的errorHandler
      **/
     public function actionError()
     {
-        $errorInfo = $this->actionParam;
-        if ($this->moduleCheck()) {
-            $this->forward('admin/home', 'error', $errorInfo);
-        } else {
-            $this->view->render('error',compact('errorInfo'));
-        }
+        $errorInfo = $this->caParam;
+        $this->forward('admin/home', 'error', $errorInfo);
     }
 
     /**
@@ -59,22 +56,7 @@ class AppController extends BaseController
      **/
     public function actionMessage()
     {
-        $msgInfo = $this->actionParam;
-        if ($this->moduleCheck()) {
-            $this->forward('admin/home', 'message', $msgInfo);
-        } else {
-            $this->view->render('message',compact('msgInfo'));
-        }
-    }
-
-    /**
-     * 验证是否为管理后台的module
-     *
-     * @return array
-     */
-    private function moduleCheck(){
-        $adminModule = array('admin','workflow');
-        $checkArr = array(Dy::app()->preModule,Dy::app()->module);
-        return array_intersect($checkArr,$adminModule);
+        $msgInfo = $this->caParam;
+        $this->forward('admin/home', 'message', $msgInfo);
     }
 }

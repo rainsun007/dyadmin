@@ -1,6 +1,6 @@
 <?php
 
-class WFFlow extends AppModel
+class WFFlow extends DyAdminModel
 {
     protected $tableName = 'wf_flow';
 

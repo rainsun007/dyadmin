@@ -3,18 +3,17 @@
  * 管理后台父类.
  *
  * @author 大宇 Email:dyphp.com@gmail.com
- *
  * @link http://www.dyphp.com/
- *
- * @copyright Copyright 2016 dyphp.com
+ * @copyright Copyright dyphp.com
  **/
 class AdminController extends BaseController
 {
     protected $allNeedLogin = true;
-    protected $loginHandler = 'admin/login';
+    protected $loginHandler = 'admin/home/login';
 
     //用户角色(id数组)
     public $userRoles = array();
+
     //用户权限(id数组)
     public $userPermissions = array();
 
@@ -32,7 +31,7 @@ class AdminController extends BaseController
     {
         $this->setUserInfo();
         if (!$this->userId || !$this->userInfo) {
-            Common::msg('用户信息有误！', 'error');
+            Common::msg('用户信息有误！', 'error',401);
         }
         if ($this->userInfo->status == 0) {
             Common::msg('账号已经被禁用，请联系管理员！', 'warning', 401);
@@ -52,16 +51,24 @@ class AdminController extends BaseController
     }
 
     /**
-     * @brief    获取登录用户的角色(id数组)与权限(id数组)
-     *
-     * @return
+     * 设置当前登陆用户信息
+     **/
+    protected function setUserInfo()
+    {
+        $this->userId = Dy::app()->auth->uid;
+        $this->userInfo = DyaMember::model()->getById($this->userId);
+        $this->view->setData('userInfo', $this->userInfo);
+    }
+
+    /**
+     * 获取登录用户的角色(id数组)与权限(id数组)
      **/
     protected function getUserRoles()
     {
         $userRolesName = array();
         if (!Dy::app()->auth->isGuest() && $this->userInfo->role_ids) {
             $this->userRoles = explode(',', $this->userInfo->role_ids);
-            $permission = Role::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission,name,id');
+            $permission = DyaRole::model()->getAll("status=1 and id in({$this->userInfo->role_ids})", 'permission,name,id');
             foreach ($permission as $key => $value) {
                 $userRolesName[] = $value->name;
                 $this->userPermissions = array_unique(array_merge($this->userPermissions, explode(',', $value->permission)));
@@ -73,19 +80,19 @@ class AdminController extends BaseController
     }
 
     /**
-     * @brief    获取管理后台导航与权限树
+     * 获取管理后台导航与权限树
      *
-     * @param    nav为获取导航 permission为获取权限
-     * @param    是否获取隐藏数据 type为permission时有效
+     * @param string 查询条件
+     * @param string 为nav时向view层发送数据
      *
-     * @return
+     * @return array
      **/
     protected function getNavAndPermissionsTree($criteria, $type = '')
     {
         $key = md5($criteria.$type);
         $navTree = $this->cache->get($key);
         if (!$navTree) {
-            $adminNav = Nav::model()->getAll($criteria);
+            $adminNav = DyaNav::model()->getAll($criteria);
 
             $classArr = array();
             foreach ($adminNav as $val) {

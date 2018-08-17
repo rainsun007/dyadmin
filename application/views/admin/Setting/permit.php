@@ -18,7 +18,7 @@
               <h4>功能说明</h4>
               <p>
                 <span class="text-light-blue" style="background:#fff;padding:3px;">蓝色</span> 项为导航，导航为权限的一部份，在此处只能添加子权限，对导航操作进入
-                <a href="/admin/nav/list">导航管理</a>
+                <a href="<?php echo DyRequest::createUrl('/admin/nav/list');?>">导航管理</a>
               </p>
               <p>在列表中各节点上右键进行相关操作</p>
             </div>
@@ -182,21 +182,21 @@
       var op = $("#navOp").attr('op');
       var treeId = $("#navOp input[name='treeId']").val();
       if (op == 'edit') {
-        var url = '/admin/permit/edit';
+        var url = '<?php echo DyRequest::createUrl("/admin/permit/edit");?>';
         var postData = {
           id: treeId,
           name: $("#navOp input[name='name']").val(),
           link: $("#navOp input[name='link']").val()
         };
       } else if (op == 'add') {
-        var url = '/admin/permit/add';
+        var url = '<?php echo DyRequest::createUrl("/admin/permit/add");?>';
         var postData = {
           pid: treeId,
           name: $("#navOp input[name='name']").val(),
           link: $("#navOp input[name='link']").val()
         };
       } else if (op == 'del') {
-        var url = '/admin/permit/del';
+        var url = '<?php echo DyRequest::createUrl("/admin/permit/del");?>';
         var postData = {
           id: treeId
         };

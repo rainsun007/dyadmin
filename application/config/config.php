@@ -1,10 +1,8 @@
 <?php
 
-DyCfg::setPathOfAlias('com', '../');
+DyCfg::setPathOfAlias('com', dirname(__FILE__).'/../../../application');
 
 return array(
-    //app唯一id  session key的前缀中使用到 解决多应用session冲突
-    'appID' => 'dyadmin',
     //app根地址
     'appPath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     //app名 用于title显示
@@ -19,6 +17,7 @@ return array(
     //预加载文件及包含路径
     'import' => array(
         'app.utils.*',
+        'com.models.*',
     ),
 
     //类及命名空间别名映射
@@ -83,6 +82,7 @@ return array(
 
     //cookie配制
     'cookie' => array(
+        'secretKey' => 'dyadmin_secretKey_K$8yrG8#5CzTw7u^ntci8ter67231@pro',
         'prefix' => 'dya_',
     ),
 
@@ -106,7 +106,7 @@ return array(
         'enable'=>true,
         'after_action'=>array(
             'enable'=>true,
-            'UserOpHook'=> array('userOpTime'),
+            'AdminUserOpHook'=> array('userOpTime'),
         ),
      ),
 
@@ -120,6 +120,6 @@ return array(
 
     //自定义参数配制
     'params' => array(
-        'powerBy' => 'Powered by <a href="http://www.dyphp.com" target="_blank">DyAdmin</a>',
+        'dyadmin_modules' => array('admin','workflow'),
     ),
 );

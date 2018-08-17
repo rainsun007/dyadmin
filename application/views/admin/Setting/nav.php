@@ -17,7 +17,7 @@
             <h4>功能说明</h4>
             <p><span class="text-muted" style="background:#fff;padding:3px;">灰色</span> 项为禁用的导航，在列表中各节点上右键进行相关操作</p>
             <p>添加主导航请在右侧的表单操作；各节点中的输入框为导航排序（正整数），修改后输入框失去焦点将自动保存</p>
-            <p class="text-red">注意：只支持二级导航，相关内部操作（权限）在<a href="/admin/permit/list">权限管理</a>中设置</p>
+            <p class="text-red">注意：只支持二级导航，相关内部操作（权限）在<a href="<?php echo DyRequest::createUrl('/admin/permit/list');?>">权限管理</a>中设置</p>
           </div>
           <div class="form-group">
           <label>选择角色权限</label>
@@ -261,13 +261,13 @@
       var op = $("#navOp").attr('op');
       var treeId = $("#navOp input[name='treeId']").val();
       if(op == 'edit'){
-        var url = '/admin/nav/edit';
+        var url = '<?php echo DyRequest::createUrl("/admin/nav/edit");?>';
         var postData = {id:treeId, name:$("#navOp input[name='name']").val(), link:$("#navOp input[name='link']").val(),sort:$("#navOp input[name='sort']").val(),icon:$("#navOp input[name='icon']").val(),display:$("#navOp input[name='display']").is(':checked') };
       }else if(op == 'add'){
-        var url = '/admin/nav/add';
+        var url = '<?php echo DyRequest::createUrl("/admin/nav/add");?>';
         var postData = {pid:treeId, name:$("#navOp input[name='name']").val(), link:$("#navOp input[name='link']").val(),sort:$("#navOp input[name='sort']").val(),icon:$("#navOp input[name='icon']").val(),display:$("#navOp input[name='display']").is(':checked') };
       }else if(op == 'del'){
-        var url = '/admin/nav/del';
+        var url = '<?php echo DyRequest::createUrl("/admin/nav/del");?>';
         var postData = {id:treeId};
       }
       $.post(url, postData,
@@ -288,7 +288,7 @@
         evt.preventDefault();
         $(evt.target).focus().one('blur',function(){
              if($(evt.target).attr('osort') != $(evt.target).val()){
-               $.post("/admin/nav/upsort", { id: $(evt.target).attr('treeid'), sort: $(evt.target).val() },
+               $.post("<?php echo DyRequest::createUrl('/admin/nav/upsort');?>", { id: $(evt.target).attr('treeid'), sort: $(evt.target).val() },
                    function(data){
                        var mtype = data.status == 0 ? 'success' : 'warning';
                        var msg = data.status == 0 ? '已修改成功' : '修改失败！';
@@ -303,7 +303,7 @@
 
     //创建主导航提交
     $("#mainNavAddSubmit").on("click",function(evt){
-      $.post("/admin/nav/add", {name:$("#mainNavAdd input[name='name']").val(), link:$("#mainNavAdd input[name='link']").val(),sort:$("#mainNavAdd input[name='sort']").val(),icon:$("#mainNavAdd input[name='icon']").val(),display:$("#mainNavAdd input[name='display']").is(':checked') },
+      $.post("<?php echo DyRequest::createUrl('/admin/nav/add');?>", {name:$("#mainNavAdd input[name='name']").val(), link:$("#mainNavAdd input[name='link']").val(),sort:$("#mainNavAdd input[name='sort']").val(),icon:$("#mainNavAdd input[name='icon']").val(),display:$("#mainNavAdd input[name='display']").is(':checked') },
          function(data){
              var mtype = data.status == 0 ? 'success' : 'warning';
              var msg = data.status == 0 ? '创建成功' : '创建失败！';

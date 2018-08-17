@@ -6,48 +6,27 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  **/
 class ViewHelper
 {
-    //静态文件路径
-    private static $staticServerPath = '';
-
-    /**
-     * 分类图片.
-     **/
-    public static function getCatePic()
-    {
-    }
-
-    /**
-     * 用户头像.
-     **/
-    public static function getface()
-    {
-    }
-
     /**
      * 获取静态文件地址
      *
      * @param string 静态文件
+     * @param string 静态文件跟地址名
      *
      * @return string
      **/
-    public static function getStaticPath($path = '')
+    public static function getStaticPath($path = '',$staticRoot = 'static')
     {
         $path = ltrim($path, '/');
-        if (self::$staticServerPath) {
-            return self::$staticServerPath.$path;
-        }
         $appHttpPath = DyCfg::item('appHttpPath') != '' ? DyCfg::item('appHttpPath').'/' : '';
-        self::$staticServerPath = rtrim(STATIC_SERVER, '/').'/'.$appHttpPath.'static/';
-
-        return self::$staticServerPath.$path;
+        return rtrim(STATIC_SERVER, '/').'/'.$appHttpPath.($staticRoot ? $staticRoot.'/' : '').$path;
     }
 
     /**
-     * @brief    加载css
+     * 加载css
      *
      * @param   $css
      *
@@ -55,13 +34,11 @@ class ViewHelper
      **/
     public static function regCss($css)
     {
-        //$mtime = mt_rand(10000, 99999);
-        //$css = preg_replace('{\\.([^./]+)$}', "-$mtime.\$1", $css);
         DyStatic::regCss(self::getStaticPath($css));
     }
 
     /**
-     * @brief   移除css
+     * 移除css
      *
      * @param   $css
      *
@@ -69,13 +46,11 @@ class ViewHelper
      **/
     public static function unregCss($css)
     {
-        //$mtime = mt_rand(10000, 99999);
-        //$css = preg_replace('{\\.([^./]+)$}', "-$mtime.\$1", $css);
         DyStatic::unregCss(self::getStaticPath($css));
     }
 
     /**
-     * @brief    加载js
+     * 加载js
      *
      * @param   $script
      * @param   $position
@@ -84,13 +59,11 @@ class ViewHelper
      **/
     public static function regJs($script, $position = 'head')
     {
-        //$mtime = mt_rand(10000, 99999);
-        //$script = preg_replace('{\\.([^./]+)$}', "-$mtime.\$1", $script);
         DyStatic::regScript(self::getStaticPath($script), $position);
     }
 
     /**
-     * @brief    移除js
+     * 移除js
      *
      * @param   $script
      * @param   $position
@@ -99,32 +72,43 @@ class ViewHelper
      **/
     public static function unregJs($script, $position = 'head')
     {
-        //$mtime = mt_rand(10000, 99999);
-        //$script = preg_replace('{\\.([^./]+)$}', "-$mtime.\$1", $script);
         DyStatic::unregScript(self::getStaticPath($script), $position);
     }
 
     /**
-     * @brief    获取平台类型
+     * 获取用户头像
      *
-     * @param   $type
+     * @param string   $avatar 用户头像
      *
-     * @return
+     * @return  string
      **/
-    public static function getPfType($type, $key)
+    public static function getUserAvatar($avatar = '')
     {
-        $pfTypeArr = array(
-            '0' => array(
-                'title' => '新浪微博',
-                'url' => DyRequest::createUrl('/weibo/auth'),
-            ),
-        );
-
-        return isset($pfTypeArr[$type][$key]) ? $pfTypeArr[$type][$key] : 'unknown';
+        if ($avatar) {
+            return self::getStaticPath($avatar,'');
+        } else {
+            $ex = array('.jpg','.png');
+            return self::getStaticPath("/AdminLTE/dist/img/avatar".rand(1, 5).$ex[array_rand($ex)]);
+        }
     }
 
     /**
-     * @brief   jstree html结构
+     * 设置面包屑导航信息
+     *
+     * @param string $breadcrumbMain    面包屑主导航名
+     * @param string $breadcrumbActive  面包屑当前活动导航名
+     * @param string $navLinkActive     活动菜单导航
+     * @return void
+     */
+    public static function setBreadcrumb($breadcrumbMain = '', $breadcrumbActive = '', $navLinkActive = '')
+    {
+        Dy::app()->runingController->view->setData('breadcrumbMain', $breadcrumbMain);
+        Dy::app()->runingController->view->setData('breadcrumbActive', $breadcrumbActive);
+        Dy::app()->runingController->view->setData('navLinkActive', $navLinkActive);
+    }
+
+    /**
+     * jstree html结构
      *
      * @param   $navTree           树型数组
      * @param   $permissions       用户或角色权限 用于处理checkbox的默认选中状态(用于权限角色编辑)
@@ -159,7 +143,7 @@ class ViewHelper
     }
 
     /**
-     * @brief   jsTree子方法
+     * jsTree子方法
      */
     private static function jsTreeChild($child = '', $permissions = array(), $treeSortInputShow = false, $navForbidClass = '', $displayNavForbid = false)
     {
@@ -186,7 +170,7 @@ class ViewHelper
     }
 
     /**
-     * @brief    加载kindeditor
+     * 加载kindeditor
      *
      * @param   $container
      *
@@ -196,8 +180,7 @@ class ViewHelper
     {
         self::regJs('kindeditor/kindeditor-min.js');
         self::regJs('kindeditor/lang/zh_CN.js');
-        //Dy::app()->runingController->view->setData('KindEditorTextareaName', $textareaName);
-        //Dy::app()->runingController->view->setData('KindEditorThemeType', $themeType);
+
         if ($themeType == 'default' || $themeType == 'simple') {
             echo '<script type="text/javascript">
                 var editor;
@@ -272,36 +255,4 @@ class ViewHelper
         }
     }
 
-    /**
-     * @brief    获取用户头像
-     *
-     * @param int      $userId 用户id
-     * @param string   $avatar 用户头像
-     *
-     * @return  string
-     **/
-    public static function getUserAvatar($userId = 0, $avatar = '')
-    {
-        if (!$avatar) {
-            $ex = array('.jpg','.png');
-            return '/static/AdminLTE/dist/img/avatar'.rand(1, 5).$ex[array_rand($ex)];
-        } else {
-            return $avatar;
-        }
-    }
-
-    /**
-     * 设置面包屑导航信息
-     *
-     * @param string $breadcrumbMain    面包屑主导航名
-     * @param string $breadcrumbActive  面包屑当前活动导航名
-     * @param string $navLinkActive     活动菜单导航
-     * @return void
-     */
-    public static function setBreadcrumb($breadcrumbMain = '', $breadcrumbActive = '', $navLinkActive = '')
-    {
-        Dy::app()->runingController->view->setData('breadcrumbMain', $breadcrumbMain);
-        Dy::app()->runingController->view->setData('breadcrumbActive', $breadcrumbActive);
-        Dy::app()->runingController->view->setData('navLinkActive', $navLinkActive);
-    }
 }

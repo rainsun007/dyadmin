@@ -1,26 +1,7 @@
 <?php
-/**
- * @brief    首字母小写
- *
- * @param   $string
- *
- * @return
- **/
-if (false === function_exists('lcfirst')) {
-    function lcfirst($string)
-    {
-        $string = (string) $string;
-        if (empty($string)) {
-            return '';
-        }
-        $string{0} = strtolower($string{0});
-
-        return $string;
-    }
-}
 
 /**
- * @brief    简易输出(simple echo)
+ * 简易兼容输出(simple echo)
  *
  * @param   object|array  $arg
  * @param   string        $key
@@ -68,6 +49,14 @@ function getNodeCurrent($flowArr)
     return array();
 }
 
+/**
+ * 获取耗时
+ * 
+ * @param int 结束时间
+ * @param int 开始时间
+ * 
+ * @param string 
+ */
 function getConsume($end,$start){
     $diff = $end - $start;
     if($diff < 60){

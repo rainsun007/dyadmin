@@ -6,7 +6,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2016 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class ManageController extends WorkFlowController
 {
@@ -52,7 +52,7 @@ class ManageController extends WorkFlowController
         $fid = DyRequest::getInt('id');
         $flowInfo = WFFlow::model()->getById($fid);
 
-        $userList = User::model()->getAll("status=1 and id>1");
+        $userList = DyaMember::model()->getAll("status=1 and id>1");
 
         $op = 'add';
         $this->view->render('add', compact('userList','flowInfo','op'), 'workflow');
@@ -100,7 +100,7 @@ class ManageController extends WorkFlowController
         $fid = DyRequest::getInt('id');
         $flowInfo = WFFlow::model()->getById($fid);
 
-        $userList = User::model()->getAll("status=1 and id>1");
+        $userList = DyaMember::model()->getAll("status=1 and id>1");
 
         $op = 'edit';
         $this->view->render('add', compact('userList','flowInfo','op'), 'workflow');

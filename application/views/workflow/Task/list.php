@@ -13,23 +13,23 @@
     <div class="box box-success">
       <div class="box-header">
         <h3 class="box-title">工作流任务列表 &nbsp;&nbsp;
-          <a href="/workflow/task/list?type=999">
+          <a href="<?php echo DyRequest::createUrl('/workflow/task/list',array('type'=>999));?>">
             <button type="button" class="btn btn-default btn-sm">全部</button>
           </a>
-          <a href="/workflow/task/list?type=0">
+          <a href="<?php echo DyRequest::createUrl('/workflow/task/list',array('type'=>0));?>">
             <button type="button" class="btn btn-success btn-sm">正常</button>
           </a>
-          <a href="/workflow/task/list?type=1">
+          <a href="<?php echo DyRequest::createUrl('/workflow/task/list',array('type'=>1));?>">
             <button type="button" class="btn btn-danger btn-sm">终止</button>
           </a>
-          <a href="/workflow/task/list?type=2">
+          <a href="<?php echo DyRequest::createUrl('/workflow/task/list',array('type'=>2));?>">
             <button type="button" class="btn btn-info btn-sm">完成</button>
           </a>
         </h3>
         <div class="box-tools">
           <?php if (Common::checkPermit('/workflow/task/flowList')):?>
           <div class="pull-right">
-            <a href="/workflow/task/flowList">
+            <a href="<?php echo DyRequest::createUrl('/workflow/task/flowList');?>">
               <button type="button" class="btn btn-success">
                 <i class="fa  fa-plus"></i> 发起新任务
               </button>
@@ -85,7 +85,7 @@
                       </span>
                     </td>
                     <td>
-                      <a href="/workflow/task/view?id=<?php echo $val->id; ?>">
+                      <a href="<?php echo DyRequest::createUrl('/workflow/task/view',array('id'=>$val->id));?>">
                         <button type="button" class="btn btn-primary" style="width:55px;">详细</button>
                       </a>
                       <?php if ($val->status != 2 && Dy::app()->auth->uid == $val->userid):?>
@@ -96,7 +96,7 @@
                         style="width:55px;">
                         <?php echo $val->status == 0 ? '终止' : '重启';?>
                       </button>
-                      <a href="/workflow/task/edit?fid=<?php echo $val->fid; ?>&tid=<?php echo $val->id; ?>">
+                      <a href="<?php echo DyRequest::createUrl('/workflow/task/edit',array('fid'=>$val->fid,'tid'=>$val->id));?>">
                         <button type="button" class="btn btn-warning" style="width:55px;">编辑</button>
                       </a>
                       <?php endif;?>
@@ -162,7 +162,7 @@
 
       var tId = $(this).attr('tId');
       var op = $("#task_" + tId).attr("data-op") == 0 ? 1 : 0;
-      var url = '/workflow/task/stop';
+      var url = '<?php echo DyRequest::createUrl("/workflow/task/stop");?>';
       var postData = {
         tid: tId,
         op: op

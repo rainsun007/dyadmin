@@ -6,7 +6,7 @@
       <div class="box-header">
         <h3 class="box-title">工作流列表</h3>
         <div class="box-tools pull-right">
-            <a href="/workflow/manage/add"><button type="button" class="btn btn-success"><i class="fa  fa-plus"></i> 创建工作流</button></a>
+            <a href="<?php echo DyRequest::createUrl('/workflow/manage/add');?>"><button type="button" class="btn btn-success"><i class="fa  fa-plus"></i> 创建工作流</button></a>
         </div>
       </div>
 
@@ -36,9 +36,9 @@
                               <?php echo $val->used == 0 ? " [未用]</span>" : " [已用]</span>"; ?>
                             </td>
                             <td>
-                              <a href="/workflow/manage/edit?id=<?php echo $val->id; ?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
+                              <a href="<?php echo DyRequest::createUrl('/workflow/manage/edit',array('id'=>$val->id));?>"><button type="button" class="btn btn-primary" style="width:55px;">编辑</button></a>
                               <button type="button" id="task_<?php echo $val->id;?>" data-toggle="modal" data-target="#permitOpModal" data-op="<?php echo $val->status;?>" data-data='<?php echo json_encode(array('id'=>$val->id,'name'=>$val->name),JSON_UNESCAPED_UNICODE); ?>' class="btn btn-<?php echo $val->status == 0 ? 'danger' : 'success';?> " style="width:55px;"><?php echo $val->status == 0 ? '禁用' : '启用';?></button>
-                              <a href="/workflow/manage/add?id=<?php echo $val->id; ?>"><button type="button" class="btn" style="width:55px;">克隆</button></a>
+                              <a href="<?php echo DyRequest::createUrl('/workflow/manage/add',array('id'=>$val->id));?>"><button type="button" class="btn" style="width:55px;">克隆</button></a>
                            </td>
                         </tr>
                         <?php endforeach; ?>
@@ -98,7 +98,7 @@
       var op = $("#task_"+tId).attr("data-op") == 0 ? 1 : 0;
       //var op = $("#task_"+tId).attr("data-op");
 
-      var url = '/workflow/manage/stop';
+      var url = '<?php echo DyRequest::createUrl("/workflow/manage/stop");?>';
       var postData = {tid:tId,op:op};
       $.post(url, postData,
          function(data){

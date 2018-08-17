@@ -1,6 +1,6 @@
 <?php
 
-class WFTask extends AppModel
+class WFTask extends DyAdminModel
 {
     protected $tableName = 'wf_task';
 

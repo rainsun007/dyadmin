@@ -9,7 +9,7 @@
       <div class="box-header">
         <h3 class="box-title">用户列表</h3>
         <div class="box-tools pull-right">
-          <a href="/admin/user/list">
+          <a href="<?php echo DyRequest::createUrl('/admin/user/list');?>">
             <button type="button" class="btn btn-success">创建用户</button>
           </a>
         </div>
@@ -54,7 +54,7 @@
                     </td>
                     <td align="right">
                       <?php if ($val->id > 1):?>
-                      <a href="/admin/user/list?id=<?php echo $val->id; ?>">
+                      <a href="<?php echo DyRequest::createUrl('/admin/user/list',array('id'=>$val->id));?>">
                         <button type="button" class="btn btn-primary" style="width:55px;">编辑</button>
                       </a>
                       <button type="button" data-toggle="modal" data-target="#permitOpModal" data-op="del" data-data='<?php echo json_encode($val); ?>'
@@ -62,7 +62,7 @@
                       <?php endif; ?>
 
                       <?php if ($val->id == 1 && Dy::app()->auth->uid == 1):?>
-                      <a href="/admin/user/list?id=<?php echo $val->id; ?>">
+                      <a href="<?php echo DyRequest::createUrl('/admin/user/list',array('id'=>$val->id));?>">
                         <button type="button" class="btn btn-primary" style="width:55px;margin-right:58px;">编辑</button>
                       </a>
                       <?php endif; ?>
@@ -107,12 +107,17 @@
           <div class="form-group">
             <label>密码</label>
             <input type="text" class="form-control" name="password" placeholder="Password">
-            <?php if($uInfo):?><p class="help-block">修改密码可同时解除锁定状态.</p><?php endif;?>
+            <?php if(se($uInfo, 'pw_err_num', true) >= PW_ERR_MAX_NUM): ?><p class="help-block text-yellow">*修改密码可同时解除锁定状态.</p><?php endif;?>
           </div>
 
           <div class="form-group">
             <label>邮箱</label>
             <input type="text" class="form-control" name="email" value="<?php se($uInfo, 'email'); ?>" placeholder="邮箱地址">
+          </div>
+
+          <div class="form-group">
+            <label>电话</label>
+            <input type="text" class="form-control" name="phone" value="<?php se($uInfo, 'phone'); ?>" placeholder="电话号码">
           </div>
 
           <?php if ($uId != 1):?>
@@ -200,7 +205,7 @@
     //删除用户弹窗提交
     $("#userOpSubmit").on("click", function(evt) {
       var treeId = $('#permitOpModal .modal-body').attr('treeId');
-      var url = '/admin/user/del';
+      var url = '<?php echo DyRequest::createUrl("/admin/user/del");?>';
       var postData = {
         id: treeId
       };
@@ -221,7 +226,7 @@
             stackup_spacing: 10
           });
           if (data.status == 0) {
-            window.location.href = '/admin/user/list';
+            window.location.href = '<?php echo DyRequest::createUrl("/admin/user/list");?>';
           }
         },
         'json'
@@ -236,13 +241,14 @@
       if (nodes) {
         ids = nodes.join(',');
       }
-      var url = $('#userId').val() > 0 ? '/admin/user/edit' : '/admin/user/add';
+      var url = $('#userId').val() > 0 ? '<?php echo DyRequest::createUrl("/admin/user/edit");?>' : '<?php echo DyRequest::createUrl("/admin/user/add");?>';
       var postData = {
         id: $('#userId').val(),
         username: $("#roleForm input[name='username']").val(),
         realname: $("#roleForm input[name='realname']").val(),
         password: $("#roleForm input[name='password']").val(),
         email: $("#roleForm input[name='email']").val(),
+        phone: $("#roleForm input[name='phone']").val(),
         roles: ids,
         status: $("#roleForm input[name='status']").is(':checked')
       };

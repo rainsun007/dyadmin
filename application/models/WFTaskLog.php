@@ -1,6 +1,6 @@
 <?php
 
-class WFTaskLog extends AppModel
+class WFTaskLog extends DyAdminModel
 {
     protected $tableName = 'wf_task_log';
 
@@ -20,7 +20,7 @@ class WFTaskLog extends AppModel
      */
     public function wirteLog($tid,$op,$remark,$lineName=''){
         $userId = Dy::app()->auth->uid;
-        $userInfo = User::model()->getById($userId);
+        $userInfo = DyaMember::model()->getById($userId);
 
         $data = array(
             'tid' => $tid,

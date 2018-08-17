@@ -6,7 +6,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  **/
 class Common
 {
@@ -45,7 +45,7 @@ class Common
             $cache = DyCache::invoke('default');
             $navInfo = $cache->get('all_nav_info');
             if (!$navInfo) {
-                $nav = Nav::model()->getAll();
+                $nav = DyaNav::model()->getAll();
                 $navInfo = array();
                 foreach ($nav as $key => $value) {
                     if ($value->link) {
@@ -58,6 +58,7 @@ class Common
             $link = strtolower($link);
             $permitId = isset($navInfo[$link]) ? $navInfo[$link] : 0;
         }
+        
         return Dy::app()->runingController->userId == 1 || in_array($permitId, Dy::app()->runingController->userPermissions) ? true : false;
     }
 
@@ -88,10 +89,10 @@ class Common
         $mail->CharSet = "UTF-8";
         //$mail->SMTPDebug = 3;                               // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = MAIL_SMTP;  // Specify main and backup SMTP servers
+        $mail->Host = MAIL_SMTP;                              // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $mail->Username = MAIL_USERNAME;                 // SMTP username
-        $mail->Password = MAIL_PASSWORD;                           // SMTP password
+        $mail->Username = MAIL_USERNAME;                      // SMTP username
+        $mail->Password = MAIL_PASSWORD;                      // SMTP password
         $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 465;                                    // TCP port to connect to
 
@@ -103,7 +104,7 @@ class Common
         $mail->Body = $body;
         //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-        $usersInfo = User::model()->getUsers($users);
+        $usersInfo = DyaMember::model()->getUsers($users);
         foreach ($usersInfo as $key => $value) {
             $mail->addAddress($value->email, $value->realname);
         }

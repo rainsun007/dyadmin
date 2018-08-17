@@ -3,10 +3,8 @@
  * WorkFlowController.
  *
  * @author 大宇 Email:dyphp.com@gmail.com
- *
  * @link http://www.dyphp.com/
- *
- * @copyright Copyright 2016 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class WorkFlowController extends AdminController
 {

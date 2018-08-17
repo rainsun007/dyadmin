@@ -26,7 +26,7 @@
             placeholder="工流程说明">
     </div>
     <div class="col-md-6" style="height:50px">
-        <a href="/workflow/manage/list">返回工作流管理列表</a>
+        <a href="<?php echo DyRequest::createUrl('/workflow/manage/list');?>">返回工作流管理列表</a>
     </div>
 </div>
 <div class="row">
@@ -285,8 +285,7 @@
             }
             workflow.setTitle(flowname);
 
-            //var url = $('#userId').val() > 0 ? '/admin/user/edit' : '/admin/user/add';
-            var url = $('#flow_op').val() == 'edit' ? '/workflow/manage/edit' : '/workflow/manage/add';
+            var url = $('#flow_op').val() == 'edit' ? '<?php echo DyRequest::createUrl("/workflow/manage/edit");?>' : '<?php echo DyRequest::createUrl("/workflow/manage/add");?>';
             var postData = {
                 id: $('#flow_id').val(),
                 name: flowname,

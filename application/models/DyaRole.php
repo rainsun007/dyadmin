@@ -1,8 +1,8 @@
 <?php
 
-class Nav extends AppModel
+class DyaRole extends DyAdminModel
 {
-    protected $tableName = 'dya_nav';
+    protected $tableName = 'dya_role';
 
     public static function model($className = __CLASS__)
     {

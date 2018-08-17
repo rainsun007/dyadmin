@@ -1,10 +1,8 @@
 <?php
 
-DyCfg::setPathOfAlias('com', '../');
+DyCfg::setPathOfAlias('com', dirname(__FILE__).'/../../../application');
 
 return array(
-    //app唯一id  session key的前缀中使用到 解决多应用session冲突
-    'appID' => 'dyadmin',
     //app根地址
     'appPath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     //app名 用于title显示
@@ -19,6 +17,7 @@ return array(
     //预加载文件及包含路径
     'import' => array(
         'app.utils.*',
+        'com.models.*',
     ),
 
     //类及命名空间别名映射
@@ -31,7 +30,7 @@ return array(
         'default' => array(
             'dbDriver' => 'pdo_mysql',
             'host' => '127.0.0.1',
-            'port' => '3333',
+            'port' => '3306',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',
             'user' => 'proot',
@@ -46,38 +45,28 @@ return array(
      * ca,ext_name,page为框架保留的get参数
      */
     'urlManager' => array(
-        'urlStyle' => array('hideIndex' => 'yes', 'restCa' => 'yes'),
+        'urlStyle' => array('hideIndex' => 'yes', 'restCa' => 'no'),
         '/admin/login' => array('controller' => 'admin/home', 'action' => 'login'),
         '/dashboard' => array('controller' => 'admin/home', 'action' => 'index'),
     ),
 
     //cookie配制
     'cookie' => array(
+        'secretKey' => 'dyadmin_secretKey_K$8yrG8#5CzTw7u^ntci8ter67231@dev',
         'prefix' => 'dya_',
         //'domain' => 'mysite.com',
     ),
 
-    //缓存配制 'file','apc','memcache'
+    //缓存配制
     'cache' => array(
-        'default' => array('type' => 'file', 'gcOpen' => false),  //文件缓存多时 不建议打开gc 会导致性能低下  可以使用shell处理
-        /*
-        'c2' => array('type' => 'apc'),
-        'c3' => array(
-            'type' => 'memcache',
-            'isMemd' => false,
-            'servers_one' => array(
-                array('host', 'port', 'weight'),
-                array('host', 'port', 'weight'),
-            ),
-        ),
-        */
+        'default' => array('type' => 'file', 'gcOpen' => false), 
     ),
 
     'hooks'=>array(
        'enable'=>true,
        'after_action'=>array(
            'enable'=>true,
-           'UserOpHook'=> array('userOpTime'),
+           'AdminUserOpHook'=> array('userOpTime'),
        ),
     ),
 
@@ -91,6 +80,6 @@ return array(
 
     //自定义参数配制
     'params' => array(
-        'powerBy' => 'Powered by <a href="http://www.dyphp.com" target="_blank">DyAdmin</a>',
+        'dyadmin_modules' => array('admin','workflow'),
     ),
 );

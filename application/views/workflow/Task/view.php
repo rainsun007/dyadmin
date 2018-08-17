@@ -205,7 +205,7 @@
 
             var tid = $("#opForm").attr('tid');
 
-            var url = '/workflow/task/flowOp';
+            var url = '<?php echo DyRequest::createUrl("/workflow/task/flowOp");?>';
             var postData = {
                 tid: tid,
                 from: currentNodeId,

@@ -3,7 +3,7 @@
 	<a href="/admin/home/index" class="logo">
 		<!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini">
-			<b>DY</b>A
+			<b>DYA</b>
 		</span>
 		<!-- logo for regular state and mobile devices -->
 		<span class="logo-lg">
@@ -25,7 +25,7 @@
 				<?php if (Common::checkPermit('/admin/permit/flushCache')): ?>
 				<li>
 					<a href="#" id="flush_all_cache">
-						<i class="fa fa-paint-brush"></i>
+						<i class="fa fa-database"></i>
 					</a>
 				</li>
 				<?php endif;?>

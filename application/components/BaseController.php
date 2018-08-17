@@ -1,16 +1,10 @@
 <?php
 /**
- * @file BaseController.php
- * @brief 项目父类
+ * 项目父类
  *
  * @author QingYu.Sun Email:dyphp.com@gmail.com
- *
- * @version 1.0
- *
  * @copyright dyphp.com
- *
  * @link http://www.dyphp.com
- * @date 2016-04-12
  **/
 class BaseController extends DyPhpController
 {
@@ -25,18 +19,6 @@ class BaseController extends DyPhpController
 
     protected function beforeAction()
     {
-    }
-
-    /**
-     * @brief    设置当前登陆用户信息
-     *
-     * @return
-     **/
-    protected function setUserInfo()
-    {
-        $this->userId = Dy::app()->auth->uid;
-        $this->userInfo = User::model()->getById($this->userId);
-        $this->view->setData('userInfo', $this->userInfo);
     }
 
     /**

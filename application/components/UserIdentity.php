@@ -4,53 +4,43 @@
  * 框架规则-此文件为特殊文件 此类必须存在 无此类将报错.
  *
  * @author 大宇 Email:dyphp.com@gmail.com
- *
  * @link http://www.dyphp.com/
- *
- * @copyright Copyright 2011 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class UserIdentity extends DyPhpUserIdentity
 {
     //使用cookie保存登陆状态及setInfo
     protected $isCookieUserAuth = true;
-    //用户名
-    private $username = null;
+
     //用户信息
     public $userInfo = null;
 
     /**
-     * 框架规则-必须实现此认证方法 框架用调用此方法处理自动登陆.
+     * 框架规则-必须实现此认证方法.
      *
-     * @param int    自动登陆有效期 0为浏览器session 单位：秒
-     * @param string 用户验证加密串，如加密后的密码（如md5('password')等,保持加密一至即可）
-     *               虽不强制但基于安全考虑此处最好不要使用明文（相关校验逻辑在实现方法中完成），
-     *               需要注意的是框架调用此方法时此参数为空字
+     * @param string 用户身份索引值,如：id,email,电话,用户名,昵称等
+     * @param string 加密后的密码
      *
-     * @return bool|object
+     * @return bool
      **/
-    public function authenticate($expire = 0, $encryptPassword = '')
+    public function authenticate($userIndexValue = '', $encryptPassword = '' , $autoLoginExpire = 0)
     {
-        $username = $this->username ? $this->username : $this->getUserIndexValue();
-        if ($username) {
-            $userInfo = User::model()->getOne("username='{$username}'");
-            if (!$userInfo) {
-                return false;
-            }
-            $this->userInfo = $userInfo;
+        $userInfo = DyaMember::model()->getOne("username='{$userIndexValue}'");
+        if (!$userInfo) {
+            return false;
         }
-
-        //此处完成用户合法性校验（密码是否正确），兼容了框架自动调用，一般来说此逻辑不用修改
-        if (!$this->getUserIndexValue() && ($encryptPassword == '' || $userInfo->password != $encryptPassword)) {
+        $this->userInfo = $userInfo;
+        
+        if ($userInfo->password != $encryptPassword) {
             return false;
         }
 
         //设置全局用户信息
-        Dy::app()->auth->setInfo('uid', $userInfo->id);
-        Dy::app()->auth->setInfo('username', $userInfo->username);
-
+        $this->setInfo('uid', $userInfo->id);
+        $this->setInfo('username', $userInfo->username);
+        
         //该方法必须调用 否则没有登陆状态
-        $this->setStatus($userInfo->username, $expire);
-        return true;
+        return $this->setLoginStatus($userIndexValue, $encryptPassword, $autoLoginExpire);
     }
 
     /**
@@ -58,17 +48,15 @@ class UserIdentity extends DyPhpUserIdentity
      *
      * @param string 用户名
      * @param string 密码
-     * @param int    自动登陆有效期 单位：秒
      *
-     * @return bool|object
+     * @return bool
      **/
-    public function adminLogin($username = '', $password = '', $expire = 0)
+    public function adminLogin($username = '', $password = '')
     {
         if (empty($username) || empty($password)) {
             return false;
         }
-        $this->username = $username;
 
-        return $this->authenticate($expire, md5($password));
+        return $this->authenticate($username,md5($password),86400*7);
     }
 }

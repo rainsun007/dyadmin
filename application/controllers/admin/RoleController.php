@@ -6,7 +6,7 @@
  *
  * @link http://www.dyphp.com/
  *
- * @copyright Copyright 2016 dyphp.com
+ * @copyright Copyright dyphp.com
  */
 class RoleController extends AdminController
 {
@@ -18,17 +18,17 @@ class RoleController extends AdminController
         $roleId = DyRequest::getInt('id');
         $roleInfo = array();
         if ($roleId > 0) {
-            $roleInfo = Role::model()->getById($roleId);
+            $roleInfo = DyaRole::model()->getById($roleId);
         }
 
-        $listData = Role::model()->getAll();
+        $listData = DyaRole::model()->getAll();
         $permissionTree = $this->getNavAndPermissionsTree('display=1 order by sort asc');
 
         $ulist = DyRequest::getInt('ulist');
         if ($ulist) {
                 $pageSize = 20;
                 $criteria = Dy::app()->dbc->select()->order('id', 'ASC')->where('role_ids',$roleId,'like','');
-                $data = User::model()->getAllForPage($criteria, $pageSize);
+                $data = DyaMember::model()->getAllForPage($criteria, $pageSize);
                 $userList = $data['data'];
                 $pageWidgetOptions = array(
                                         'count' => $data['count'],
@@ -36,7 +36,7 @@ class RoleController extends AdminController
                                         'offset' => 3,
                                         'paramName' => 'page',
                                         );
-                $roles = Role::model()->getAll('status=1');
+                $roles = DyaRole::model()->getAll('status=1');
                 $this->view->setData('roles', $roles);
                 $this->view->setData('userList', $userList);
                 $this->view->setData('pageWidgetOptions', $pageWidgetOptions);
@@ -61,7 +61,7 @@ class RoleController extends AdminController
           'create_time' => $this->datetime,
           'status' => DyRequest::postStr('status') == 'true' ? 1 : 0,
         );
-        $result = Role::model()->insert($data);
+        $result = DyaRole::model()->insert($data);
         echo $result ? DyTools::apiJson(0, 200, '角色创建成功', $result) : DyTools::apiJson(1, 500, '角色创建失败', $result);
     }
 
@@ -86,7 +86,7 @@ class RoleController extends AdminController
           'status' => DyRequest::postStr('status') == 'true' ? 1 : 0,
           'permission' => trim(DyRequest::postStr('permission'), ','),
         );
-        $result = Role::model()->update($data, "id={$id}");
+        $result = DyaRole::model()->update($data, "id={$id}");
         echo $result ? DyTools::apiJson(0, 200, '角色编辑成功', $result) : DyTools::apiJson(1, 500, '角色编辑失败', $result);
     }
 
@@ -100,7 +100,7 @@ class RoleController extends AdminController
             echo DyTools::apiJson(1, 403, '请求数据有误！');
             exit;
         }
-        $result = Role::model()->delete("id={$id}");
+        $result = DyaRole::model()->delete("id={$id}");
         echo $result ? DyTools::apiJson(0, 200, '角色删除成功', $result) : DyTools::apiJson(1, 500, '角色编辑成功', $result);
     }
 }

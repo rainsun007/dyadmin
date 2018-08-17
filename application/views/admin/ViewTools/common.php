@@ -108,7 +108,7 @@
 		});
 
 		$("#flush_all_cache").on("click", function(evt) {
-			$.post('/admin/permit/flushCache', {
+			$.post('<?php echo DyRequest::createUrl("/admin/permit/flushCache");?>', {
 					op: 'fulsh'
 				},
 				function(data) {
