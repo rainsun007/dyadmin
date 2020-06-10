@@ -18,7 +18,7 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
 	<!-- Bootstrap 3.3.6 -->
-	<?php ViewHelper::regCss('AdminLTE/bootstrap/css/bootstrap.min.css'); ?>
+	<?php VHelper::regCss('AdminLTE/bootstrap/css/bootstrap.min.css'); ?>
 	<!-- Font Awesome -->
 	<?php ViewHelper::regCss('AdminLTE/bootstrap/css/font-awesome.css'); ?>
 	<!-- Ionicons -->

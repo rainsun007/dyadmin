@@ -6,6 +6,9 @@
  * @copyright dyphp.com
  * @link http://www.dyphp.com
  **/
+
+Dy::app()->import('app.utils.functions');
+
 class BaseController extends DyPhpController
 {
     protected $allNeedLogin = false;

@@ -1,7 +1,5 @@
 <?php
 
-DyCfg::setPathOfAlias('com', dirname(__FILE__).'/../../../application');
-
 return array(
     //app根地址
     'appPath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -11,13 +9,13 @@ return array(
     'language' => 'zh_cn',
     //app密钥 cookie session string等加密  不同应用此密钥应唯一
     'secretKey' => 'dyphpAdmin1x8K$8yrG8#5CzTw7u^ntci8t@idev',
-    //运行环境dev,test,pro,pre   用于加载不同环境的constants暂时只有这一个用途  不设置或为空时加载constants.php
+    //运行环境dev(开发),test(测试),pre(预发布),pro(发布)
     'env' => 'dev',
 
     //预加载文件及包含路径
     'import' => array(
-        'app.utils.*',
-        'com.models.*',
+        //'app.utils.*',
+        'app.utils.Common',
     ),
 
     //类及命名空间别名映射
@@ -33,8 +31,8 @@ return array(
             'port' => '3306',
             'dbName' => 'dyadmin',
             'charset' => 'UTF8',
-            'user' => 'proot',
-            'pass' => 'root',
+            'user' => 'root',
+            'pass' => '123456',
             'pconn' => false,
             'tablePrefix' => '',
         ),

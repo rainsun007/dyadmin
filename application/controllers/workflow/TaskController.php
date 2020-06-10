@@ -21,7 +21,7 @@ class TaskController extends WorkFlowController
             if ($this->userId == 1) {
                 $where = "`status` = {$type} ORDER BY priority DESC";
             } else {
-                $where = "`status` = {$type} and (`node_users` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId}) ORDER BY priority DESC";
+                $where = "`status` = {$type} and (`` LIKE '%,{$this->userId},%' OR `userid` = {$this->userId}) ORDER BY priority DESC";
             }
         } else {
             if ($this->userId == 1) {

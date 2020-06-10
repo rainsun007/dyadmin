@@ -20,7 +20,7 @@ class AdminUserOpHook extends DyPhpHooks
             $userId = Dy::app()->auth->uid;
             $userInfo = DyaMember::model()->getById($userId);
             if (time() - strtotime($userInfo->last_op_time) > USER_OP_TIMEOUT) {
-                DyRequest::redirect('/app/logout',array('m'=>'admin'));
+                DyRequest::redirect('/app/logout');
             } else {
                 DyaMember::model()->update(array('last_op_time'=>date('Y-m-d H:i:s', time())), "id={$userId}");
             }

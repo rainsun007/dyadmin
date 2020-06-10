@@ -20,6 +20,7 @@ class UserIdentity extends DyPhpUserIdentity
      *
      * @param string 用户身份索引值,如：id,email,电话,用户名,昵称等
      * @param string 加密后的密码
+     * @param int    自动登陆有效期
      *
      * @return bool
      **/
@@ -44,7 +45,7 @@ class UserIdentity extends DyPhpUserIdentity
     }
 
     /**
-     * app中调用登陆使用.
+     * 登陆验证处理.
      *
      * @param string 用户名
      * @param string 密码
