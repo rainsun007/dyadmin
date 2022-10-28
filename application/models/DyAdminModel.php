@@ -7,7 +7,8 @@
  * @link http://www.dyphp.com
  **/
 class DyAdminModel extends DyPhpModel{ 
-
+    //public $openExplain = false;
+    
     protected function init()
     {
         parent::init();

@@ -1,0 +1,16 @@
+2020-08-01 15:44:19 DyException[ERROR] 10.0.2.2 GET /?ca=admin.user.list
+ 运行环境定义错误
+#0 /home/wwwroot/project/my/DyphpFramework/dyphp/base/DyPhpConfig.php(90): DyPhpBase::throwException('run environment...')
+#1 /home/wwwroot/project/my/DyphpFramework/dyphp.php(113): DyPhpConfig::runConfig('/home/wwwroot/p...')
+#2 /home/wwwroot/project/my/DyphpFramework/dyphp.php(53): DyPhpBase::runAppCommon('/home/wwwroot/p...', true, 'web')
+#3 /home/wwwroot/project/my/dyadmin/index.php(31): DyPhpBase::runWebApp('/home/wwwroot/p...', true)
+#4 {main}
+
+2020-08-01 15:45:14 DyException[ERROR] 10.0.2.2 GET /?ca=admin.user.list
+ 运行环境定义错误
+#0 /home/wwwroot/project/my/DyphpFramework/dyphp/base/DyPhpConfig.php(90): DyPhpBase::throwException('run environment...')
+#1 /home/wwwroot/project/my/DyphpFramework/dyphp.php(113): DyPhpConfig::runConfig('/home/wwwroot/p...')
+#2 /home/wwwroot/project/my/DyphpFramework/dyphp.php(53): DyPhpBase::runAppCommon('/home/wwwroot/p...', true, 'web')
+#3 /home/wwwroot/project/my/dyadmin/index.php(31): DyPhpBase::runWebApp('/home/wwwroot/p...', true)
+#4 {main}
+

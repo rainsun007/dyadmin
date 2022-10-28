@@ -12,6 +12,7 @@
 class HomeController extends AdminController
 {
     protected $allNeedLogin = false;
+    //protected $actionHttpMethodMode = true;
 
     protected function needLogin()
     {

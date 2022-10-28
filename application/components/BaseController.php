@@ -7,7 +7,7 @@
  * @link http://www.dyphp.com
  **/
 
-Dy::app()->import('app.utils.functions');
+Dy::app()->import('app.func.functions');
 
 class BaseController extends DyPhpController
 {

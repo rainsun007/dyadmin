@@ -4,7 +4,7 @@
 
 <!-- Main content -->
 <div class="row">
-  <section class="col-md-6">
+  <section class="col-md-12">
     <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title">权限列表</h3>
@@ -17,7 +17,7 @@
             <div class="callout callout-info">
               <h4>功能说明</h4>
               <p>
-                <span class="text-light-blue" style="background:#fff;padding:3px;">蓝色</span> 项为导航，导航为权限的一部份，在此处只能添加子权限，对导航操作进入
+                蓝色字体项为导航，导航为权限的一部份，在此处只能添加子权限，对导航操作进入
                 <a href="<?php echo DyRequest::createUrl('/admin/nav/list');?>">导航管理</a>
               </p>
               <p>在列表中各节点上右键进行相关操作</p>

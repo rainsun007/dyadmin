@@ -90,7 +90,7 @@
               <table class="table table-hover">
                 <tbody>
                   <tr>
-                    <td class="col-md-12"><a href="http://www.dyphp.com" target="_blank" class="text-light-blue">DyAdmin</a>是php+mysql开发的基于角色的管理后台系统</td>
+                    <td class="col-md-12"><a href="https://github.com/rainsun007/dyadmin" target="_blank" class="text-light-blue">DyAdmin</a>是php+mysql开发的基于角色的管理后台系统</td>
                   </tr>
                   <tr>
                     <td class="col-md-12">php版本要求5.3及以上</td>
@@ -99,10 +99,10 @@
                     <td class="col-md-12">此系统为开源系统,可免费使用</td>
                   </tr>
                   <tr>
-                    <td class="col-md-12">此系统基于开源框架 <a href="http://www.dyphp.com" target="_blank" class="text-light-blue">DyphpFramework</a> 开发</td>
+                    <td class="col-md-12">此系统基于开源框架 <a href="https://github.com/rainsun007/dyphpframework" target="_blank" class="text-light-blue">DyphpFramework</a> 开发</td>
                   </tr>
                   <tr>
-                    <td class="col-md-12">系统文档请前往官网查看：<a href="http://www.dyphp.com" target="_blank" class="text-light-blue">http://www.dyphp.com</a></td>
+                    <td class="col-md-12">系统文档请前往GitHub查看：<a href="https://github.com/rainsun007/dyphpframework" target="_blank" class="text-light-blue">使用说明</a></td>
                   </tr>
                   <tr>
                     <td class="col-md-12">当前版本：<?php echo DYADMIN_VERSION; ?></td>
@@ -138,16 +138,16 @@
               <table class="table table-hover">
                 <tbody>
                   <tr>
-                    <td class="col-md-12">在工作中所有系统基本上都需要有自己的管理后台，基于此而开发出了DyAdmin</td>
+                    <td class="col-md-12">在工作中所有系统都需要有管理后台，DyAdmin为多个项目实践所得</td>
                   </tr>
                   <tr>
-                    <td class="col-md-12">DyAdmin本质上为一个管理后台框架</td>
+                    <td class="col-md-12">DyAdmin是一个管理后台开发框架</td>
                   </tr>
                   <tr>
                     <td class="col-md-12">简单，通用，安全，易扩展，高效开发，快速整合</td>
                   </tr>
                   <tr>
-                    <td class="col-md-12">力求开发者基于DyAdmin直接进行业务开发，以快速完成业务功能</td>
+                    <td class="col-md-12">力求让开发者基于DyAdmin直接进行业务开发，快速完成业务功能</td>
                   </tr>
                   <tr>
                     <td class="col-md-12">作者：大宇</td>

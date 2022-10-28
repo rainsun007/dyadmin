@@ -1,5 +1,4 @@
 <?php
-
 //环境配制
 $appEnv = getenv('PHP_RUNTIME_ENVIROMENT');
 
@@ -28,4 +27,5 @@ if ($appEnv === 'DEV') {
 
 //运行app
 $config = file_exists($pConfig) ? array('p'=>$pConfig,'c'=>$dyaConfig) : $dyaConfig;
+//Dy::supportCheck();
 Dy::runWebApp($config, $debug);
