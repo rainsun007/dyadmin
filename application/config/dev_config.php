@@ -2,7 +2,7 @@
 
 return array(
     //app根地址
-    'appPath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+    'appPath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     //app名 用于title显示
     'appName' => 'DyAdmin',
     //app错误框架提示语言 现只支持zh_cn
@@ -40,10 +40,11 @@ return array(
 
     /*
      * URL管理
-     * ca,ext_name,page为框架保留的get参数
+     * ca,ext_name,page为框架保留的get参数,不可被占用
+     * urlStyle为路由管理系统key,不可被占用
      */
     'urlManager' => array(
-        'urlStyle' => array('hideIndex' => 'yes', 'restCa' => 'no'),
+        'urlStyle' => array('hideIndex' => 'yes', 'restCa' => 'yes'),
         '/admin/login' => array('controller' => 'admin/home', 'action' => 'login'),
         '/dashboard' => array('controller' => 'admin/home', 'action' => 'index'),
     ),
@@ -57,15 +58,15 @@ return array(
 
     //缓存配制
     'cache' => array(
-        'default' => array('type' => 'file', 'gcOpen' => false), 
+        'default' => array('type' => 'file', 'gcOpen' => false),
     ),
 
-    'hooks'=>array(
-       'enable'=>true,
-       'after_action'=>array(
-           'enable'=>true,
-           'AdminUserOpHook'=> array('userOpTime'),
-       ),
+    'hooks' => array(
+        'enable' => true,
+        'after_action' => array(
+            'enable' => true,
+            'AdminUserOpHook' => array('userOpTime'),
+        ),
     ),
 
     //建议按console web类型做不同处理
@@ -78,6 +79,6 @@ return array(
 
     //自定义参数配制
     'params' => array(
-        'dyadmin_modules' => array('admin','workflow'),
+        'dyadmin_modules' => array('admin', 'workflow'),
     ),
 );

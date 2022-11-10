@@ -7,7 +7,7 @@ UI使用了[AdminLTE](https://github.com/almasaeed2010/AdminLTE/)
 
 > - 使用前需要修改/application/config/config.php文件中的数据库配制信息
 > - DyAdmin.sql为数据结构文件
-> - 管理员用户名和密码都为admin
+> - 管理员默认用户名:admin , 密码:123456
 
 
 多项目时注意以下文件冲突问题
